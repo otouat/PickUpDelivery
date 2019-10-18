@@ -1,0 +1,31 @@
+package modèle;
+
+public class Troncon {
+	private Noeud noeudOrigine;
+	private Noeud noeudDestination;
+	private String nomRue;
+	private double longueur;
+
+	public Troncon(Noeud noeudOrigine, Noeud noeudDestination, String nomRue, double longueur) {
+		this.noeudOrigine = noeudOrigine;
+		this.noeudDestination = noeudDestination;
+		this.nomRue = nomRue;
+		this.longueur = longueur;
+	}
+
+	public Noeud GetNoeudOrigine() {
+		return noeudOrigine;
+	}
+
+	public Noeud GetNoeudDestination() {
+		return noeudDestination;
+	}
+
+	public String GetNomRue() {
+		return nomRue;
+	}
+
+	public double GetLongueur() {
+		return longueur;
+	}
+}
