@@ -25,7 +25,7 @@ public class Main extends Application{
 
 		Scene scene = new Scene(root);
 
-		primaryStage.setTitle("Pickup delivery");
+		primaryStage.setTitle("Pickup Delivery - Acceuil");
 		primaryStage.setScene(scene);
 
 		primaryStage.show();
