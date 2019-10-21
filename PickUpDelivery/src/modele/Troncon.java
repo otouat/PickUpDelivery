@@ -28,4 +28,9 @@ public class Troncon {
 	public double GetLongueur() {
 		return longueur;
 	}
+
+	public String toString() {
+		return "Troncon noeud origine:" + noeudOrigine.GetIdNoeud() + ", noeud destination:"
+				+ noeudDestination.GetIdNoeud() + ", nom de rue:" + nomRue + ", longueur:" + longueur + "\n";
+	}
 }

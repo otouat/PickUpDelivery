@@ -1,13 +1,12 @@
 package modele;
 
 public class Noeud {
-	private String idNoeud;
+	protected String idNoeud;
 	private double latitude;
 	private double longitude;
 
-	
 	public Noeud() {
-		
+
 	}
 
 	public Noeud(String idNoeud, double latitude, double longitude) {
@@ -26,5 +25,9 @@ public class Noeud {
 
 	public double GetLongitude() {
 		return longitude;
+	}
+
+	public String toString() {
+		return "Noeud id:" + idNoeud + ", latitude:" + latitude + ", longitude:" + longitude + "\n";
 	}
 }
