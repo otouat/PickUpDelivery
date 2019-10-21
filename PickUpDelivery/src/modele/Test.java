@@ -7,9 +7,9 @@ public class Test {
 		Plan plan = dataContainer.GetPlan();
 		plan.getInfo();
 		
-		dataContainer.chargerDemandeLivraison(".//src/modele/demandeMoyen5.xml");
+		/*dataContainer.chargerDemandeLivraison(".//src/modele/demandeMoyen5.xml");
 		DemandeLivraison demandeLivraison= dataContainer.GetDemandeLivraison();
-		demandeLivraison.getInfo();
+		demandeLivraison.getInfo();*/
 		
 	}
 }

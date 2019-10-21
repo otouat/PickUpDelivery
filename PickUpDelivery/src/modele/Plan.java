@@ -25,6 +25,10 @@ public class Plan {
 	public Noeud ChercherNoeudSelonId(String idNoeud) {
 		return noeuds.get(idNoeud);
 	}
+	
+	public List<Troncon> getTroncons(){
+		return troncons;
+	}
 
 	public void getInfo() {
 		System.out.println("nombre de noeuds: " + noeuds.size() + " nombre de troncons" + troncons.size());
