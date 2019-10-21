@@ -97,5 +97,16 @@ public class Plan {
 	}
 	
 	
+	public double CalculEcartLatitude(){
+		double ecart= this.CalculMaxLatitude()-this.CalculMinLatitude();
+		System.out.println("  Ecart entre la Latitude Maximale et Minimale "+ ecart);
+		return ecart;
+	}
+	
+	public double CalculEcartLongitude(){
+		double ecart= this.CalculMaxLongitude()-this.CalculMinLongitude();
+		System.out.println("  Ecart entre la Longitude Maximale et Minimale "+ ecart);
+		return ecart;
+	}
 	
 }

@@ -17,5 +17,7 @@ public class Test {
 		plan.CalculMinLongitude();
 		plan.CalculMaxLongitude();
 
+		plan.CalculEcartLatitude();
+		plan.CalculEcartLongitude();
 	}
 }
