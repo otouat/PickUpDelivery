@@ -12,8 +12,6 @@ public class Entrepot extends Noeud {
 		super();
 	}
 
-
-
 	public Entrepot(String idNoeud, double latitude, double longitude) {
 		super(idNoeud, latitude, longitude);
 	}

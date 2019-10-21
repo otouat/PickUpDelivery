@@ -1,19 +1,33 @@
 package modele;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Noeud {
-	private String idNoeud;
-	private double latitude;
-	private double longitude;
+	protected String idNoeud;
+	protected double latitude;
+	protected double longitude;
+	protected List<Noeud> noeudsAdjacents;
 
-	
 	public Noeud() {
-		
+		super();
+		this.noeudsAdjacents = new ArrayList<Noeud>();
 	}
-
+	
 	public Noeud(String idNoeud, double latitude, double longitude) {
+		super();
 		this.idNoeud = idNoeud;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.noeudsAdjacents = new ArrayList<Noeud>();
+	}
+
+	public Noeud(String idNoeud, double latitude, double longitude, List<Noeud> noeudsAdjacents) {
+		super();
+		this.idNoeud = idNoeud;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.noeudsAdjacents = noeudsAdjacents;
 	}
 
 	public String GetIdNoeud() {
@@ -27,4 +41,18 @@ public class Noeud {
 	public double GetLongitude() {
 		return longitude;
 	}
+
+	public List<Noeud> getNoeudsAdjacents() {
+		return noeudsAdjacents;
+	}
+
+	public void setNoeudsAdjacents(List<Noeud> noeudsAdjacents) {
+		this.noeudsAdjacents = noeudsAdjacents;
+	}
+	
+	public void AjouterNoeudAdjacent(Noeud unNoeud) {
+		this.noeudsAdjacents.add(unNoeud);
+	}
+	
+	
 }

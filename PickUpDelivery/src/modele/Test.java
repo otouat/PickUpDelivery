@@ -7,6 +7,8 @@ public class Test {
 		Plan plan = dataContainer.GetPlan();
 		plan.getInfo();
 		
+		
+		
 
 		dataContainer.chargerDemandeLivraison(".//src/modele/demandeGrand7.xml");
 		DemandeLivraison demandeLivraison = dataContainer.GetDemandeLivraison();
@@ -19,7 +21,11 @@ public class Test {
 
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
-		demandeLivraison.getEntrepotLivraison();
+		
+		plan.AfficheNoeudsAdjacents();//Affiche pour chaque noeud du plan ses noeuds adjacents
+		
+		
+		
 	
 	}
 	
