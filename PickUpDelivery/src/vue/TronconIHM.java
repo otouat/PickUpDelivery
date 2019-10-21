@@ -10,15 +10,17 @@ import modele.Troncon;
 
 public class TronconIHM {
 	
-	static public final int LARGEUR_PANE = 450;
-	static public final int LONGUEUR_PANE = 450;
+	static public double largeur_pane = 450;
+	static public double longueur_pane = 450;
 	static public double largeurPlanReel = 0;
 	static public double longueurPlanReel = 0;
 	static public double latMin = 0;
 	static public double longMin = 0;
 	
 	public static void drawTroncons(Plan plan, BorderPane paneMap) {
-		initalisationDonnees(plan);
+		initalisationDonnees(plan,paneMap);
+		
+		
 		
 		List<Troncon> tronconList = plan.getTroncons();
 		
@@ -28,30 +30,36 @@ public class TronconIHM {
 	}
 	
 	public static void draw(Troncon troncon, BorderPane paneMap) {
-		int x1 = getNewX(troncon.GetNoeudOrigine().GetLatitude());
-		int y1 = getNewY(troncon.GetNoeudOrigine().GetLongitude());
+		int y1 = (int) -(getNewX(troncon.GetNoeudOrigine().GetLatitude()) - largeur_pane);
+		int x1 = getNewY(troncon.GetNoeudOrigine().GetLongitude());
 		
-		int x2 = getNewX(troncon.GetNoeudDestination().GetLatitude());
-		int y2 = getNewY(troncon.GetNoeudDestination().GetLongitude());
+		int y2 = (int) -(getNewX(troncon.GetNoeudDestination().GetLatitude()) -longueur_pane);
+		int x2 = getNewY(troncon.GetNoeudDestination().GetLongitude());
 	
+		
 		Line line = new Line(x1, y1, x2, y2);
 		paneMap.getChildren().add(line); 
 	}
 	
 	public static int getNewX(double latitude) {
 		
-		return (int) (((latitude-latMin) * LARGEUR_PANE)/largeurPlanReel);
+		return (int) (((latitude-latMin) * largeur_pane)/largeurPlanReel);
 	}
 	
 public static int getNewY(double longitude) {
-	return (int) (((longitude-longMin) * LONGUEUR_PANE)/longueurPlanReel);
+	return (int) (((longitude-longMin) * longueur_pane)/longueurPlanReel);
 	}
 	
-	public static void initalisationDonnees(Plan plan) {
+	public static void initalisationDonnees(Plan plan, BorderPane paneMap) {
 		largeurPlanReel = plan.CalculEcartLatitude();
 		longueurPlanReel = plan.CalculEcartLongitude();
 		latMin = plan.CalculMinLatitude();
 		longMin = plan.CalculMinLongitude();
+		
+		largeur_pane = paneMap.getWidth();
+		longueur_pane = paneMap.getHeight();
+		
+		
 	}
 	
 }
