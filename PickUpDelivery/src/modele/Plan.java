@@ -48,65 +48,77 @@ public class Plan {
 		System.out.println("nombre de noeuds: " + noeuds.size() + " nombre de troncons" + troncons.size());
 		// System.out.println(troncons.get(3).GetNomRue());
 	}
-	
-	public double CalculMinLatitude(){
-        Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
-        double min=50;
-        while (iterator.hasNext()) {
-            Map.Entry<String, Noeud> entry = iterator.next();
-            double lat =entry.getValue().GetLatitude(); 
-            min= (lat>min)? min:lat;    
-        }
-        System.out.println("Latitude Mininale "+ min);
+
+	public String toString() {
+		String infoPlan = "Ce plan contient " + noeuds.size() + " noeuds," + troncons.size() + " troncons \n";
+		for (String idNoeud : noeuds.keySet()) {
+			Noeud noeud = noeuds.get(idNoeud);
+			infoPlan = infoPlan.concat(noeud.toString());
+			// TODO: this
+		}
+		for (int i = 0; i < troncons.size(); i++) {
+			infoPlan = infoPlan.concat(troncons.get(i).toString());
+		}
+		return infoPlan;
+	}
+
+	public double CalculMinLatitude() {
+		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+		double min = 50;
+		while (iterator.hasNext()) {
+			Map.Entry<String, Noeud> entry = iterator.next();
+			double lat = entry.getValue().GetLatitude();
+			min = (lat > min) ? min : lat;
+		}
+		System.out.println("Latitude Mininale " + min);
 		return min;
 	}
-	
-	public double CalculMaxLatitude(){
-        Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
-        double max=0;
-        while (iterator.hasNext()) {
-            Map.Entry<String, Noeud> entry = iterator.next();
-            double lat =entry.getValue().GetLatitude(); 
-            max= (max>lat)? max:lat;    
-        }
-        System.out.println(" Latitude Maximale "+ max);
+
+	public double CalculMaxLatitude() {
+		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+		double max = 0;
+		while (iterator.hasNext()) {
+			Map.Entry<String, Noeud> entry = iterator.next();
+			double lat = entry.getValue().GetLatitude();
+			max = (max > lat) ? max : lat;
+		}
+		System.out.println(" Latitude Maximale " + max);
 		return max;
 	}
-	
-	public double CalculMinLongitude(){
-        Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
-        double min=50;
-        while (iterator.hasNext()) {
-            Map.Entry<String, Noeud> entry = iterator.next();
-            double lat =entry.getValue().GetLongitude(); 
-            min= (lat>min)? min:lat;    
-        }
-        System.out.println("Longitude Mininale "+ min);
+
+	public double CalculMinLongitude() {
+		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+		double min = 50;
+		while (iterator.hasNext()) {
+			Map.Entry<String, Noeud> entry = iterator.next();
+			double lat = entry.getValue().GetLongitude();
+			min = (lat > min) ? min : lat;
+		}
+		System.out.println("Longitude Mininale " + min);
 		return min;
 	}
-	
-	public double CalculMaxLongitude(){
-        Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
-        double max=0;
-        while (iterator.hasNext()) {
-            Map.Entry<String, Noeud> entry = iterator.next();
-            double lat =entry.getValue().GetLongitude(); 
-            max= (max>lat)? max:lat;    
-        }
-        System.out.println(" Longitude Maximale "+ max);
+
+	public double CalculMaxLongitude() {
+		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+		double max = 0;
+		while (iterator.hasNext()) {
+			Map.Entry<String, Noeud> entry = iterator.next();
+			double lat = entry.getValue().GetLongitude();
+			max = (max > lat) ? max : lat;
+		}
+		System.out.println(" Longitude Maximale " + max);
 		return max;
 	}
-	
-	
-	public double CalculEcartLatitude(){
-		double ecart= this.CalculMaxLatitude()-this.CalculMinLatitude();
-		System.out.println("  Ecart entre la Latitude Maximale et Minimale "+ ecart);
+
+	public double CalculEcartLatitude() {
+		double ecart = this.CalculMaxLatitude() - this.CalculMinLatitude();
+		System.out.println("  Ecart entre la Latitude Maximale et Minimale " + ecart);
 		return ecart;
 	}
-	
-	public double CalculEcartLongitude(){
-		double ecart= this.CalculMaxLongitude()-this.CalculMinLongitude();
-		System.out.println("  Ecart entre la Longitude Maximale et Minimale "+ ecart);
+
+	public double CalculEcartLongitude() {
+		double ecart = this.CalculMaxLongitude() - this.CalculMinLongitude();
+		System.out.println("  Ecart entre la Longitude Maximale et Minimale " + ecart);
 		return ecart;
 	}
 	
