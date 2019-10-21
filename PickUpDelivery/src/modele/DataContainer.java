@@ -29,7 +29,7 @@ public class DataContainer {
 		return demandeLivraison;
 	}
 
-	public boolean chargerPlan(String XMLPath) {
+	public boolean chargerPlan(String XMLPath) throws Exception {
 		try {
 			this.xmlFile = new File(XMLPath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -92,7 +92,7 @@ public class DataContainer {
 		}
 	}
 
-	public boolean chargerDemandeLivraison(String XMLPath) {
+	public boolean chargerDemandeLivraison(String XMLPath) throws Exception {
 		try {
 			this.xmlFile = new File(XMLPath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();

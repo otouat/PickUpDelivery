@@ -1,7 +1,7 @@
 package modele;
 
 public class Test {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		DataContainer dataContainer = new DataContainer();
 		dataContainer.chargerPlan("./src/modele/moyenPlan.xml");
 		Plan plan = dataContainer.GetPlan();
