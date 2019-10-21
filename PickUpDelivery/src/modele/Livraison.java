@@ -1,5 +1,4 @@
-package modèle;
-
+package modele;
 
 public class Livraison {
 
@@ -7,7 +6,7 @@ public class Livraison {
 	private Noeud noeudLivraison;
 	private int dureeEnlevement;
 	private int dureeLivraison;
-	
+
 	public Livraison(Noeud noeudEnlevement, Noeud noeudLivraison, int dureeEnlevement, int dureeLivraison) {
 		super();
 		this.noeudEnlevement = noeudEnlevement;
@@ -31,11 +30,5 @@ public class Livraison {
 	public int getDureeLivraison() {
 		return dureeLivraison;
 	}
-	
-	
-	
-	
-	
-	
-	
+
 }

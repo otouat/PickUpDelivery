@@ -1,4 +1,4 @@
-package modèle;
+package modele;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Plan {
-	Map<String, Noeud> noeuds;
-	List<Troncon> troncons;
+	private Map<String, Noeud> noeuds;
+	private List<Troncon> troncons;
 
 	public Plan() {
 		noeuds = new HashMap<String, Noeud>();
@@ -28,6 +28,6 @@ public class Plan {
 
 	public void getInfo() {
 		System.out.println("nombre de noeuds: " + noeuds.size() + " nombre de troncons" + troncons.size());
-		System.out.println(troncons.get(3).GetNomRue());
+		// System.out.println(troncons.get(3).GetNomRue());
 	}
 }

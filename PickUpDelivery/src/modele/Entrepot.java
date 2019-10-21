@@ -1,12 +1,10 @@
-package modèle;
-
+package modele;
 
 public class Entrepot {
-	
+
 	private Noeud noeudEntrepot;
 	private String heureDepart;
-	
-	
+
 	public Entrepot() {
 		super();
 	}
@@ -23,9 +21,5 @@ public class Entrepot {
 	public String getHeureDepart() {
 		return heureDepart;
 	}
-	
-	
-	
-	
 
 }

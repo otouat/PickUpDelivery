@@ -1,4 +1,4 @@
-package modèle;
+package modele;
 
 import java.io.File;
 
@@ -24,10 +24,11 @@ public class DataContainer {
 	public Plan GetPlan() {
 		return plan;
 	}
-	
+
 	public DemandeLivraison GetDemandeLivraison() {
 		return demandeLivraison;
 	}
+
 	public boolean chargerPlan(String XMLPath) {
 		try {
 			this.xmlFile = new File(XMLPath);
@@ -90,7 +91,7 @@ public class DataContainer {
 			return false;
 		}
 	}
-	
+
 	public boolean chargerDemandeLivraison(String XMLPath) {
 		try {
 			this.xmlFile = new File(XMLPath);
@@ -99,7 +100,7 @@ public class DataContainer {
 			Document doc = dBuilder.parse(xmlFile);
 			doc.getDocumentElement().normalize();
 			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-			
+
 			NodeList entrepot = doc.getElementsByTagName("entrepot");
 			System.out.println("----------------------------");
 			for (int temp = 0; temp < entrepot.getLength(); temp++) {
@@ -109,21 +110,21 @@ public class DataContainer {
 					Element xmlElement = (Element) xmlNode;
 					System.out.println("noeud entrepot id  : " + xmlElement.getAttribute("adresse"));
 					System.out.println("heure de depart de l'entrepot : " + xmlElement.getAttribute("heureDepart"));
-					
+
 					String idNoeudEntrepot = xmlElement.getAttribute("adresse");
 					String heureDepart = xmlElement.getAttribute("heureDepart");
 					Noeud noeudEntrepot = plan.ChercherNoeudSelonId(idNoeudEntrepot);
-					if (noeudEntrepot == null ) {
+					if (noeudEntrepot == null) {
 						System.out.println("Noeud origine introuvable.");
 						return false;
 					}
-					
-					Entrepot unEntrepot = new Entrepot(noeudEntrepot,heureDepart);
-					
+
+					Entrepot unEntrepot = new Entrepot(noeudEntrepot, heureDepart);
+
 				}
 
 			}
-			
+
 			NodeList listeLivraison = doc.getElementsByTagName("livraison");
 			System.out.println("----------------------------");
 			for (int temp = 0; temp < listeLivraison.getLength(); temp++) {
@@ -147,12 +148,11 @@ public class DataContainer {
 						System.out.println("Noeud origine ou destination introuvable.");
 						return false;
 					}
-					Livraison uneLivraison= new Livraison(origine,destination,dureeEnlevement,dureeLivraison);
+					Livraison uneLivraison = new Livraison(origine, destination, dureeEnlevement, dureeLivraison);
 					demandeLivraison.AjouterLivraison(uneLivraison);
 				}
 			}
 
-			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
