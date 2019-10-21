@@ -19,5 +19,9 @@ public class Test {
 
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
+		demandeLivraison.getEntrepotLivraison();
+	
 	}
+	
+	
 }

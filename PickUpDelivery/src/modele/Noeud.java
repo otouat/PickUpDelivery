@@ -5,6 +5,11 @@ public class Noeud {
 	private double latitude;
 	private double longitude;
 
+	
+	public Noeud() {
+		
+	}
+
 	public Noeud(String idNoeud, double latitude, double longitude) {
 		this.idNoeud = idNoeud;
 		this.latitude = latitude;

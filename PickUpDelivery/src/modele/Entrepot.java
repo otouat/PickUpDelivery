@@ -1,22 +1,28 @@
 package modele;
 
-public class Entrepot {
+public class Entrepot extends Noeud {
 
-	private Noeud noeudEntrepot;
 	private String heureDepart;
-
+	public Entrepot(String idNoeud, double latitude, double longitude, String heureDepart) {
+		super(idNoeud, latitude, longitude);
+		this.heureDepart = heureDepart;
+	}
+	
 	public Entrepot() {
 		super();
 	}
 
-	public Entrepot(Noeud noeudEntrepot, String heureDepart) {
-		this.noeudEntrepot = noeudEntrepot;
+
+
+	public Entrepot(String idNoeud, double latitude, double longitude) {
+		super(idNoeud, latitude, longitude);
+	}
+
+
+	public void setHeureDepart(String heureDepart) {
 		this.heureDepart = heureDepart;
 	}
 
-	public Noeud getNoeudEntrepot() {
-		return noeudEntrepot;
-	}
 
 	public String getHeureDepart() {
 		return heureDepart;

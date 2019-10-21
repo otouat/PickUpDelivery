@@ -119,7 +119,7 @@ public class DataContainer {
 						return false;
 					}
 
-					Entrepot unEntrepot = new Entrepot(noeudEntrepot, heureDepart);
+					Entrepot unEntrepot = new Entrepot(idNoeudEntrepot,noeudEntrepot.GetLatitude(),noeudEntrepot.GetLongitude(),heureDepart);
 					demandeLivraison.setEntrepotLivraison(unEntrepot);
 
 				}
