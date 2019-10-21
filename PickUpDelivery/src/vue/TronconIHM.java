@@ -12,13 +12,13 @@ public class TronconIHM {
 	
 	static public final int LARGEUR_PANE = 450;
 	static public final int LONGUEUR_PANE = 450;
-	static public double largeurPlanReel = 0.0531659;
-	static public double longueurPlanReel = 0.07610079;
-	static public double latMin = 45.727353;
-	static public double longMin = 4.8314376;
+	static public double largeurPlanReel = 0;
+	static public double longueurPlanReel = 0;
+	static public double latMin = 0;
+	static public double longMin = 0;
 	
 	public static void drawTroncons(Plan plan, BorderPane paneMap) {
-		//initalise largeur longeur réel
+	
 		initalisationDonnees(plan);
 		
 		List<Troncon> tronconList = plan.getTroncons();
