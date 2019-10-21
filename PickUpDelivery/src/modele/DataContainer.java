@@ -120,6 +120,7 @@ public class DataContainer {
 					}
 
 					Entrepot unEntrepot = new Entrepot(noeudEntrepot, heureDepart);
+					demandeLivraison.setEntrepotLivraison(unEntrepot);
 
 				}
 
