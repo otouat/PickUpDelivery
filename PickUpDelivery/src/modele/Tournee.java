@@ -10,6 +10,14 @@ public class Tournee {
 		this.entrepot = entrepot;
 		this.livraisons = livraisons;
 	}
+	
+	public void calculTournee() {
+	
+	}
+	private void dijkstra(Plan plan, Noeud entrepot) {
+		
+	
+	}
 
 	/*
 	 * public FeuilleDeRoute GenererFeuilleDeRoute() {
