@@ -11,16 +11,16 @@ public class Tournee {
 	private Entrepot entrepot;
 	private Map<Integer, Livraison> livraisons;
 	private int nombreNoeudAVisiter;
-	private HashMap<Integer, Noeud> mapNoeudsAVisiter;
+	private HashMap<Noeud,Integer> mapNoeudAVisiter;
 	private HashMap<Noeud,Integer> mapNoeuds;
 	private int[][] coutPlan;
 	private int[][] coutNoeudAVisiter;
 
-	public Tournee(Entrepot entrepot, Map<Integer, Livraison> livraisons) {
+	public Tournee(Entrepot entrepot, Map<Integer, Livraison> livraisons) throws Exception {
 		this.entrepot = entrepot;
 		this.livraisons = livraisons;
 		setNoeudAVisiter();
-		setCoutPlan()
+		setCoutPlan();
 	}
 	
 	/*
@@ -43,7 +43,7 @@ public class Tournee {
 	
 	private void setNoeudAVisiter() {
 		HashSet<Noeud> ensembleNoeudAVisiter=new HashSet<Noeud>();
-		mapNoeudsAVisiter=new HashMap();
+		mapNoeudAVisiter=new HashMap<Noeud,Integer>();
 		Set<Map.Entry< Integer,Livraison>> ensembleLivraison = livraisons.entrySet(); 
 		
 		for (Map.Entry< Integer,Livraison> it: ensembleLivraison) {
@@ -55,7 +55,7 @@ public class Tournee {
 		Integer indice=0;
 		
 		for(Noeud it: ensembleNoeudAVisiter) {
-			mapNoeudsAVisiter.put(indice, it);
+			mapNoeudAVisiter.put(it,indice);
 		}
 	}
 	
