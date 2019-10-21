@@ -16,7 +16,6 @@ public class DemandeLivraison {
 	public Entrepot getEntrepotLivraison() {
 		return entrepotLivraison;
 	}
-	
 
 	public void setLivraisons(List<Livraison> livraisons) {
 		this.livraisons = livraisons;
@@ -45,4 +44,13 @@ public class DemandeLivraison {
 
 	}
 
+	public String toString() {
+
+		String infoDemande = "nombre de livraisons: " + livraisons.size();
+		infoDemande = infoDemande.concat(entrepotLivraison.toString());
+		for (int i = 0; i < livraisons.size(); i++) {
+			infoDemande = infoDemande.concat(livraisons.get(i).toString());
+		}
+		return infoDemande;
+	}
 }

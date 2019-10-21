@@ -8,7 +8,6 @@ public class Livraison {
 	private int dureeLivraison;
 
 	public Livraison(Noeud noeudEnlevement, Noeud noeudLivraison, int dureeEnlevement, int dureeLivraison) {
-		super();
 		this.noeudEnlevement = noeudEnlevement;
 		this.noeudLivraison = noeudLivraison;
 		this.dureeEnlevement = dureeEnlevement;
@@ -31,4 +30,9 @@ public class Livraison {
 		return dureeLivraison;
 	}
 
+	public String toString() {
+		return "Livraison noeud enlevement:" + noeudEnlevement.GetIdNoeud() + ", noeud livraison:"
+				+ noeudLivraison.GetIdNoeud() + ", durée d'enlevement" + dureeEnlevement + ", durée de livraison"
+				+ dureeLivraison;
+	}
 }
