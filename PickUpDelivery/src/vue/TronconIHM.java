@@ -19,6 +19,7 @@ public class TronconIHM {
 	
 	public static void drawTroncons(Plan plan, BorderPane paneMap) {
 		//initalise largeur longeur réel
+		initalisationDonnees(plan);
 		
 		List<Troncon> tronconList = plan.getTroncons();
 		
@@ -43,8 +44,15 @@ public class TronconIHM {
 		return (int) (((latitude-latMin) * LARGEUR_PANE)/largeurPlanReel);
 	}
 	
-public static int getNewY(double longitude) {
-	return (int) (((longitude-longMin) * LONGUEUR_PANE)/longueurPlanReel);
+	public static int getNewY(double longitude) {
+		return (int) (((longitude-longMin) * LONGUEUR_PANE)/longueurPlanReel);
+	}
+	
+	public static void initalisationDonnees(Plan plan) {
+		largeurPlanReel = plan.CalculEcartLatitude();
+		longueurPlanReel = plan.CalculEcartLongitude();
+		latMin = plan.CalculMinLatitude();
+		longMin = plan.CalculMinLongitude();
 	}
 	
 	

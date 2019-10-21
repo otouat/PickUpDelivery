@@ -28,7 +28,12 @@ public class MainControlleur {
 			System.out.println(selectedFile.getName());
 			
 			DataContainer dataContainer = new DataContainer();
-			dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+			try {
+				dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			Plan plan = dataContainer.GetPlan();
 			TronconIHM.drawTroncons(plan, paneMap);
 			
