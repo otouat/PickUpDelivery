@@ -123,7 +123,7 @@ public class Plan {
 	}
 	
 	
-	public void AfficheNoeudsAdjacents() {
+	/*public void AfficheNoeudsAdjacents() {
 		 Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
 	        while (iterator.hasNext()) {
 	            Map.Entry<String, Noeud> entry = iterator.next();
@@ -134,7 +134,18 @@ public class Plan {
 	     			System.out.println(" idNoeudAdjacent " + i + " = " + noeudsAdj.get(i).GetIdNoeud());
 	     		}
 	        }
-	      }
+	      }*/
 		
-       
+	public void AfficheTronconsDepuisNoeud() {
+		 Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+	        while (iterator.hasNext()) {
+	            Map.Entry<String, Noeud> entry = iterator.next();
+	             List<Troncon>tronconsnode =entry.getValue().GetTronconsDepuisLeNoeud();
+	             System.out.println(" idNoeudOrigine " +entry.getValue().GetIdNoeud() );
+	             for(int i = 0; i < tronconsnode.size(); i++)
+	     		{
+	     			System.out.println(" idNoeudDestination " + i + " = " + tronconsnode.get(i).GetNoeudDestination());
+	     		}
+	        }
+	      }
 	}
