@@ -14,7 +14,7 @@ public class DataContainer {
 	private File xmlFile;
 	private DemandeLivraison demandeLivraison;
 	private Plan plan;
-	// private DemandeLivraison demandeLivraison;
+
 
 	public DataContainer() {
 		this.plan = new Plan();
@@ -82,6 +82,8 @@ public class DataContainer {
 					}
 					Troncon unTroncon = new Troncon(origine, destination, nomRue, longueur);
 					plan.AjouterTroncon(unTroncon);
+					origine.AjouterTroncon(unTroncon);
+				
 				}
 
 			}
@@ -161,37 +163,5 @@ public class DataContainer {
 		}
 	}
 
-	/*
-	 * public boolean chargerDemande(String XMLPath) { try { this.xmlFile = new
-	 * File(XMLPath); DocumentBuilderFactory dbFactory =
-	 * DocumentBuilderFactory.newInstance(); DocumentBuilder dBuilder =
-	 * dbFactory.newDocumentBuilder(); Document doc = dBuilder.parse(xmlFile);
-	 * doc.getDocumentElement().normalize(); System.out.println("Root element :" +
-	 * doc.getDocumentElement().getNodeName()); NodeList listeEntrepot =
-	 * doc.getElementsByTagName("entrepot"); Node xmlNode = listeEntrepot.item(0);
-	 * if (xmlNode.getNodeType() == Node.ELEMENT_NODE) { Element xmlElement =
-	 * (Element) xmlNode; String entrepotId = xmlElement.getAttribute("adresse");
-	 * String heureDepart = xmlElement.getAttribute("heureDepart"); Noeud
-	 * entrepotNoeud = plan.ChercherNoeudSelonId(entrepotId); Entrepot entrepot =
-	 * new Entrepot(entrepotNoeud, heureDepart);
-	 * demandeLivraison.SetEntrepot(entrepot); }
-	 * 
-	 * NodeList listeLivraison = doc.getElementsByTagName("livraison"); for (int
-	 * temp = 0; temp < listeLivraison.getLength(); temp++) { xmlNode =
-	 * listeLivraison.item(temp); System.out.println("\nCurrent Element :" +
-	 * xmlNode.getNodeName()); if (xmlNode.getNodeType() == Node.ELEMENT_NODE) {
-	 * Element xmlElement = (Element) xmlNode; String adresseEnlevementId =
-	 * xmlElement.getAttribute("adresseEnlevement"); String adresseLivraisonId =
-	 * xmlElement.getAttribute("adresseLivraison"); int dureeEnlevement =
-	 * Integer.parseInt(xmlElement.getAttribute("dureeEnlevement")); int
-	 * dureeLivraison = Integer.parseInt(xmlElement.getAttribute("dureeLivraison"));
-	 * Noeud adresseEnlevement = plan.ChercherNoeudSelonId(adresseEnlevementId);
-	 * Noeud adresseLivraison = plan.ChercherNoeudSelonId(adresseLivraison);
-	 * Livraison unLivraison = new Livraison(adresseEnlevement, adresseLivraison,
-	 * dureeEnlevement, dureeLivraison);
-	 * demandeLivraison.AjouterLivraison(unLivraison); } }
-	 * 
-	 * } catch (Exception e) { e.printStackTrace(); } }
-	 */
-
+	
 }

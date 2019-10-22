@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 public class Plan {
@@ -120,5 +121,31 @@ public class Plan {
 		System.out.println("  Ecart entre la Longitude Maximale et Minimale " + ecart);
 		return ecart;
 	}
-
-}
+	
+	
+	/*public void AfficheNoeudsAdjacents() {
+		 Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+	        while (iterator.hasNext()) {
+	            Map.Entry<String, Noeud> entry = iterator.next();
+	             List<Noeud>noeudsAdj =entry.getValue().getNoeudsAdjacents();
+	             System.out.println(" idNoeudOrigine " +entry.getValue().GetIdNoeud() );
+	             for(int i = 0; i < noeudsAdj.size(); i++)
+	     		{
+	     			System.out.println(" idNoeudAdjacent " + i + " = " + noeudsAdj.get(i).GetIdNoeud());
+	     		}
+	        }
+	      }*/
+		
+	public void AfficheTronconsDepuisNoeud() {
+		 Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+	        while (iterator.hasNext()) {
+	            Map.Entry<String, Noeud> entry = iterator.next();
+	             List<Troncon>tronconsnode =entry.getValue().GetTronconsDepuisLeNoeud();
+	             System.out.println(" idNoeudOrigine " +entry.getValue().GetIdNoeud() );
+	             for(int i = 0; i < tronconsnode.size(); i++)
+	     		{
+	     			System.out.println(" idNoeudDestination " + i + " = " + tronconsnode.get(i).GetNoeudDestination());
+	     		}
+	        }
+	      }
+	}

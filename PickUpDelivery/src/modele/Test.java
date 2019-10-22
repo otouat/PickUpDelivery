@@ -7,10 +7,10 @@ public class Test {
 		Plan plan = dataContainer.GetPlan();
 		plan.getInfo();
 		
-
-		dataContainer.chargerDemandeLivraison(".//src/modele/demandeGrand7.xml");
-		DemandeLivraison demandeLivraison = dataContainer.GetDemandeLivraison();
+		dataContainer.chargerDemandeLivraison("./src/modele/demaneGrand7.xml");
+		DemandeLivraison demandeLivraison=dataContainer.GetDemandeLivraison();
 		demandeLivraison.getInfo();
+		
 		
 		plan.CalculMinLatitude();
 		plan.CalculMaxLatitude();
@@ -19,7 +19,11 @@ public class Test {
 
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
-		demandeLivraison.getEntrepotLivraison();
+		
+		plan.AfficheTronconsDepuisNoeud(); //Affiche pour chaque noeud du plan les troncons dont il est à l'origine
+		
+		
+		
 	
 	}
 	
