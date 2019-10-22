@@ -22,6 +22,8 @@ public class Test {
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
 		
+		
+		//changer par la méthode d'affichage des troncons partant du noeud
 		plan.AfficheNoeudsAdjacents();//Affiche pour chaque noeud du plan ses noeuds adjacents
 		
 		
