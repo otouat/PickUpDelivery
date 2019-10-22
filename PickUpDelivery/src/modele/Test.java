@@ -5,13 +5,13 @@ public class Test {
 		DataContainer dataContainer = new DataContainer();
 		dataContainer.chargerPlan("./src/modele/grandPlan.xml");
 		Plan plan = dataContainer.GetPlan();
-		plan.getInfo();
-		
-		dataContainer.chargerDemandeLivraison("./src/modele/demaneGrand7.xml");
-		DemandeLivraison demandeLivraison=dataContainer.GetDemandeLivraison();
+		// System.out.println(plan.toString());
+
+		dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
+		DemandeLivraison demandeLivraison = dataContainer.GetDemandeLivraison();
+		System.out.println(demandeLivraison.toString());
 		demandeLivraison.getInfo();
-		
-		
+
 		plan.CalculMinLatitude();
 		plan.CalculMaxLatitude();
 		plan.CalculMinLongitude();
@@ -19,13 +19,11 @@ public class Test {
 
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
-		
-		plan.AfficheTronconsDepuisNoeud(); //Affiche pour chaque noeud du plan les troncons dont il est à l'origine
-		
-		
-		
-	
+
+		plan.AfficheTronconsDepuisNoeud();
+		// Affiche pour chaque noeud du plan les
+		// troncons dont il est ï¿½ l'origine
+
 	}
-	
-	
+
 }

@@ -46,10 +46,10 @@ public class DemandeLivraison {
 
 	public String toString() {
 
-		String infoDemande = "nombre de livraisons: " + livraisons.size();
-		infoDemande = infoDemande.concat(entrepotLivraison.toString());
+		String infoDemande = "nombre de livraisons: " + livraisons.size() + "\n";
+		infoDemande = infoDemande + entrepotLivraison.toString() + "\n";
 		for (int i = 0; i < livraisons.size(); i++) {
-			infoDemande = infoDemande.concat(livraisons.get(i).toString());
+			infoDemande = infoDemande + livraisons.get(i).toString() + "\n";
 		}
 		return infoDemande;
 	}
