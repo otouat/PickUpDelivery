@@ -6,12 +6,21 @@ public class Test {
 		dataContainer.chargerPlan("./src/modele/grandPlan.xml");
 		Plan plan = dataContainer.GetPlan();
 		plan.getInfo();
-		plan.AfficheTronconsDepuisNoeud();
 		
 		dataContainer.chargerDemandeLivraison("./src/modele/demaneGrand7.xml");
 		DemandeLivraison demandeLivraison=dataContainer.GetDemandeLivraison();
 		demandeLivraison.getInfo();
-		//Affiche pour chaque noeud du plan les troncons dont il est à l'origine
+		
+		
+		plan.CalculMinLatitude();
+		plan.CalculMaxLatitude();
+		plan.CalculMinLongitude();
+		plan.CalculMaxLongitude();
+
+		plan.CalculEcartLatitude();
+		plan.CalculEcartLongitude();
+		
+		plan.AfficheTronconsDepuisNoeud(); //Affiche pour chaque noeud du plan les troncons dont il est à l'origine
 		
 		
 		
