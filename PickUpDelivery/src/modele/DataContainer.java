@@ -80,9 +80,10 @@ public class DataContainer {
 						System.out.println("Noeud origine ou destination introuvable.");
 						return false;
 					}
-					origine.AjouterNoeudAdjacent(destination);
-					destination.AjouterNoeudAdjacent(origine);
+					origine.AjouterNoeudAdjacent(destination); // supprime cette ligne
+					destination.AjouterNoeudAdjacent(origine); // supprime cette ligne
 					Troncon unTroncon = new Troncon(origine, destination, nomRue, longueur);
+					// ajoute origine.AjouterTroncon(unTroncon);
 					plan.AjouterTroncon(unTroncon);
 					
 					
