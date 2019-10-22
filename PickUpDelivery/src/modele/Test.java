@@ -21,8 +21,7 @@ public class Test {
 		plan.CalculEcartLongitude();
 
 		plan.AfficheTronconsDepuisNoeud();
-		// Affiche pour chaque noeud du plan les
-		// troncons dont il est � l'origine
+		// Affiche pour chaque noeud du plan les troncons dont il est l'origine
 
 	}
 
