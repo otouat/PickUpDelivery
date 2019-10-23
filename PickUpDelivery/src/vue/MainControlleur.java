@@ -40,11 +40,13 @@ public class MainControlleur {
 				e.printStackTrace();
 			}
 			Plan plan = dataContainer.GetPlan();
-			TronconIHM.drawTroncons(plan, paneMap);
+			VueUtils.initalisationDonnees(plan,paneMap);
+			
+			VueTroncon.drawTroncons(plan, paneMap);
 			console.setText("Charger une demande de livraison. ");
 			chargerDemandeButton.setDisable(false);
 			
-			
+			VueNoeud.drawClikableNoeud(plan, paneMap);
 			
 		}
 		

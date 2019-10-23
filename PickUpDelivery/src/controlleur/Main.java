@@ -1,4 +1,4 @@
-package vue;
+package controlleur;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -22,7 +22,7 @@ public class Main extends Application{
 
 	public void start(Stage primaryStage) throws Exception {
 
-		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("../vue/Main.fxml"));
 		
 		Scene scene = new Scene(root);
 		
