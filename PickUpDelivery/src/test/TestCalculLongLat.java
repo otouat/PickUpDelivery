@@ -24,7 +24,7 @@ public class TestCalculLongLat {
 		
 		double longmin = plan.CalculMinLongitude();
 		double longmax = plan.CalculMaxLongitude();
-		double ecartlong= plan.CalculEcartLongitude();
+		double ecartlong= plan.CalculEcartLongitude();// test git
 		
 		assertEquals(45.727352,latmin,0.001);
 		assertEquals(45.780518, latmax,0.001);
