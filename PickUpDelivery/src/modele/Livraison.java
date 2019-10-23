@@ -32,7 +32,7 @@ public class Livraison {
 
 	public String toString() {
 		return "Livraison noeud enlevement:" + noeudEnlevement.GetIdNoeud() + ", noeud livraison:"
-				+ noeudLivraison.GetIdNoeud() + ", durée d'enlevement" + dureeEnlevement + ", durée de livraison"
+				+ noeudLivraison.GetIdNoeud() + ", durée d'enlevement:" + dureeEnlevement + ", durée de livraison:"
 				+ dureeLivraison;
 	}
 }

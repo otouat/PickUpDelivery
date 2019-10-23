@@ -20,7 +20,7 @@ public class Test {
 		plan.CalculEcartLatitude();
 		plan.CalculEcartLongitude();
 
-		plan.AfficheTronconsDepuisNoeud();
+		// plan.AfficheTronconsDepuisNoeud();
 		// Affiche pour chaque noeud du plan les troncons dont il est l'origine
 
 	}
