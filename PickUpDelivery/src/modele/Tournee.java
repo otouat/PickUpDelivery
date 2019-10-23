@@ -94,7 +94,8 @@ public class Tournee {
 		Integer,Livraison>> ensembleLivraison = livraisons.entrySet();
 		mapDureeVisite=new HashMap<Integer,Integer>();
 		
-		Integer indice=0;
+		mapDureeVisite.put(0,0);
+		Integer indice=1;
 		for (Map.Entry< Integer,Livraison> it: ensembleLivraison) {
 			ensembleNoeudAVisiter.add(it.getValue().getNoeudEnlevement());
 			mapDureeVisite.put(indice++,it.getValue().getDureeEnlevement());
@@ -105,11 +106,12 @@ public class Tournee {
 			
 		}
 
-		indice=0;
+		indice=1;
 
 		for(Noeud it: ensembleNoeudAVisiter) { 
 			noeudAVisiter.put(indice++,it); 
 		} 
+		noeudAVisiter.put(0,entrepot);
 
 	}
 	
