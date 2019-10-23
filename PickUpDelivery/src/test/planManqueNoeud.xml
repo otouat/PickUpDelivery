@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reseau>
+<troncon destination="25451872" longueur="95.18547" nomRue="Rue de Marseille" origine="25451871"/>
+<troncon destination="26058769" longueur="83.67893" nomRue="Rue Jaboulay" origine="25451871"/>
+<troncon destination="984553611" longueur="58.613125" nomRue="Place Julien Duret" origine="984553571"/>
+</reseau>

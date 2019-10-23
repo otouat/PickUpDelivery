@@ -15,7 +15,6 @@ public class DataContainer {
 	private DemandeLivraison demandeLivraison;
 	private Plan plan;
 
-
 	public DataContainer() {
 		this.plan = new Plan();
 		this.demandeLivraison = new DemandeLivraison();
@@ -31,14 +30,21 @@ public class DataContainer {
 
 	public boolean chargerPlan(String XMLPath) throws Exception {
 		try {
+			Plan planTemp = new Plan();
 			this.xmlFile = new File(XMLPath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlFile);
 			doc.getDocumentElement().normalize();
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+			// System.out.println("Root element :" +
+			// doc.getDocumentElement().getNodeName());
 			NodeList listeNoeud = doc.getElementsByTagName("noeud");
-			System.out.println("----------------------------");
+			if (listeNoeud.getLength() < 2) {
+				System.out.println(
+						"Ficher XML non valide: xml plan doit impérativement contenir au moins 2 noeuds et au moins 1 troncon");
+				return false;
+			}
+
 			for (int temp = 0; temp < listeNoeud.getLength(); temp++) {
 				Node xmlNode = listeNoeud.item(temp);
 				System.out.println("\nCurrent Element :" + xmlNode.getNodeName());
@@ -53,11 +59,17 @@ public class DataContainer {
 					double latitude = Double.parseDouble(latitudeString);
 					double longitude = Double.parseDouble(longitudeString);
 					Noeud unNode = new Noeud(idNoeud, latitude, longitude);
-					plan.AjouterNoeud(unNode);
+					planTemp.AjouterNoeud(unNode);
 				}
 			}
 
 			NodeList listeTroncon = doc.getElementsByTagName("troncon");
+			if (listeTroncon.getLength() < 1) {
+				System.out.println(
+						"Ficher XML non valide: xml plan doit impérativement contenir au moins 2 noeuds et au moins 1 troncon");
+				return false;
+			}
+
 			System.out.println("----------------------------");
 			for (int temp = 0; temp < listeTroncon.getLength(); temp++) {
 				Node xmlNode = listeTroncon.item(temp);
@@ -74,19 +86,18 @@ public class DataContainer {
 					String nomRue = xmlElement.getAttribute("nomRue");
 					String origineId = xmlElement.getAttribute("origine");
 					String destinationId = xmlElement.getAttribute("destination");
-					Noeud origine = plan.ChercherNoeudSelonId(origineId);
-					Noeud destination = plan.ChercherNoeudSelonId(destinationId);
+					Noeud origine = planTemp.ChercherNoeudSelonId(origineId);
+					Noeud destination = planTemp.ChercherNoeudSelonId(destinationId);
 					if (origine == null || destination == null) {
 						System.out.println("Noeud origine ou destination introuvable.");
 						return false;
 					}
 					Troncon unTroncon = new Troncon(origine, destination, nomRue, longueur);
-					plan.AjouterTroncon(unTroncon);
+					planTemp.AjouterTroncon(unTroncon);
 					origine.AjouterTroncon(unTroncon);
-				
 				}
-
 			}
+			plan = planTemp;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -96,15 +107,25 @@ public class DataContainer {
 
 	public boolean chargerDemandeLivraison(String XMLPath) throws Exception {
 		try {
+			if (plan.getNoeuds().isEmpty()) {
+				System.out.println("Il faut charger un plan avant de charger les demandes de livraison.");
+				return false;
+			}
+
+			DemandeLivraison demandeLivraisonTemp = new DemandeLivraison();
 			this.xmlFile = new File(XMLPath);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlFile);
 			doc.getDocumentElement().normalize();
-			System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+			// System.out.println("Root element :" +
+			// doc.getDocumentElement().getNodeName());
 
 			NodeList entrepot = doc.getElementsByTagName("entrepot");
-			System.out.println("----------------------------");
+			if (entrepot.getLength() != 1) {
+				System.out.println("Ficher XML non valide: xml demande doit impérativement contenir 1 entrepot");
+				return false;
+			}
 			for (int temp = 0; temp < entrepot.getLength(); temp++) {
 				Node xmlNode = entrepot.item(temp);
 				System.out.println("\nCurrent Element :" + xmlNode.getNodeName());
@@ -121,15 +142,20 @@ public class DataContainer {
 						return false;
 					}
 
-					Entrepot unEntrepot = new Entrepot(idNoeudEntrepot,noeudEntrepot.GetLatitude(),noeudEntrepot.GetLongitude(),heureDepart);
-					demandeLivraison.setEntrepotLivraison(unEntrepot);
+					Entrepot unEntrepot = new Entrepot(idNoeudEntrepot, noeudEntrepot.GetLatitude(),
+							noeudEntrepot.GetLongitude(), heureDepart);
+					demandeLivraisonTemp.setEntrepotLivraison(unEntrepot);
 
 				}
-
 			}
 
 			NodeList listeLivraison = doc.getElementsByTagName("livraison");
-			System.out.println("----------------------------");
+			if (listeLivraison.getLength() < 1) {
+				System.out.println(
+						"Ficher XML non valide: xml demande doit impérativement contenir au moins 1 livraison");
+				return false;
+			}
+
 			for (int temp = 0; temp < listeLivraison.getLength(); temp++) {
 				Node xmlNode = listeLivraison.item(temp);
 				System.out.println("\nCurrent Element :" + xmlNode.getNodeName());
@@ -152,10 +178,10 @@ public class DataContainer {
 						return false;
 					}
 					Livraison uneLivraison = new Livraison(origine, destination, dureeEnlevement, dureeLivraison);
-					demandeLivraison.AjouterLivraison(uneLivraison);
+					demandeLivraisonTemp.AjouterLivraison(uneLivraison);
 				}
 			}
-
+			demandeLivraison = demandeLivraisonTemp;
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -163,5 +189,4 @@ public class DataContainer {
 		}
 	}
 
-	
 }
