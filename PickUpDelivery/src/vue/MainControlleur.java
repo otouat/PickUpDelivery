@@ -5,6 +5,7 @@ import java.io.File;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Line;
 import javafx.stage.FileChooser;
@@ -14,10 +15,14 @@ import modele.Plan;
 public class MainControlleur {
 	@FXML
 	private Button chargerPlanBoutton;
-	
+	@FXML
+	private Button chargerDemandeButton;
 	
 	@FXML
 	private BorderPane paneMap;
+	
+	@FXML
+	private TextArea console;
 	
 	public void chargerPlanAction(ActionEvent event) {
 		FileChooser fc = new FileChooser();
@@ -36,6 +41,10 @@ public class MainControlleur {
 			}
 			Plan plan = dataContainer.GetPlan();
 			TronconIHM.drawTroncons(plan, paneMap);
+			console.setText("Charger une demande de livraison. ");
+			chargerDemandeButton.setDisable(false);
+			
+			
 			
 		}
 		

@@ -12,11 +12,13 @@ public class TestChargerDemande {
 	@Test
 	public void lireXML() {
 		try {
+			dataContainer.chargerPlan("./src/modele/grandPlan.xml");
 			dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		DemandeLivraison demande = dataContainer.GetDemandeLivraison();
+		// demande.getInfo();
 		System.out.println(demande.toString());
 	}
 
