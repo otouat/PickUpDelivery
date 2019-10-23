@@ -20,15 +20,15 @@ public class TestCalculLongLat {
 		
 		double latmin = plan.CalculMinLatitude();
 		double latmax = plan.CalculMaxLatitude();
-		double longmin = plan.CalculMinLatitude();
+		double ecartLat = plan.CalculEcartLatitude();
 		
-		double longmax = plan.CalculMaxLatitude();
-		double ecartlat = plan.CalculEcartLatitude();
+		double longmin = plan.CalculMinLongitude();
+		double longmax = plan.CalculMaxLongitude();
 		double ecartlong= plan.CalculEcartLongitude();
 		
 		assertEquals(45.727352,latmin,0.001);
 		assertEquals(45.780518, latmax,0.001);
-		assertEquals(0.05316599999999738, ecartlat,0.001);
+		assertEquals(0.05316599999999738, ecartLat,0.001);
 		
 		assertEquals(4.8314376, longmin,0.001);
 		assertEquals(4.9075384, longmax,0.001);
