@@ -17,9 +17,9 @@ public class VueDemandeLivraison {
 	public static void drawDemandeLivraison(Plan plan,DemandeLivraison demande, BorderPane paneMap) {
 	
 		Entrepot entrepot = demande.getEntrepotLivraison();
-		VueTroncon.initalisationDonnees(plan, paneMap);
-		double x_entrepot = VueTroncon.getNewX(entrepot.GetLongitude());
-		double y_entrepot = VueTroncon.getNewY(entrepot.GetLatitude());
+		VueUtils.initalisationDonnees(plan, paneMap);
+		double x_entrepot = VueUtils.getNewX(entrepot.GetLongitude());
+		double y_entrepot = VueUtils.getNewY(entrepot.GetLatitude());
 
 		// Create Entrepot
         Polygon triangle = new Polygon();
