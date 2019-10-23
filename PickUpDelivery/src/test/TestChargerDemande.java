@@ -12,7 +12,7 @@ public class TestChargerDemande {
 	@Test
 	public void lireXML() {
 		try {
-			dataContainer.chargerPlan("./src/modele/demandeGrand7.xml");
+			dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
