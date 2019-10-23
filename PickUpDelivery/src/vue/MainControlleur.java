@@ -50,10 +50,12 @@ public class MainControlleur {
 				e.printStackTrace();
 			}
 			plan = dataContainer.GetPlan();
+			VueUtils.initalisationDonnees(plan,paneMap);
+
 			VueTroncon.drawTroncons(plan, paneMap);
+			VueNoeud.drawClikableNoeud(plan, paneMap);
 			console.setText("Charger une demande de livraison. ");
 			chargerDemandeButton.setDisable(false);
-			
 		}
 		
 	}
