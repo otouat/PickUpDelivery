@@ -5,9 +5,10 @@ public class Test {
 		DataContainer dataContainer = new DataContainer();
 		dataContainer.chargerPlan("./src/modele/grandPlan.xml");
 		Plan plan = dataContainer.GetPlan();
-		// System.out.println(plan.toString());
+		System.out.println(plan.toString());
 
 		dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
+		// dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 		DemandeLivraison demandeLivraison = dataContainer.GetDemandeLivraison();
 		System.out.println(demandeLivraison.toString());
 		demandeLivraison.getInfo();
