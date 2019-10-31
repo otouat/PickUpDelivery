@@ -24,6 +24,7 @@ public class VueNoeud {
 			   Circle circle = new Circle();
 				circle.setCenterX(VueUtils.getNewX(noeudMap.GetLongitude()));
 				circle.setCenterY(VueUtils.getNewY(noeudMap.GetLatitude()));
+				circle.setId(noeudMap.GetIdNoeud());
 				circle.setRadius(1.5f);
 				
 				circle.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
