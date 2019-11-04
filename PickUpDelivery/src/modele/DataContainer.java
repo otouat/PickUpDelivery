@@ -1,3 +1,5 @@
+//A réfléchir: Comment afficher les messages d'erreur dans Vue?
+
 package modele;
 
 import java.io.File;

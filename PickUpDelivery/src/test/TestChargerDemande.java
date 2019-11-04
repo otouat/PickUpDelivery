@@ -16,13 +16,18 @@ public class TestChargerDemande {
 		boolean resultatME = true;
 		boolean resultatML = true;
 		try {
+			// Charger le plan
 			dataContainer.chargerPlan("./src/modele/grandPlan.xml");
-			// Charger un bon xml
+			// Charger un bon xml de demande
 			dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 			// Charger un mauvais xml qui manque entrepot
 			resultatME = dataContainer.chargerDemandeLivraison("./src/test/demandeManqueEntrepot.xml");
 			// Charger un mauvais xml qui manque livrasion
 			resultatML = dataContainer.chargerDemandeLivraison("./src/test/demandeManqueLivraison.xml");
+			// Charger une mauvaise demande dont l'entrepot n'est pas dans le plan
+			resultatML = dataContainer.chargerDemandeLivraison("./src/test/demandeAvecEntrepotIncorrect.xml");
+			// Charger une mauvaise demande dont noeud d'enlevement d'un livraison n'est pas dans le plan
+			resultatML = dataContainer.chargerDemandeLivraison("./src/test/demandeAvecLivraisonIncorrect.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

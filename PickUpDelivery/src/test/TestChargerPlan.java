@@ -19,10 +19,12 @@ public class TestChargerPlan {
 		try {
 			// Charger un bon xml
 			resultatBon = dataContainer.chargerPlan("./src/modele/grandPlan.xml");
-			// Charger un mauvais xml qui manque troncon
+			// Charger un mauvais plan qui manque troncon
 			resultatMT = dataContainer.chargerPlan("./src/test/planManqueTroncon.xml");
-			// Charger un mauvais xml qui manque noeud
+			// Charger un mauvais plan qui manque noeud
 			resultatMN = dataContainer.chargerPlan("./src/test/planManqueNoeud.xml");
+			//Charger un mauvais plan qui contient un troncon dont noeud d'origine introuvable
+			resultatMN = dataContainer.chargerPlan("./src/test/planAvecTronconIncorrect.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
