@@ -15,6 +15,7 @@ public class TestChargerDemande {
 	public void lireXML() {
 		boolean resultatME = true;
 		boolean resultatML = true;
+		boolean resultatMV = true;
 		try {
 			dataContainer.chargerPlan("./src/modele/grandPlan.xml");
 			// Charger un bon xml
@@ -23,14 +24,18 @@ public class TestChargerDemande {
 			resultatME = dataContainer.chargerDemandeLivraison("./src/test/demandeManqueEntrepot.xml");
 			// Charger un mauvais xml qui manque livrasion
 			resultatML = dataContainer.chargerDemandeLivraison("./src/test/demandeManqueLivraison.xml");
+			// Charger un  xml qui n'existe pas
+			resultatMV = dataContainer.chargerDemandeLivraison("./src/test/demandeLivraisonInexistante.xml");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// Les résultats de charger les deux mauvais xmls doivent être false
+		// Les resultats de chargement trois mauvais xmls doivent etre false
 		assertEquals(false, resultatME);
 		assertEquals(false, resultatML);
+		assertEquals(false, resultatMV);
 
-		// DataContainer doit garder le bon résultat généré par demandeGrand7.xml
+		// DataContainer doit garder le bon resultat genere par demandeGrand7.xml
 		DemandeLivraison demande = dataContainer.GetDemandeLivraison();
 		assertEquals(7, demande.getLivraisons().size());
 
