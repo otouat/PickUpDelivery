@@ -32,6 +32,10 @@ public class DataContainer {
 		try {
 			Plan planTemp = new Plan();
 			this.xmlFile = new File(XMLPath);
+			if (!xmlFile.isFile()){
+				System.out.println("Le Ficher XML n'existe pas");
+				return false;
+			}
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlFile);
@@ -114,6 +118,10 @@ public class DataContainer {
 
 			DemandeLivraison demandeLivraisonTemp = new DemandeLivraison();
 			this.xmlFile = new File(XMLPath);
+			if (!xmlFile.isFile()){
+				System.out.println("Le Ficher XML n'existe pas");
+				return false;
+			}
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(xmlFile);
