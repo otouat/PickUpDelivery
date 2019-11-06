@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
@@ -12,9 +13,9 @@ import modele.Noeud;
 import modele.Plan;
 
 public class VueNoeud {
-	public static void drawClikableNoeud(Plan plan, BorderPane paneMap) {
+	public static Group drawClikableNoeud(Plan plan, BorderPane paneMap) {
 		Map<String,Noeud> mapNoeud = plan.getNoeuds();
-		
+		Group noeuds =new Group();
 		Set cles = mapNoeud.keySet();
 		Iterator it = cles.iterator();
 		while (it.hasNext()){
@@ -43,9 +44,11 @@ public class VueNoeud {
 		            
 		        });
 				
-				paneMap.getChildren().add(circle); 
+				noeuds.getChildren().add(circle); 
 			}
 		
+		paneMap.getChildren().add(noeuds); 
+		return noeuds;
 
 	}
 }

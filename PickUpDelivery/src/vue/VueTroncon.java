@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -17,19 +18,21 @@ import modele.Troncon;
 
 public class VueTroncon {
 	
-	public static void drawTroncons(Plan plan, BorderPane paneMap) {
+	public static Group drawTroncons(Plan plan, BorderPane paneMap) {
 		
 		//Verifier si le fichier est bon ?
-		
+		Group lignesPlan = new Group();
 		List<Troncon> tronconList = plan.getTroncons();
 		paneMap.getChildren().clear();
 		for(Troncon troncon : tronconList) {
-			draw(troncon,paneMap);
+			draw(troncon,lignesPlan);
 		}
-		
+		//lignesPlan.getTransforms().add(scale);
+		paneMap.getChildren().add(lignesPlan);
+		return lignesPlan;
 	}
 	
-	public static void draw(Troncon troncon, BorderPane paneMap) {
+	public static void draw(Troncon troncon, Group group) {
 		int x1 = VueUtils.getNewX(troncon.GetNoeudOrigine().GetLongitude());
 		int y1 = VueUtils.getNewY(troncon.GetNoeudOrigine().GetLatitude());
 		
@@ -37,7 +40,7 @@ public class VueTroncon {
 		int y2 = VueUtils.getNewY(troncon.GetNoeudDestination().GetLatitude());
 		
 		Line line = new Line(x1, y1, x2, y2);
-		paneMap.getChildren().add(line); 
+		group.getChildren().add(line); 
 	}
 	
 	
