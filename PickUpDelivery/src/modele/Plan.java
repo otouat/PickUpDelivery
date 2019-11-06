@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Map;
 
 public class Plan {
@@ -121,18 +120,39 @@ public class Plan {
 		System.out.println("  Ecart entre la Longitude Maximale et Minimale " + ecart);
 		return ecart;
 	}
-		
-	public void AfficheTronconsDepuisNoeud() {
-		 Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
-	        while (iterator.hasNext()) {
-	            Map.Entry<String, Noeud> entry = iterator.next();
-	             List<Troncon>tronconsnode =entry.getValue().GetTronconsDepuisLeNoeud();
-	             System.out.println(" idNoeudOrigine " +entry.getValue().GetIdNoeud() + "\n");
-	             System.out.println(tronconsnode.size() + " troncon(s) "+ "\n" );
-	             for(int i = 0; i < tronconsnode.size(); i++)
-	     		{
-	     			 System.out.println(tronconsnode.get(i).toString());
-	     		}
-	        }
-	      }
+
+	public int CalculerNombreDeTronconDepuisNoeud(String idNoeud) {
+		int nombreTroncon = 0;
+		for (int i = 0; i < troncons.size(); i++) {
+			if (troncons.get(i).GetNoeudOrigine().GetIdNoeud().contentEquals(idNoeud)) {
+				nombreTroncon++;
+			}
+		}
+		return nombreTroncon;
 	}
+
+	public Troncon ChercherTronconDepuisDeuxNoeuds(String idOrigine, String idDestination) {
+		Troncon troncon = null;
+		for (int i = 0; i < troncons.size(); i++) {
+			if (troncons.get(i).GetNoeudOrigine().GetIdNoeud().contentEquals(idOrigine)
+					&& troncons.get(i).GetNoeudDestination().GetIdNoeud().contentEquals(idDestination)) {
+				troncon = troncons.get(i);
+				break;
+			}
+		}
+		return troncon;
+	}
+
+	public void AfficheTronconsDepuisNoeud() {
+		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, Noeud> entry = iterator.next();
+			List<Troncon> tronconsnode = entry.getValue().GetTronconsDepuisLeNoeud();
+			System.out.println(" idNoeudOrigine " + entry.getValue().GetIdNoeud() + "\n");
+			System.out.println(tronconsnode.size() + " troncon(s) " + "\n");
+			for (int i = 0; i < tronconsnode.size(); i++) {
+				System.out.println(tronconsnode.get(i).toString());
+			}
+		}
+	}
+}

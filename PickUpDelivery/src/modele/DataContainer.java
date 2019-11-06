@@ -1,5 +1,5 @@
 //A réfléchir: Comment afficher les messages d'erreur dans Vue?
-
+//Dans vue, quand on charge un mauvais plan, on doit garder l'ancien plan.
 package modele;
 
 import java.io.File;
