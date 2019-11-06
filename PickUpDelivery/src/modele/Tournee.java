@@ -1,6 +1,8 @@
 package modele;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -18,14 +20,16 @@ public class Tournee {
 	private HashMap<Noeud,Integer> mapNoeuds;
 	private Plan plan;
 	private HashMap<Integer,Integer> mapDureeVisite;
-	private Map<Noeud,Noeud> tableauPrecedence;
-	private List<Map<Noeud,Noeud>> plusCourtChemins;
+	private HashMap<Noeud,Noeud> tableauPrecedence;
+	private List<HashMap<Noeud,Noeud>> plusCourtChemins;
+	private Integer[][] precedence;
 
 	public Tournee(Entrepot entrepot, List<Livraison> livraisons,Plan plan) {
 		this.entrepot = entrepot;
 		this.livraisons = livraisons;
 		this.plan=plan;
 		tableauPrecedence=new HashMap<Noeud,Noeud>();
+		plusCourtChemins=new ArrayList<HashMap<Noeud,Noeud>>();
 		setNoeudAVisiter();
 		setNoeudPlan();
 	}
@@ -51,17 +55,43 @@ public class Tournee {
 		TSP1 voyageurCommerce=new TSP1();
 		voyageurCommerce.chercheSolution(20000, noeudAVisiter.size(), cout, dureeVisite);
 		Integer indiceNoeud;
-		for(Integer i=0;i<noeudAVisiter.size();i++) {
+		Integer indiceNoeudSuivant;
+		HashMap<Noeud,Noeud> courtChemin;
+		Noeud noeudActuel;
+		Noeud noeudSuivant;
+		dijkstra(entrepot);
+		ArrayList<Noeud> chemin= parcoursChemin(tableauPrecedence,noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(0)),entrepot);
+		enchainementNoeud.addAll(chemin);
+
+		for(Integer i=0;i<noeudAVisiter.size()-1;i++) {
 			indiceNoeud=voyageurCommerce.getMeilleureSolution(i);
-			enchainementNoeud.add(noeudAVisiter.get(indiceNoeud));
+			courtChemin = plusCourtChemins.get(indiceNoeud);
+			indiceNoeudSuivant=voyageurCommerce.getMeilleureSolution(i+1);
+			noeudActuel=noeudAVisiter.get(indiceNoeud);
+			noeudSuivant=noeudAVisiter.get(indiceNoeudSuivant);
+			chemin= parcoursChemin(courtChemin,noeudSuivant,noeudActuel);
+			enchainementNoeud.addAll(chemin);
 		}
-		
-		
+		chemin= parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size()-1)),entrepot,noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size()-1)));
+		enchainementNoeud.addAll(chemin);
 		return enchainementNoeud;
 		
 	}
 	
 	
+	private ArrayList<Noeud> parcoursChemin(HashMap<Noeud, Noeud> courtChemin, Noeud noeudSuivant, Noeud noeudActuel) {
+		ArrayList<Noeud> chemin= new ArrayList<Noeud>();
+		Noeud current= noeudSuivant;
+		chemin.add(courtChemin.get(noeudSuivant));
+		while(!courtChemin.get(current).equals(noeudActuel)) {
+			noeudActuel=courtChemin.get(current);
+			chemin.add(noeudActuel);
+		}
+		
+		Collections.reverse(chemin);
+		return chemin;
+	}
+
 	private int[]  dijkstra(Noeud source){
 		tableauPrecedence.clear();
 		PriorityQueue<Pair<Integer,Noeud>> listeAttente=new PriorityQueue<Pair<Integer,Noeud>>();		
@@ -137,6 +167,15 @@ public class Tournee {
 			}
 		}
 
+	}
+	
+	private void calculPrecedence() {
+		precedence = new Integer[noeudAVisiter.size()][2];
+		int j=0;
+		for(int i=2;i<noeudAVisiter.size();i=i+2) {
+			precedence[j][0]=i;
+			precedence[j][1]=i-1;
+		}
 	}
 	 
 	 
