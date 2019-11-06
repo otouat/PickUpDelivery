@@ -12,7 +12,7 @@ public class ListeDeCdes {
 	
 	/*
 	 * Ajout de la commande c a la liste this
-	 * @param c la commande a ajouter
+	 * @param c la commande a ajoute
 	 */
 	public void ajoute(Commande c){
         int i = indiceCrt+1;

@@ -25,7 +25,7 @@ public class Controleur {
 	protected final EtatSupprimer etatSupprimer = new EtatSupprimer();
 
 	/**
-	 * Cree le controleur de l'application
+	 * Cree le controleur de l'applcation
 	 * @param datacontainer le datacontainer avec le plan,demande de livraison
 	 * @param echelle l'echelle de la vue graphique de p
 	 */

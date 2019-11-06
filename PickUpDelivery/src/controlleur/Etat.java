@@ -51,7 +51,7 @@ public interface Etat {
 		
 		/**
 		 * Methode appelee par le controleur quand l'utilisateur clique sur le bouton "Augmenter echelle"
-		 * @param f la fenetre
+		 * @param f la fenetr
 		 */
 	public default void augmenterEchelle(MainControlleur f){};
 		

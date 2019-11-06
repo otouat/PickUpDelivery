@@ -21,7 +21,7 @@ public class EtatInit implements Etat {
 		try {
 			dataContainer.chargerPlan(selectedFile.getAbsolutePath());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
+			// TODO Auto-generated catch bloc
 			e.printStackTrace();
 		}
 		// setEtatPlanCh
