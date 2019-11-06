@@ -13,17 +13,21 @@ import javafx.util.Pair;
 
 public class Tournee {
 	private Entrepot entrepot;
-	private Map<Integer, Livraison> livraisons;
+	private List<Livraison> livraisons;
 	private HashMap<Integer,Noeud> noeudAVisiter;
 	private HashMap<Noeud,Integer> mapNoeuds;
 	private Plan plan;
 	private HashMap<Integer,Integer> mapDureeVisite;
+	private Map<Noeud,Noeud> tableauPrecedence;
+	private List<Map<Noeud,Noeud>> plusCourtChemins;
 
-	public Tournee(Entrepot entrepot, Map<Integer, Livraison> livraisons,Plan plan) {
+	public Tournee(Entrepot entrepot, List<Livraison> livraisons,Plan plan) {
 		this.entrepot = entrepot;
 		this.livraisons = livraisons;
 		this.plan=plan;
+		tableauPrecedence=new HashMap<Noeud,Noeud>();
 		setNoeudAVisiter();
+		setNoeudPlan();
 	}
 	
 	public List<Noeud> calculTournee() {
@@ -35,6 +39,7 @@ public class Tournee {
 		
 		for (Integer i=0; i<noeudAVisiter.size();i++) {
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i));
+			plusCourtChemins.add(tableauPrecedence);
 			for (Integer j=0; j>i && j<noeudAVisiter.size();i++) {
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
 				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
@@ -57,7 +62,8 @@ public class Tournee {
 	}
 	
 	
-	private int[] dijkstra(Noeud source){
+	private int[]  dijkstra(Noeud source){
+		tableauPrecedence.clear();
 		PriorityQueue<Pair<Integer,Noeud>> listeAttente=new PriorityQueue<Pair<Integer,Noeud>>();		
 		Integer nombreNoeuds=plan.getNoeuds().size();
 		int[] distanceAuNoeudSource=new int[nombreNoeuds];
@@ -76,6 +82,7 @@ public class Tournee {
 				Integer cout=(int) troncon.GetLongueur();
 				if( distanceAuNoeudSource[mapNoeuds.get(noeud)] > distanceAuNoeudSource[mapNoeuds.get(n)] + cout ) {
 					distanceAuNoeudSource[mapNoeuds.get(noeud)] = distanceAuNoeudSource[mapNoeuds.get(n)] + cout;
+					tableauPrecedence.put(noeud,n);
 					Pair<Integer,Noeud> paireCoutNoeud=new Pair<Integer,Noeud>(distanceAuNoeudSource[mapNoeuds.get(noeud)],noeud);
 					listeAttente.add(paireCoutNoeud);
 				}
@@ -90,20 +97,16 @@ public class Tournee {
 	private void setNoeudAVisiter() {
 		
 		ArrayList<Noeud> ensembleNoeudAVisiter=new ArrayList<Noeud>();
-		noeudAVisiter=new HashMap<Integer,Noeud>(); Set<Map.Entry<
-		Integer,Livraison>> ensembleLivraison = livraisons.entrySet();
+		noeudAVisiter=new HashMap<Integer,Noeud>();
 		mapDureeVisite=new HashMap<Integer,Integer>();
 		
 		mapDureeVisite.put(0,0);
 		Integer indice=1;
-		for (Map.Entry< Integer,Livraison> it: ensembleLivraison) {
-			ensembleNoeudAVisiter.add(it.getValue().getNoeudEnlevement());
-			mapDureeVisite.put(indice++,it.getValue().getDureeEnlevement());
-			ensembleNoeudAVisiter.add(it.getValue().getNoeudLivraison()); 
-			mapDureeVisite.put(indice++,it.getValue().getDureeLivraison());
-			
-			
-			
+		for (Livraison it: livraisons) {
+			ensembleNoeudAVisiter.add(it.getNoeudEnlevement());
+			mapDureeVisite.put(indice++,it.getDureeEnlevement());
+			ensembleNoeudAVisiter.add(it.getNoeudLivraison()); 
+			mapDureeVisite.put(indice++,it.getDureeLivraison());			
 		}
 
 		indice=1;
@@ -118,11 +121,9 @@ public class Tournee {
 	
 	  
 	
-	private void setCoutPlan(){ 
+	private void setNoeudPlan(){ 
 		mapNoeuds=new HashMap<Noeud,Integer>();
 		Integer indice=0;
-		Set<Map.Entry<String, Noeud>> ensembleNoeud = plan.getNoeuds().entrySet();
-		Integer nombreNoeuds=ensembleNoeud.size(); 
 		List<Troncon> listeTroncons =plan.getTroncons();
 
 		
