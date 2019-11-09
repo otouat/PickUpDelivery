@@ -11,6 +11,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
@@ -31,6 +32,9 @@ public class MainControlleur {
 	@FXML
 	private TextArea console;
 	
+	@FXML
+	private Rectangle rectangleCut;
+	
 	
 	private DemandeLivraison demande;
 	private Plan plan;
@@ -42,6 +46,9 @@ public class MainControlleur {
 	private Group noeuds;
 	private Group livraisons;
 	
+	public MainControlleur() {
+		
+	}
 	
 	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
@@ -65,7 +72,7 @@ public class MainControlleur {
 			}
 			plan = dataContainer.GetPlan();
 			VueUtils.initalisationDonnees(plan,paneMap);
-
+			
 			lignesPlan=VueTroncon.drawTroncons(plan, paneMap);
 			noeuds= VueNoeud.drawClikableNoeud(plan, paneMap);
 			console.setText("Charger une demande de livraison. ");
@@ -96,6 +103,11 @@ public class MainControlleur {
 	}
 	
 	public void Zoomer (ActionEvent event) {
+		
+		//TEST
+		lignesPlan.setClip(rectangleCut);
+		
+		
 		lignesPlan.getTransforms().add(zoom);
 		lignesPlan.getTransforms().add(translate);
 		if (noeuds!=null) {
@@ -106,6 +118,7 @@ public class MainControlleur {
 			livraisons.getTransforms().add(zoom);
 			livraisons.getTransforms().add(translate);
 		}
+		
 	}
 	
 	public void DeZoomer (ActionEvent event) throws NonInvertibleTransformException {	
