@@ -29,8 +29,8 @@ public class Entrepot extends Noeud {
 		return "Entrepot id " + idNoeud + ", heure de départ:" + heureDepart;
 	}
 
-	public Noeud getNoeudEntrepot() {
-		Noeud noeud = new Noeud(this.idNoeud, this.latitude, this.longitude);
-		return noeud;
-	}
+	/*
+	 * public Noeud getNoeudEntrepot() { Noeud noeud = new Noeud(this.idNoeud,
+	 * this.latitude, this.longitude); return noeud; }
+	 */
 }

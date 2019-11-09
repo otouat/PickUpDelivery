@@ -74,8 +74,7 @@ public class Tournee {
 			enchainementNoeud.addAll(chemin);
 		}
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
-				entrepot.getNoeudEntrepot(),
-				noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
+				(Noeud) entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
 		enchainementNoeud.addAll(chemin);
 		return enchainementNoeud;
 
@@ -145,7 +144,7 @@ public class Tournee {
 
 		mapDureeVisite.put(0, 0);
 		// ?????????????????????????????????????/
-
+		// Pourquoi commencer par 0?
 		// Integer indice = 0;
 		Integer indice = 1;
 		for (Livraison it : livraisons) {
