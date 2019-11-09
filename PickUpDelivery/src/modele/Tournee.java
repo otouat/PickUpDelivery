@@ -22,6 +22,9 @@ public class Tournee {
 		this.plan = plan;
 		setNoeudAVisiter();
 	}
+	
+	//Constructeur test IHM
+	public Tournee() {}
 
 	public List<Noeud> calculTournee() {
 
@@ -38,6 +41,24 @@ public class Tournee {
 
 		return enchainementNoeud;
 
+	}
+	
+	public List<Noeud> FausseTourneePetitIHM(){
+		List<Noeud> enchainementNoeud = new ArrayList<Noeud>();
+		Noeud n = new Noeud("342873658",45.76038,4.8775625);
+		enchainementNoeud.add(n);
+		Noeud n1 = new  Noeud("342872879",45.760693,4.8777256);
+		enchainementNoeud.add(n1);
+		Noeud n2 = new  Noeud("2456932713",45.760902,4.877833);
+		enchainementNoeud.add(n2);
+		enchainementNoeud.add(n2);
+		Noeud n3 = new Noeud("342867241",45.76051,4.879188 );
+		enchainementNoeud.add(n3);
+		Noeud n4 = new Noeud("342869317",45.759945,4.87886);
+		enchainementNoeud.add(n4);
+		
+		return enchainementNoeud;
+		
 	}
 
 	private int[] dijkstra(Noeud source) {

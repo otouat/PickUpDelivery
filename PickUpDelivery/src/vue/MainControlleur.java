@@ -10,11 +10,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import modele.DataContainer;
 import modele.DemandeLivraison;
 import modele.Plan;
+import modele.Tournee;
 import modele.Livraison;
 
 public class MainControlleur {
@@ -22,9 +24,17 @@ public class MainControlleur {
 	private Button chargerPlanBoutton;
 	@FXML
 	private Button chargerDemandeButton;
+	@FXML
+	private Button calculerTourneeButton;
+	@FXML
+	private Button genererFeuilleRouteButton;
 	
 	@FXML
 	private BorderPane paneMap;
+	@FXML 
+	private AnchorPane tourneePane;
+	@FXML 
+	private AnchorPane livraisonPane;
 	
 	@FXML
 	private TextArea console;
@@ -37,6 +47,7 @@ public class MainControlleur {
 	private DemandeLivraison demande;
 	private Plan plan;
 	private DataContainer dataContainer= new DataContainer() ;
+	private Tournee tournee;
 	
 	
 	public File selectFileXML() {
@@ -60,6 +71,10 @@ public class MainControlleur {
 				e.printStackTrace();
 			}
 			plan = dataContainer.GetPlan();
+			
+			paneMap.getChildren().clear();
+			livraisonPane.getChildren().clear();
+			tourneePane.getChildren().clear();
 			VueUtils.initalisationDonnees(plan,paneMap);
 
 			VueTroncon.drawTroncons(plan, paneMap);
@@ -83,11 +98,14 @@ public class MainControlleur {
 				e.printStackTrace();
 			}
 			demande = dataContainer.GetDemandeLivraison();
-			VueDemandeLivraison.drawDemandeLivraison(plan, demande, paneMap);
+			
+			livraisonPane.getChildren().clear();
+			tourneePane.getChildren().clear();
+			VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
 			
 			initialiseListView();
-			//console.setText("Charger une demande de livraison. ");
-			//chargerDemandeButton.setDisable(false);
+			console.setText("Charger une tournée. ");
+			calculerTourneeButton.setDisable(false);
 			
 		}
 		
@@ -103,6 +121,19 @@ public class MainControlleur {
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+	}
+	
+	public void chargerTournee(ActionEvent event){
+		
+		tournee = new Tournee();
+		//pourquoi mettre une map ?
+		//tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
+		//VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
+		
+		tourneePane.getChildren().clear();
+		VueTroncon.drawTournee(tournee.FausseTourneePetitIHM(), tourneePane);
+		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
+		genererFeuilleRouteButton.setDisable(false);
 	}
 
 }

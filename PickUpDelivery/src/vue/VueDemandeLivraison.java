@@ -3,6 +3,7 @@ package vue;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -21,12 +22,11 @@ public class VueDemandeLivraison {
 	
 
 		
-	public static void drawDemandeLivraison(Plan plan,DemandeLivraison demande, BorderPane paneMap) {
+	public static void drawDemandeLivraison(Plan plan,DemandeLivraison demande, AnchorPane livraisonPane) {
 	
-		
-		
+
 		Entrepot entrepot = demande.getEntrepotLivraison();
-		VueUtils.initalisationDonnees(plan, paneMap);
+		VueUtils.initalisationDonnees(plan, livraisonPane);
 		double x_entrepot = VueUtils.getNewX(entrepot.GetLongitude());
 		double y_entrepot = VueUtils.getNewY(entrepot.GetLatitude());
 
@@ -35,7 +35,7 @@ public class VueDemandeLivraison {
         triangle.getPoints().addAll(x_entrepot, y_entrepot-7,  x_entrepot-6,y_entrepot+4,x_entrepot+6, y_entrepot+4);
         triangle.setFill(Color.RED);
         triangle.setStroke(Color.BLACK);
-        paneMap.getChildren().add(triangle);
+        livraisonPane.getChildren().add(triangle);
         
         //Create Pick up
         int i=0;
@@ -48,7 +48,7 @@ public class VueDemandeLivraison {
         	Rectangle rectangle = new Rectangle(VueUtils.getNewX(delivery.GetLongitude())-5,VueUtils.getNewY(delivery.GetLatitude())-5,10,10);
         	rectangle.setFill(couleurs.get(i));
         	
-        	paneMap.getChildren().addAll(cercleP,rectangle);
+        	livraisonPane.getChildren().addAll(cercleP,rectangle);
         	i++;
         }
 		

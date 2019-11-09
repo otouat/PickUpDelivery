@@ -1,6 +1,7 @@
 package vue;
 
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import modele.Plan;
 
 public class VueUtils {
@@ -12,14 +13,14 @@ public class VueUtils {
 	static public double latMin = 0;
 	static public double longMin = 0;
 	
-	public static void initalisationDonnees(Plan plan, BorderPane paneMap) {
+	public static void initalisationDonnees(Plan plan, Pane pane) {
 		largeurPlanReel = plan.CalculEcartLatitude();
 		longueurPlanReel = plan.CalculEcartLongitude();
 		latMin = plan.CalculMinLatitude();
 		longMin = plan.CalculMinLongitude();
 		
-		largeur_pane = paneMap.getWidth();
-		longueur_pane = paneMap.getHeight();
+		largeur_pane = pane.getWidth();
+		longueur_pane = pane.getHeight();
 		
 	}
 	
