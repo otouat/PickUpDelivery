@@ -6,12 +6,12 @@
 <noeud id="4" latitude="45.41332" longitude="5.1563"/>
 <noeud id="5" latitude="45.9555" longitude="5.1561"/>
 <noeud id="6" latitude="45.645879" longitude="5.8956"/>
-<noeud id="7" latitude="45.448651" longitude="5.16123"/>
+<!-- <noeud id="7" latitude="45.448651" longitude="5.16123"/>
 <noeud id="8" latitude="45.115656" longitude="5.5421"/>
 <noeud id="9" latitude="44.651651" longitude="5.59896"/>
-<noeud id="10" latitude="45.7545" longitude="5.4848"/>
-<troncon destination="2" longueur="20" nomRue="Rue 1-2" origine="1"/>
-<troncon destination="1" longueur="20" nomRue="Rue 2-1" origine="2"/>
+<noeud id="10" latitude="45.7545" longitude="5.4848"/> -->
+<!-- <troncon destination="2" longueur="20" nomRue="Rue 1-2" origine="1"/>
+<troncon destination="1" longueur="20" nomRue="Rue 2-1" origine="2"/> -->
 <troncon destination="3" longueur="30" nomRue="Rue 1-3" origine="1"/>
 <troncon destination="1" longueur="30" nomRue="Rue 3-1" origine="3"/>
 <troncon destination="4" longueur="50" nomRue="Rue 1-4" origine="1"/>

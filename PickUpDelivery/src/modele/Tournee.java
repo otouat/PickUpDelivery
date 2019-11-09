@@ -27,6 +27,7 @@ public class Tournee {
 		plusCourtChemins = new ArrayList<HashMap<Noeud, Noeud>>();
 		setNoeudAVisiter();
 		setNoeudPlan();
+		System.out.println(noeudAVisiter.get(0));
 	}
 
 	public List<Noeud> calculTournee() {
@@ -36,14 +37,16 @@ public class Tournee {
 		int[] distanceDijkstra = new int[plan.getNoeuds().size()];
 		int[] dureeVisite = new int[noeudAVisiter.size()];
 
-		System.out.println(mapNoeuds.toString());
-		for (Integer i = 1; i < noeudAVisiter.size(); i++) {
+		// System.out.println(mapNoeuds.toString());
+		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
+			// System.out.println(noeudAVisiter.get(i).toString());
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i));
 			plusCourtChemins.add(tableauPrecedence);
 			for (Integer j = 0; j > i && j < noeudAVisiter.size(); i++) {
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
 				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
 			}
+			System.out.println("Durée Visite:" + mapDureeVisite.get(i));
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
 
@@ -54,12 +57,14 @@ public class Tournee {
 		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
-		dijkstra(entrepot);
-		ArrayList<Noeud> chemin = parcoursChemin(tableauPrecedence,
-				noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(0)), entrepot);
-		enchainementNoeud.addAll(chemin);
-
-		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
+		/*
+		 * dijkstra(entrepot); ArrayList<Noeud> chemin =
+		 * parcoursChemin(tableauPrecedence,
+		 * noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(0)), entrepot);
+		 * enchainementNoeud.addAll(chemin);
+		 */
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
+		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
@@ -69,7 +74,8 @@ public class Tournee {
 			enchainementNoeud.addAll(chemin);
 		}
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
-				entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
+				entrepot.getNoeudEntrepot(),
+				noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
 		enchainementNoeud.addAll(chemin);
 		return enchainementNoeud;
 
@@ -99,7 +105,16 @@ public class Tournee {
 		}
 		Pair<Integer, Noeud> src = new Pair<Integer, Noeud>(0, source);
 		System.out.println(source.toString());
-		distanceAuNoeudSource[mapNoeuds.get(source)] = 0;
+		// distanceAuNoeudSource[mapNoeuds.get(source)] = 0;
+		System.out.println(mapNoeuds.get(plan.getNoeuds().get("2")) + "111");
+		if (source.GetIdNoeud() == entrepot.GetIdNoeud()) {
+			String idNoeudEntrepot = entrepot.GetIdNoeud();
+			Integer index = mapNoeuds.get(plan.getNoeuds().get(idNoeudEntrepot));
+			distanceAuNoeudSource[index] = 0;
+		} else {
+			Integer index = mapNoeuds.get(source);
+			distanceAuNoeudSource[index] = 0;
+		}
 		listeAttente.add(src);
 
 		while (!listeAttente.isEmpty()) {
@@ -116,7 +131,9 @@ public class Tournee {
 				}
 			}
 		}
-
+		for (int i = 0; i < nombreNoeuds; i++) {
+			System.out.println(distanceAuNoeudSource[i]);
+		}
 		return distanceAuNoeudSource;
 	}
 
@@ -127,6 +144,9 @@ public class Tournee {
 		mapDureeVisite = new HashMap<Integer, Integer>();
 
 		mapDureeVisite.put(0, 0);
+		// ?????????????????????????????????????/
+
+		// Integer indice = 0;
 		Integer indice = 1;
 		for (Livraison it : livraisons) {
 			ensembleNoeudAVisiter.add(it.getNoeudEnlevement());
@@ -140,7 +160,10 @@ public class Tournee {
 		for (Noeud it : ensembleNoeudAVisiter) {
 			noeudAVisiter.put(indice++, it);
 		}
-		noeudAVisiter.put(0, entrepot);
+		// Noeud noeudEntrepot = new Noeud(entrepot.GetIdNoeud(),
+		// entrepot.GetLatitude(), entrepot.GetLongitude());
+		// noeudAVisiter.put(0, entrepot.getNoeudEntrepot());
+		noeudAVisiter.put(0, (Noeud) entrepot);
 
 	}
 
@@ -151,10 +174,12 @@ public class Tournee {
 
 		for (Troncon it : listeTroncons) {
 			if (!mapNoeuds.containsKey(it.GetNoeudOrigine())) {
-				mapNoeuds.put(it.GetNoeudOrigine(), indice++);
+				mapNoeuds.put(it.GetNoeudOrigine(), indice);
+				indice = indice + 1;
 			}
 			if (!mapNoeuds.containsKey(it.GetNoeudDestination())) {
-				mapNoeuds.put(it.GetNoeudDestination(), indice++);
+				mapNoeuds.put(it.GetNoeudDestination(), indice);
+				indice = indice + 1;
 			}
 		}
 
