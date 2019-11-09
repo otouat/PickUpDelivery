@@ -4,7 +4,6 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.shape.Rectangle?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="605.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vue.MainControlleur">
    <children>
@@ -14,10 +13,7 @@
       <Button disable="true" layoutX="22.0" layoutY="220.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Générer une feuille de route" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="220.0" />
       <Button disable="true" layoutX="22.0" layoutY="268.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Modifier une feuille de route" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="268.0" />
       <TextArea fx:id="console" editable="false" layoutX="19.0" layoutY="488.0" prefHeight="79.0" prefWidth="962.0" text="Bienvenue dans l'application Pick up &amp; Delivery ! Charger un plan" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="19.0" AnchorPane.rightAnchor="34.0" />
-      <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-color: white;">
-         <top>
-            <Rectangle id="rectangleCut" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="450.0" stroke="TRANSPARENT" strokeType="INSIDE" width="450.0" BorderPane.alignment="CENTER" />
-         </top></BorderPane>
+      <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-color: white;" />
       <AnchorPane layoutX="751.0" layoutY="30.0" prefHeight="450.0" prefWidth="200.0" style="-fx-background-color: white; -fx-border-color: black;" AnchorPane.bottomAnchor="125.0" AnchorPane.rightAnchor="64.0" AnchorPane.topAnchor="30.0" />
       <Button layoutX="686.0" layoutY="4.0" mnemonicParsing="false" onAction="#Zoomer" text="+" />
       <Button graphicTextGap="5.0" layoutX="652.0" layoutY="4.0" mnemonicParsing="false" onAction="#DeZoomer" text="-" />

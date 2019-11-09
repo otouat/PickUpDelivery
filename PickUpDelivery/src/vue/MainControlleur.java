@@ -32,8 +32,6 @@ public class MainControlleur {
 	@FXML
 	private TextArea console;
 	
-	@FXML
-	private Rectangle rectangleCut;
 	
 	
 	private DemandeLivraison demande;
@@ -72,7 +70,7 @@ public class MainControlleur {
 			}
 			plan = dataContainer.GetPlan();
 			VueUtils.initalisationDonnees(plan,paneMap);
-			
+			paneMap.setClip(new Rectangle (450,450));
 			lignesPlan=VueTroncon.drawTroncons(plan, paneMap);
 			noeuds= VueNoeud.drawClikableNoeud(plan, paneMap);
 			console.setText("Charger une demande de livraison. ");
@@ -104,10 +102,6 @@ public class MainControlleur {
 	
 	public void Zoomer (ActionEvent event) {
 		
-		//TEST
-		lignesPlan.setClip(rectangleCut);
-		
-		
 		lignesPlan.getTransforms().add(zoom);
 		lignesPlan.getTransforms().add(translate);
 		if (noeuds!=null) {
@@ -132,6 +126,7 @@ public class MainControlleur {
 			livraisons.getTransforms().add(zoom.createInverse());
 			livraisons.getTransforms().add(new Translate(54,54));
 		}
+		
 	}
 	
 }
