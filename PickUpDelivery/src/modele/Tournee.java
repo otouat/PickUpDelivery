@@ -150,7 +150,8 @@ public class Tournee {
 			mapDureeVisite.put(indice++, it.getDureeLivraison());
 		}
 
-		indice = 0;
+		noeudAVisiter.put(0, entrepot);
+		indice = 1;
 
 		for (Noeud it : ensembleNoeudAVisiter) {
 			noeudAVisiter.put(indice++, it);
@@ -178,7 +179,7 @@ public class Tournee {
 
 	private void calculPrecedence() {
 		precedence = new HashMap<Integer, Integer>();
-		for (int i = 1; i < noeudAVisiter.size(); i = i + 2) {
+		for (int i = 2; i < noeudAVisiter.size(); i = i + 2) {
 			precedence.put(i, i-1);
 		}
 	}
