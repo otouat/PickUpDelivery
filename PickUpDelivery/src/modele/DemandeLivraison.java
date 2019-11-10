@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DemandeLivraison {
 
-	private Entrepot entrepotLivraison;
+	private Noeud entrepotLivraison;
 	private List<Livraison> livraisons;
 
 	public DemandeLivraison() {
@@ -13,7 +13,7 @@ public class DemandeLivraison {
 		livraisons = new ArrayList<Livraison>();
 	}
 
-	public Entrepot getEntrepotLivraison() {
+	public Noeud getEntrepotLivraison() {
 		return entrepotLivraison;
 	}
 
@@ -38,7 +38,7 @@ public class DemandeLivraison {
 	}
 
 	public void getInfo() {
-		System.out.println("Heure de depart de l'entrepot: " + entrepotLivraison.getHeureDepart());
+		//System.out.println("Heure de depart de l'entrepot: " + entrepotLivraison.getHeureDepart());
 		System.out.println("nombre de livraisons: " + livraisons.size());
 		System.out.println(livraisons.get(4).getDureeEnlevement());
 

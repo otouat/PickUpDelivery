@@ -1,5 +1,7 @@
 package modele;
 
+import java.util.List;
+
 public class Test {
 	public static void main(String[] args) throws Exception {
 		DataContainer dataContainer = new DataContainer();
@@ -30,6 +32,9 @@ public class Test {
 
 		// plan.AfficheTronconsDepuisNoeud();
 		// Affiche pour chaque noeud du plan les troncons dont il est l'origine
+
+		//Entrepot entrepot = dataContainer.GetDemandeLivraison().getEntrepotLivraison();
+		List<Livraison> livraisons = dataContainer.GetDemandeLivraison().getLivraisons();
 
 	}
 

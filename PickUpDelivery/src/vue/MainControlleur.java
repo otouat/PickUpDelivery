@@ -104,7 +104,7 @@ public class MainControlleur {
 			VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
 			
 			initialiseListView();
-			console.setText("Charger une tournée. ");
+			console.setText("Charger une tournï¿½e. ");
 			calculerTourneeButton.setDisable(false);
 			
 		}
@@ -132,7 +132,7 @@ public class MainControlleur {
 		
 		tourneePane.getChildren().clear();
 		VueTroncon.drawTournee(tournee.FausseTourneePetitIHM(), tourneePane);
-		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
+		console.setText("Vous pouvez maintenant modifier la tournï¿½e ou gï¿½nï¿½rer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
 	}
 

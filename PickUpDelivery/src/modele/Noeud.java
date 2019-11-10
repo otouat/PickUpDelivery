@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Noeud {
+	
+
 	protected String idNoeud;
 	protected double latitude;
 	protected double longitude;
@@ -27,8 +29,7 @@ public class Noeud {
 		this.idNoeud = idNoeud;
 		this.latitude = latitude;
 		this.longitude = longitude;
-		this.tronconsDepuisLeNoeud = tronconsDepuisLeNoeud; // changer par this.tronconsDepuisLeNoeud =
-															// tronconsDepuisLeNoeud;
+		this.tronconsDepuisLeNoeud = tronconsDepuisLeNoeud;
 	}
 
 	public String GetIdNoeud() {
@@ -57,5 +58,14 @@ public class Noeud {
 
 	public String toString() {
 		return "Noeud id:" + idNoeud + ", Longitude:" + longitude + ", Latitude:" + latitude + ". \n";
+	}
+	
+	public boolean equal(Noeud obj) {
+		if(this.idNoeud.equals(obj.GetIdNoeud())) {
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }
