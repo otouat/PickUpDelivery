@@ -14,7 +14,7 @@ public class Tournee {
 	private Plan plan;
 	private HashMap<Integer, Integer> mapDureeVisite;
 	private List<HashMap<Noeud, Noeud>> plusCourtChemins;
-	private Integer[][] precedence;
+	private HashMap<Integer, Integer> precedence;
 
 	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
 		String idNoeudEntrepot = entrepot.GetIdNoeud();
@@ -45,15 +45,18 @@ public class Tournee {
 			}
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
-
+		calculPrecedence();
 		TSP1 voyageurCommerce = new TSP1();
-		voyageurCommerce.chercheSolution(20000, noeudAVisiter.size(), cout, dureeVisite);
+		voyageurCommerce.chercheSolution(20000, noeudAVisiter.size(), cout, dureeVisite,precedence);
 		Integer indiceNoeud;
 		Integer indiceNoeudSuivant;
 		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
 		//System.out.println(plusCourtChemins);
+		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
+			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)));
+		}
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 		for (Integer i = 0; i < noeudAVisiter.size()-1; i++) {
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
@@ -61,10 +64,7 @@ public class Tournee {
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
 			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud);
-			System.out.println(noeudActuel);
 			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant);
-			System.out.println(noeudSuivant);
-			System.out.println(courtChemin);
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
 			enchainementNoeud.addAll(chemin);
 			//System.out.println(chemin);
@@ -73,7 +73,6 @@ public class Tournee {
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
 				(Noeud) entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
 		enchainementNoeud.addAll(chemin);
-		System.out.println(enchainementNoeud);
 		return enchainementNoeud;
 
 	}
@@ -176,11 +175,9 @@ public class Tournee {
 	}
 
 	private void calculPrecedence() {
-		precedence = new Integer[noeudAVisiter.size()][2];
-		int j = 0;
+		precedence = new HashMap<Integer, Integer>();
 		for (int i = 2; i < noeudAVisiter.size(); i = i + 2) {
-			precedence[j][0] = i;
-			precedence[j][1] = i - 1;
+			precedence.put(i, i-1);
 		}
 	}
 

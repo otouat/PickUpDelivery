@@ -1,6 +1,7 @@
 package modele;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 
 public class IteratorSeq implements Iterator<Integer> {
@@ -14,11 +15,13 @@ public class IteratorSeq implements Iterator<Integer> {
 	 * @param nonVus
 	 * @param sommetCrt
 	 */
-	public IteratorSeq(Collection<Integer> nonVus, int sommetCrt) {
+	public IteratorSeq(Collection<Integer> nonVus, int sommetCrt, HashMap<Integer, Integer> precedence){
 		this.candidats = new Integer[nonVus.size()];
 		nbCandidats = 0;
-		for (Integer s : nonVus) {
-			candidats[nbCandidats++] = s;
+		for (Integer s : nonVus){
+			if(!nonVus.contains(precedence.get(s))) {
+				candidats[nbCandidats++] = s;
+			}
 		}
 	}
 
