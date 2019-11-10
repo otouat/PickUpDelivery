@@ -5,7 +5,7 @@ import java.util.List;
 
 public class DemandeLivraison {
 
-	private Noeud entrepotLivraison;
+	private Entrepot entrepotLivraison;
 	private List<Livraison> livraisons;
 
 	public DemandeLivraison() {
@@ -13,7 +13,7 @@ public class DemandeLivraison {
 		livraisons = new ArrayList<Livraison>();
 	}
 
-	public Noeud getEntrepotLivraison() {
+	public Entrepot getEntrepotLivraison() {
 		return entrepotLivraison;
 	}
 

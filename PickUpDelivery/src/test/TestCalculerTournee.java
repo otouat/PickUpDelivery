@@ -11,8 +11,8 @@ public class TestCalculerTournee {
 	public static void main(String[] args) {
 		DataContainer dataContainer = new DataContainer();
 		try {
-			dataContainer.chargerPlan("./src/test/miniPlan.xml");
-			dataContainer.chargerDemandeLivraison("./src/test/miniDemande1.xml");
+			dataContainer.chargerPlan("./src/modele/grandPlan.xml");
+			dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 			/*
 			 * System.out.println(dataContainer.GetPlan().toString());
 			 * System.out.println(dataContainer.GetDemandeLivraison().toString());

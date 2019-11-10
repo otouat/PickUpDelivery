@@ -1,6 +1,7 @@
+/bin/
 /.classpath
 /controlleur/
+/fxml/
 /modele/
 /test/
-/fxml/
 /vue/
