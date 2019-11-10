@@ -39,14 +39,16 @@ public class Tournee {
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			// System.out.println(noeudAVisiter.get(i).toString());
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i));
-			for (Integer j = 0; j > i && j < noeudAVisiter.size(); i++) {
-				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
-				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
+			for (Integer j = 0; j > i && j < noeudAVisiter.size(); j++) {
+				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j))];
+				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j))];
 			}
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
 		calculPrecedence();
-		TSP1 voyageurCommerce = new TSP1();
+		System.out.println(precedence);
+
+		TSP2 voyageurCommerce = new TSP2();
 		voyageurCommerce.chercheSolution(20000, noeudAVisiter.size(), cout, dureeVisite,precedence);
 		Integer indiceNoeud;
 		Integer indiceNoeudSuivant;
@@ -176,7 +178,7 @@ public class Tournee {
 
 	private void calculPrecedence() {
 		precedence = new HashMap<Integer, Integer>();
-		for (int i = 2; i < noeudAVisiter.size(); i = i + 2) {
+		for (int i = 1; i < noeudAVisiter.size(); i = i + 2) {
 			precedence.put(i, i-1);
 		}
 	}
