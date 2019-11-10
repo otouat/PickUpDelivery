@@ -11,8 +11,8 @@ public class TestCalculerTournee {
 	public static void main(String[] args) {
 		DataContainer dataContainer = new DataContainer();
 		try {
-			dataContainer.chargerPlan("./src/test/miniPlan.xml");
-			dataContainer.chargerDemandeLivraison("./src/test/miniDemande1.xml");
+			dataContainer.chargerPlan("./src/modele/grandPlan.xml");
+			dataContainer.chargerDemandeLivraison("./src/modele/demandeGrand7.xml");
 			/*
 			 * System.out.println(dataContainer.GetPlan().toString());
 			 * System.out.println(dataContainer.GetDemandeLivraison().toString());
@@ -20,6 +20,7 @@ public class TestCalculerTournee {
 			Tournee tournee = new Tournee(dataContainer.GetDemandeLivraison().getEntrepotLivraison(),
 					dataContainer.GetDemandeLivraison().getLivraisons(), dataContainer.GetPlan());
 			List<Noeud> listTournee = tournee.calculTournee();
+			System.out.println(listTournee.size());
 			/*
 			 * for (int i = 0; i < listTournee.size(); i++) {
 			 * System.out.println(listTournee.get(i).toString()); }

@@ -7,27 +7,25 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Tournee {
-	private Entrepot entrepot;
+	private Noeud entrepot;
 	private List<Livraison> livraisons;
 	private HashMap<Integer, Noeud> noeudAVisiter;
 	private HashMap<Noeud, Integer> mapNoeuds;
 	private Plan plan;
 	private HashMap<Integer, Integer> mapDureeVisite;
-	private HashMap<Noeud, Noeud> tableauPrecedence;
 	private List<HashMap<Noeud, Noeud>> plusCourtChemins;
 	private Integer[][] precedence;
 
-	public Tournee(Entrepot entrepot, List<Livraison> livraisons, Plan plan) {
-		this.entrepot = entrepot;
+	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
+		String idNoeudEntrepot = entrepot.GetIdNoeud();
+		this.entrepot  = plan.getNoeuds().get(idNoeudEntrepot);
 		this.livraisons = livraisons;
 		this.plan = plan;
 		mapNoeuds = new HashMap<Noeud, Integer>();
 		noeudAVisiter = new HashMap<Integer, Noeud>();
-		tableauPrecedence = new HashMap<Noeud, Noeud>();
 		plusCourtChemins = new ArrayList<HashMap<Noeud, Noeud>>();
 		setNoeudAVisiter();
 		setNoeudPlan();
-		System.out.println(noeudAVisiter.get(0));
 	}
 
 	public List<Noeud> calculTournee() {
@@ -41,12 +39,10 @@ public class Tournee {
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			// System.out.println(noeudAVisiter.get(i).toString());
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i));
-			plusCourtChemins.add(tableauPrecedence);
 			for (Integer j = 0; j > i && j < noeudAVisiter.size(); i++) {
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
 				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(i))];
 			}
-			System.out.println("Durée Visite:" + mapDureeVisite.get(i));
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
 
@@ -57,25 +53,27 @@ public class Tournee {
 		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
-		/*
-		 * dijkstra(entrepot); ArrayList<Noeud> chemin =
-		 * parcoursChemin(tableauPrecedence,
-		 * noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(0)), entrepot);
-		 * enchainementNoeud.addAll(chemin);
-		 */
+		//System.out.println(plusCourtChemins);
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
-		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
+		for (Integer i = 0; i < noeudAVisiter.size()-1; i++) {
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
+			
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
-			noeudActuel = noeudAVisiter.get(indiceNoeud);
-			noeudSuivant = noeudAVisiter.get(indiceNoeudSuivant);
+			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud);
+			System.out.println(noeudActuel);
+			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant);
+			System.out.println(noeudSuivant);
+			System.out.println(courtChemin);
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
 			enchainementNoeud.addAll(chemin);
+			//System.out.println(chemin);
+			
 		}
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
 				(Noeud) entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
 		enchainementNoeud.addAll(chemin);
+		System.out.println(enchainementNoeud);
 		return enchainementNoeud;
 
 	}
@@ -83,18 +81,26 @@ public class Tournee {
 	private ArrayList<Noeud> parcoursChemin(HashMap<Noeud, Noeud> courtChemin, Noeud noeudSuivant, Noeud noeudActuel) {
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 		Noeud current = noeudSuivant;
-		chemin.add(courtChemin.get(noeudSuivant));
-		while (!courtChemin.get(current).equals(noeudActuel)) {
-			noeudActuel = courtChemin.get(current);
+		chemin.add(noeudSuivant);
+		if(courtChemin.get(current).equal(noeudActuel)) {
 			chemin.add(noeudActuel);
 		}
-
+		else {	
+			
+			while (!courtChemin.get(current).equal(noeudActuel)) {
+				chemin.add(courtChemin.get(current));
+				current=courtChemin.get(current);
+				
+			}
+			chemin.add(noeudActuel);
+		}
 		Collections.reverse(chemin);
 		return chemin;
+	
 	}
 
 	private int[] dijkstra(Noeud source) {
-		tableauPrecedence.clear();
+		HashMap<Noeud, Noeud> tableauPrecedence=new HashMap<Noeud, Noeud>();
 		PriorityQueue<Pair<Integer, Noeud>> listeAttente = new PriorityQueue<Pair<Integer, Noeud>>();
 		Integer nombreNoeuds = plan.getNoeuds().size();
 		int[] distanceAuNoeudSource = new int[nombreNoeuds];
@@ -103,19 +109,13 @@ public class Tournee {
 			distanceAuNoeudSource[i] = Integer.MAX_VALUE;
 		}
 		Pair<Integer, Noeud> src = new Pair<Integer, Noeud>(0, source);
-		System.out.println(source.toString());
 		// distanceAuNoeudSource[mapNoeuds.get(source)] = 0;
-		System.out.println(mapNoeuds.get(plan.getNoeuds().get("2")) + "111");
-		if (source.GetIdNoeud() == entrepot.GetIdNoeud()) {
-			String idNoeudEntrepot = entrepot.GetIdNoeud();
-			Integer index = mapNoeuds.get(plan.getNoeuds().get(idNoeudEntrepot));
-			distanceAuNoeudSource[index] = 0;
-		} else {
-			Integer index = mapNoeuds.get(source);
-			distanceAuNoeudSource[index] = 0;
-		}
-		listeAttente.add(src);
 
+		Integer index = mapNoeuds.get(source);
+		distanceAuNoeudSource[index] = 0;
+
+		listeAttente.add(src);
+		tableauPrecedence.put(source, null);
 		while (!listeAttente.isEmpty()) {
 			Noeud n = listeAttente.poll().getNoeud();
 			for (Troncon troncon : n.tronconsDepuisLeNoeud) {
@@ -130,9 +130,7 @@ public class Tournee {
 				}
 			}
 		}
-		for (int i = 0; i < nombreNoeuds; i++) {
-			System.out.println(distanceAuNoeudSource[i]);
-		}
+		plusCourtChemins.add(tableauPrecedence);
 		return distanceAuNoeudSource;
 	}
 
@@ -143,9 +141,6 @@ public class Tournee {
 		mapDureeVisite = new HashMap<Integer, Integer>();
 
 		mapDureeVisite.put(0, 0);
-		// ?????????????????????????????????????/
-		// Pourquoi commencer par 0?
-		// Integer indice = 0;
 		Integer indice = 1;
 		for (Livraison it : livraisons) {
 			ensembleNoeudAVisiter.add(it.getNoeudEnlevement());
@@ -154,15 +149,11 @@ public class Tournee {
 			mapDureeVisite.put(indice++, it.getDureeLivraison());
 		}
 
-		indice = 1;
+		indice = 0;
 
 		for (Noeud it : ensembleNoeudAVisiter) {
 			noeudAVisiter.put(indice++, it);
 		}
-		// Noeud noeudEntrepot = new Noeud(entrepot.GetIdNoeud(),
-		// entrepot.GetLatitude(), entrepot.GetLongitude());
-		// noeudAVisiter.put(0, entrepot.getNoeudEntrepot());
-		noeudAVisiter.put(0, (Noeud) entrepot);
 
 	}
 

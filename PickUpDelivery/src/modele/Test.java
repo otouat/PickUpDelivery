@@ -26,7 +26,7 @@ public class Test {
 		// plan.AfficheTronconsDepuisNoeud();
 		// Affiche pour chaque noeud du plan les troncons dont il est l'origine
 
-		Entrepot entrepot = dataContainer.GetDemandeLivraison().getEntrepotLivraison();
+		//Entrepot entrepot = dataContainer.GetDemandeLivraison().getEntrepotLivraison();
 		List<Livraison> livraisons = dataContainer.GetDemandeLivraison().getLivraisons();
 
 	}
