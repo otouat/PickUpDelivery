@@ -116,15 +116,17 @@ public class MainControlleur {
 	}
 	
 	public void DeZoomer (ActionEvent event) throws NonInvertibleTransformException {	
-		lignesPlan.getTransforms().add(zoom.createInverse());
-		lignesPlan.getTransforms().add(new Translate(54,54));
-		if (noeuds!=null) {
-			noeuds.getTransforms().add(zoom.createInverse());
-			noeuds.getTransforms().add(new Translate(54,54));
-		}
-		if(livraisons!=null) {
-			livraisons.getTransforms().add(zoom.createInverse());
-			livraisons.getTransforms().add(new Translate(54,54));
+		if (!lignesPlan.getTransforms().isEmpty()) {
+			lignesPlan.getTransforms().remove(lignesPlan.getTransforms().size()-1);
+			lignesPlan.getTransforms().remove(lignesPlan.getTransforms().size()-1);
+			if (noeuds!=null) {
+				noeuds.getTransforms().remove(noeuds.getTransforms().size()-1);
+				noeuds.getTransforms().remove(noeuds.getTransforms().size()-1);
+			}
+			if(livraisons!=null) {
+				livraisons.getTransforms().remove(livraisons.getTransforms().size()-1);
+				livraisons.getTransforms().remove(livraisons.getTransforms().size()-1);
+			}
 		}
 		
 	}
