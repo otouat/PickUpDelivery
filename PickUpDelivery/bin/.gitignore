@@ -1,14 +1,7 @@
-<<<<<<< Updated upstream
+/.classpath
 /.project
+/controlleur/
+/fxml/
 /modele/
 /test/
 /vue/
-=======
-/test/
-/modele/
->>>>>>> Stashed changes
-/.classpath
-/controlleur/
-/modele/
-/test/
-/fxml/

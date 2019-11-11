@@ -9,15 +9,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import modele.*;
 
-public class LivraisonListViewCell extends ListCell<Livraison>{
+public class LivraisonListViewCell extends ListCell<LivraisonDisplay>{
 	  @Override
-	    public void updateItem(Livraison livraison, boolean empty)
+	    public void updateItem(LivraisonDisplay livraisonDisplay, boolean empty)
 	    {
-	        super.updateItem(livraison,empty);
-	        if(livraison != null)
+	        super.updateItem(livraisonDisplay,empty);
+	        if(livraisonDisplay != null)
 	        {
 	            Data data = new Data();
-	            data.setInfo(livraison);
+	            data.setInfo(livraisonDisplay);
 	            setGraphic(data.getPane());
 	        }
 	    }
