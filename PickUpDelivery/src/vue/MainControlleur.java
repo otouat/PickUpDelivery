@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -134,6 +135,11 @@ public class MainControlleur {
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		
+		            System.out.println(l.getLivraison().getNoeudEnlevement());
+		        });
 	}
 	
 	public void chargerTournee(ActionEvent event){
