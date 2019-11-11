@@ -21,7 +21,7 @@ public class ListeDeCdes {
         }
         indiceCrt++;
         liste.add(indiceCrt, c);
-        c.doCde();
+        c.doCommande();
     }
 	
 	/**
@@ -31,7 +31,7 @@ public class ListeDeCdes {
 		if (indiceCrt >= 0){
 			Commande cde = liste.get(indiceCrt);
 			indiceCrt--;
-			cde.undoCde();
+			cde.undoCommande();
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class ListeDeCdes {
 			Commande cde = liste.get(indiceCrt);
 			liste.remove(indiceCrt);
 			indiceCrt--;
-			cde.undoCde();
+			cde.undoCommande();
 		}
 	}
 
@@ -54,7 +54,7 @@ public class ListeDeCdes {
 		if (indiceCrt < liste.size()-1){
 			indiceCrt++;
 			Commande cde = liste.get(indiceCrt);
-			cde.doCde();
+			cde.doCommande();
 		}
 	}
 	

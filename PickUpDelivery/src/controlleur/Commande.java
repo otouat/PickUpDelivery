@@ -4,12 +4,12 @@ public interface Commande {
 	/*
 	 * Execute la commande this
 	 */
-	void doCde();
+	void doCommande();
 	
 	/*
 	 * Execute la commande invrse a this
 	 */
-	void undoCde();
+	void undoCommande();
 }
 
 
