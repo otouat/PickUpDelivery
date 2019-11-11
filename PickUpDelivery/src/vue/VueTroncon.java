@@ -27,7 +27,6 @@ public class VueTroncon {
 		for(Troncon troncon : tronconList) {
 			draw(troncon,lignesPlan);
 		}
-		//lignesPlan.getTransforms().add(scale);
 		paneMap.getChildren().add(lignesPlan);
 		return lignesPlan;
 	}
@@ -42,7 +41,5 @@ public class VueTroncon {
 		Line line = new Line(x1, y1, x2, y2);
 		group.getChildren().add(line); 
 	}
-	
-	
 	
 }

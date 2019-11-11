@@ -1,13 +1,16 @@
 package vue;
 
+
 import java.io.File;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.input.ZoomEvent;
 import javafx.scene.layout.BorderPane;
@@ -43,9 +46,11 @@ public class MainControlleur {
 	private Group lignesPlan;
 	private Group noeuds;
 	private Group livraisons;
+	private double x;
+	private double y;
+	
 	
 	public MainControlleur() {
-		
 	}
 	
 	public File selectFileXML() {
@@ -73,6 +78,22 @@ public class MainControlleur {
 			paneMap.setClip(new Rectangle (450,450));
 			lignesPlan=VueTroncon.drawTroncons(plan, paneMap);
 			noeuds= VueNoeud.drawClikableNoeud(plan, paneMap);
+			
+			paneMap.setOnMousePressed(new EventHandler<MouseEvent>() {
+			  @Override public void handle(MouseEvent mouseEvent) {
+			    x = lignesPlan.getLayoutX() - mouseEvent.getSceneX();
+			    y = lignesPlan.getLayoutY() - mouseEvent.getSceneY();
+			  }
+			});
+			paneMap.setOnMouseDragged(new EventHandler<MouseEvent>() {
+				  @Override public void handle(MouseEvent mouseEvent) {
+				    lignesPlan.setLayoutX(x+mouseEvent.getSceneX());
+				    System.out.println(lignesPlan.getLayoutX());
+				    noeuds.setLayoutX(x+mouseEvent.getSceneX());
+				    lignesPlan.setLayoutY(y+mouseEvent.getSceneY());
+				    noeuds.setLayoutY(y+mouseEvent.getSceneY());
+				  }
+				});
 			console.setText("Charger une demande de livraison. ");
 			chargerDemandeButton.setDisable(false);
 		}
@@ -91,13 +112,13 @@ public class MainControlleur {
 				e.printStackTrace();
 			}
 			demande = dataContainer.GetDemandeLivraison();
+			lignesPlan.getTransforms().clear();
+			noeuds.getTransforms().clear();
 			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, paneMap);
 			//console.setText("Charger une demande de livraison. ");
 			//chargerDemandeButton.setDisable(false);
 			
 		}
-		
-		
 	}
 	
 	public void Zoomer (ActionEvent event) {
