@@ -14,14 +14,23 @@ public class Instruction {
 
 		this.nomRueCourant = tronconCourant.GetNomRue();
 		this.longueur = tronconCourant.GetLongueur();
-		if (noeudSuivant.GetIdNoeud().contentEquals(noeudApres.GetIdNoeud())) {
-			toDo = "faire qqch";
-			direction = "";
+
+		Troncon tronconSuivant = plan.ChercherTronconDepuisDeuxNoeuds(noeudSuivant.GetIdNoeud(),
+				noeudApres.GetIdNoeud());
+		this.nomRueSuivant = tronconSuivant.GetNomRue();
+		this.direction = calculerDirection(noeudSuivant, noeudCourant, noeudApres);
+	}
+
+	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Plan plan, boolean typeNoeud) {
+		Troncon tronconCourant = plan.ChercherTronconDepuisDeuxNoeuds(noeudCourant.GetIdNoeud(),
+				noeudSuivant.GetIdNoeud());
+
+		this.nomRueCourant = tronconCourant.GetNomRue();
+		this.longueur = tronconCourant.GetLongueur();
+		if (typeNoeud == true) {
+			toDo = "récupérer un colis";
 		} else {
-			Troncon tronconSuivant = plan.ChercherTronconDepuisDeuxNoeuds(noeudSuivant.GetIdNoeud(),
-					noeudApres.GetIdNoeud());
-			this.nomRueSuivant = tronconSuivant.GetNomRue();
-			this.direction = calculerDirection(noeudSuivant, noeudCourant, noeudApres);
+			toDo = "livrer un colis";
 		}
 	}
 

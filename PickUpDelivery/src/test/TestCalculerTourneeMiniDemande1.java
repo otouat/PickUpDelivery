@@ -43,10 +43,14 @@ public class TestCalculerTourneeMiniDemande1 {
 			 * 
 			 * }
 			 */
+			System.out.println(tournee.getEnchainementNoeudAVisiter());
+			System.out.println(tournee.getNoeudAVisiter());
 
 			FeuilleDeRoute feuilleDeRoute = new FeuilleDeRoute(
-					dataContainer.GetDemandeLivraison().getEntrepotLivraison(), listTournee, dataContainer.GetPlan());
+					dataContainer.GetDemandeLivraison().getEntrepotLivraison(), listTournee, dataContainer.GetPlan(),
+					tournee);
 			System.out.println(feuilleDeRoute.toString());
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

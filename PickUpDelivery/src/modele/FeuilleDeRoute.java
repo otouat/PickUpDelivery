@@ -6,22 +6,34 @@ import java.util.List;
 public class FeuilleDeRoute {
 	private Entrepot entrepot;
 	private List<Instruction> instructions;
-	private List<Noeud> tournee;
+	private Tournee tournee;
+
+	private List<Noeud> listeTournee;
 	Plan plan;
 
-	public FeuilleDeRoute(Entrepot entrepot, List<Noeud> tournee, Plan plan) {
+	public FeuilleDeRoute(Entrepot entrepot, List<Noeud> listeTournee, Plan plan, Tournee tournee) {
+		this.tournee = tournee;
 		this.entrepot = entrepot;
 		this.instructions = new ArrayList<Instruction>();
-		this.tournee = tournee;
-		for (int i = 0; i < tournee.size() - 2; i++) {
-			Noeud noeudCourant = tournee.get(i);
-			Noeud noeudSuivant = tournee.get(i + 1);
-			Noeud noeudApres = tournee.get(i + 2);
+		this.listeTournee = listeTournee;
+		int n = 1;
+		for (int i = 0; i < listeTournee.size() - 2; i++) {
+			Noeud noeudCourant = listeTournee.get(i);
+			Noeud noeudSuivant = listeTournee.get(i + 1);
+			Noeud noeudApres = listeTournee.get(i + 2);
 			if (noeudCourant.GetIdNoeud().contentEquals(noeudSuivant.GetIdNoeud())) {
 				continue;
+			} else if (noeudSuivant.GetIdNoeud().contentEquals(noeudApres.GetIdNoeud())) {
+				Integer indice = tournee.getEnchainementNoeudAVisiter().get(n++);
+				System.out.println(indice);
+				System.out.println(tournee.getNoeudAVisiter().get(indice));
+				boolean typeNoeud = tournee.getNoeudAVisiter().get(indice).getThird();
+				Instruction instruction = new Instruction(noeudCourant, noeudSuivant, plan, typeNoeud);
+				instructions.add(instruction);
+			} else {
+				Instruction instruction = new Instruction(noeudCourant, noeudSuivant, noeudApres, plan);
+				instructions.add(instruction);
 			}
-			Instruction instruction = new Instruction(noeudCourant, noeudSuivant, noeudApres, plan);
-			instructions.add(instruction);
 		}
 	}
 
