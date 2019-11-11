@@ -3,6 +3,7 @@ package vue;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -43,15 +44,20 @@ public class VueDemandeLivraison {
         	
         	Noeud pickup = l.getNoeudEnlevement();
         	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,couleurs.get(i));
+    		cercleP.setId(pickup.GetIdNoeud());
+        	
+    		cercleP.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+	            System.out.println(cercleP.getId());
+	        });
     		
-        	Noeud delivery = l.getNoeudLivraison();
+    		Noeud delivery = l.getNoeudLivraison();
         	Rectangle rectangle = new Rectangle(VueUtils.getNewX(delivery.GetLongitude())-5,VueUtils.getNewY(delivery.GetLatitude())-5,10,10);
         	rectangle.setFill(couleurs.get(i));
+        	rectangle.setId(delivery.GetIdNoeud());
         	
         	livraisonPane.getChildren().addAll(cercleP,rectangle);
         	i++;
         }
-		
 		
 		
 	}

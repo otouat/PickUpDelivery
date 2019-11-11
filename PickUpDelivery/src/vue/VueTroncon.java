@@ -82,6 +82,12 @@ public class VueTroncon {
 		tourneePane.getChildren().add(line); 
 	}
 	
+	public static void supprimerLivraison(String idNoeud, List<Noeud> noeuds) {
+		
+		
+		
+	}
+	
 
 	
 }

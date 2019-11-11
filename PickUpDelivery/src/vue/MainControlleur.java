@@ -139,7 +139,7 @@ public class MainControlleur {
 	public void chargerTournee(ActionEvent event){
 		
 		tournee = new Tournee();
-	
+		
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
 		VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
