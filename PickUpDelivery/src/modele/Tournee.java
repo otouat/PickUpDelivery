@@ -16,7 +16,7 @@ public class Tournee {
 	private List<HashMap<Noeud, Noeud>> plusCourtChemins;
 	private HashMap<Integer, Integer> precedence;
 	List<Noeud> enchainementNoeud;
-	List<Noeud> enchainementNoeudAVisiter;
+	List<Integer> enchainementNoeudAVisiter;
 
 	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
 		String idNoeudEntrepot = entrepot.GetIdNoeud();
@@ -24,7 +24,7 @@ public class Tournee {
 		this.livraisons = livraisons;
 		this.plan = plan;
 		this.enchainementNoeud = new ArrayList<Noeud>();
-		this.enchainementNoeudAVisiter = new ArrayList<Noeud>();
+		this.enchainementNoeudAVisiter = new ArrayList<Integer>();
 		this.mapNoeuds = new HashMap<Noeud, Integer>();
 		this.noeudAVisiter = new HashMap<Integer, Triplet<Noeud,Livraison,Boolean>>();
 		this.plusCourtChemins = new ArrayList<HashMap<Noeud, Noeud>>();
@@ -73,18 +73,75 @@ public class Tournee {
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
 			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud).getFirst();
-			this.enchainementNoeudAVisiter.add(noeudActuel);
+			this.enchainementNoeudAVisiter.add(indiceNoeud);
 			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
 			
 			this.enchainementNoeud.addAll(chemin);
 			
 		}
-		this.enchainementNoeudAVisiter.add(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)).getFirst());
+		this.enchainementNoeudAVisiter.add(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1));
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
 				(Noeud) this.entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)).getFirst());
 		this.enchainementNoeud.addAll(chemin);
 		return this.enchainementNoeud;
+
+	}
+	
+	public List<Noeud> recalculTournee(Noeud noeudChange,Integer rangNoeudAChanger) {
+		
+		Integer indiceNoeud;
+		Integer indiceNoeudSuivant;
+		HashMap<Noeud, Noeud> courtChemin;
+		Noeud noeudActuel;
+		Noeud noeudSuivant;
+		List<Noeud> enchainementNoeudBis=new ArrayList<Noeud>();
+		List<Integer> enchainementNoeudAVisiterBis=new ArrayList<Integer>();
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
+		Integer indiceNoeudAChanger=enchainementNoeudAVisiter.get(rangNoeudAChanger);
+		
+		Triplet<Noeud,Livraison,Boolean> tripletAChanger=this.noeudAVisiter.get(indiceNoeudAChanger);
+		tripletAChanger.setFirst(noeudChange);
+		noeudAVisiter.put(indiceNoeudAChanger,tripletAChanger);
+		dijkstra(noeudChange);
+		
+		for (Integer i = 0; i < noeudAVisiter.size()-1; i++) {
+			
+			indiceNoeud = this.enchainementNoeudAVisiter.get(i);
+			indiceNoeudSuivant = this.enchainementNoeudAVisiter.get(i+1);
+			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud).getFirst();
+			enchainementNoeudAVisiterBis.add(indiceNoeud);
+			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant).getFirst();
+			if(i==rangNoeudAChanger) {
+				courtChemin=plusCourtChemins.get(plusCourtChemins.size()-1);
+			}
+			else {
+				courtChemin = plusCourtChemins.get(indiceNoeud);
+			}
+			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
+			
+			enchainementNoeudBis.addAll(chemin);
+			
+		}
+		
+		if(rangNoeudAChanger==noeudAVisiter.size()-1) {
+			courtChemin=plusCourtChemins.get(plusCourtChemins.size()-1);
+		}
+		else {
+			courtChemin = plusCourtChemins.get(noeudAVisiter.size()-1);
+		}
+		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size()-1));
+		chemin = parcoursChemin(courtChemin,
+				(Noeud) this.entrepot,noeudAVisiter.get(noeudAVisiter.size()-1).getFirst());
+		
+		enchainementNoeudBis.addAll(chemin);
+		
+		this.enchainementNoeud.clear();
+		this.enchainementNoeudAVisiter.clear();
+		this.enchainementNoeud.addAll(enchainementNoeudBis);
+		this.enchainementNoeudAVisiter.addAll(enchainementNoeudAVisiterBis);
+		
+		return enchainementNoeudBis;
 
 	}
 	
