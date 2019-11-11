@@ -44,7 +44,9 @@ public class VueTroncon {
 		Circle circuit = new Circle(3.5,Color.CRIMSON);
 		
 		PathTransition pathT = new PathTransition();
-		pathT.setDuration(Duration.millis(3200));
+		double time = noeuds.size()*0.3 ;
+		System.out.println(time);
+		pathT.setDuration(Duration.seconds(time));
 		pathT.setPath(path);
 		pathT.setNode(circuit);
 		pathT.setCycleCount(Timeline.INDEFINITE);

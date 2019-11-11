@@ -126,13 +126,12 @@ public class MainControlleur {
 	public void chargerTournee(ActionEvent event){
 		
 		tournee = new Tournee();
-		//pourquoi mettre une map ?
-		//tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
-		//VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
-		
+	
+		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
-		VueTroncon.drawTournee(tournee.FausseTourneePetitIHM(), tourneePane);
-		console.setText("Vous pouvez maintenant modifier la tournï¿½e ou gï¿½nï¿½rer une feuille de route. ");
+		VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
+		
+		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
 	}
 
