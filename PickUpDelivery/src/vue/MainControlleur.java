@@ -22,26 +22,26 @@ import modele.Livraison;
 
 public class MainControlleur {
 	@FXML
-	private Button chargerPlanBoutton;
+	public Button chargerPlanBoutton;
 	@FXML
-	private Button chargerDemandeButton;
+	public Button chargerDemandeButton;
 	@FXML
-	private Button calculerTourneeButton;
+	public Button calculerTourneeButton;
 	@FXML
-	private Button genererFeuilleRouteButton;
+	public Button genererFeuilleRouteButton;
 	
 	@FXML
-	private BorderPane paneMap;
+	public BorderPane paneMap;
 	@FXML 
-	private AnchorPane tourneePane;
+	public AnchorPane tourneePane;
 	@FXML 
-	private AnchorPane livraisonPane;
+	public AnchorPane livraisonPane;
 	
 	@FXML
-	private TextArea console;
+	public TextArea console;
 	
 	@FXML
-	private ListView listview;
+	public ListView listview;
 	
 	
 	
@@ -146,6 +146,10 @@ public class MainControlleur {
 		
 		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
+	}
+	
+	public void reInitialiseListView(){
+		
 	}
 
 }

@@ -20,7 +20,7 @@ public interface Etat {
 		 * @param c le controleur
 		 * @param f la fenetre
 		 */
-	public default void chargerDemandeLivraison(Controleur c, MainControlleur f){};
+	public void chargerDemandeLivraison(Controleur c, MainControlleur f);
 		
 		
 	public void calculerTournee(Controleur c, MainControlleur f);

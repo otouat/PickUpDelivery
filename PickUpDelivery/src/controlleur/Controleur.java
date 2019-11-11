@@ -3,37 +3,39 @@ package controlleur;
 import modele.DataContainer;
 import modele.DemandeLivraison;
 import modele.Plan;
+import modele.Tournee;
 import modele.Noeud;
 import vue.MainControlleur;
 
 public class Controleur {
-	private DataContainer dataContainer ;
+	private DataContainer dataContainer;
 	private Plan plan;
 	private DemandeLivraison demandeLivraison;
 	private MainControlleur fenetre;
 	private ListeDeCommandes listeDeCommandes;
+	private Tournee tournee;
 	private Etat etatCourant;
 	
 	// Instances associees a chaque etat possible du controleur
-	protected final EtatInit etatInit = new EtatInit();
-	protected final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
-	protected final EtatDemandeCharge etatDemandeCharge = new EtatDemandeCharge();
-	protected final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
-	protected final EtatTourneeModifiee etatTourneeModifiee = new EtatTourneeModifiee();
-	protected final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
-	protected final EtatFeuilleDeRouteModifiee etatFeuilleDeRouteModifiee = new EtatFeuilleDeRouteModifiee();
-	protected final EtatSupprimer etatSupprimer = new EtatSupprimer();
+	public final EtatInit etatInit = new EtatInit();
+	public final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
+	public final EtatDemandeCharge etatDemandeCharge = new EtatDemandeCharge();
+	public final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
+	public final EtatTourneeModifiee etatTourneeModifiee = new EtatTourneeModifiee();
+	public final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
+	public final EtatFeuilleDeRouteModifiee etatFeuilleDeRouteModifiee = new EtatFeuilleDeRouteModifiee();
+	public final EtatSupprimer etatSupprimer = new EtatSupprimer();
 
 	/**
 	 * Cree le controleur de l'applcation
 	 * @param datacontainer le datacontainer avec le plan,demande de livraison
 	 * @param echelle l'echelle de la vue graphique de p
 	 */
-	public Controleur(DataContainer datacontainer) {
-		this.dataContainer=datacontainer;
-		plan=dataContainer.GetPlan();
-		demandeLivraison= dataContainer.GetDemandeLivraison();
-		listeDeCommandes = new ListeDeCommandes();
+	public Controleur(DataContainer dataContainer) {
+		this.dataContainer=dataContainer;
+		//plan=dataContainer.GetPlan();
+		//demandeLivraison= dataContainer.GetDemandeLivraison();
+		//listeDeCommandes = new ListeDeCommandes();
 		etatCourant = etatInit;
 		
 	}
@@ -94,6 +96,51 @@ public class Controleur {
 	public void redo(){
 		etatCourant.redo(this,listeDeCommandes,fenetre);
 	}
+
+	
+	//GETTER AND SETTER
+	
+	public DataContainer getDataContainer() {
+		return dataContainer;
+	}
+
+	public void setDataContainer(DataContainer dataContainer) {
+		this.dataContainer = dataContainer;
+	}
+
+	public Plan getPlan() {
+		return plan;
+	}
+
+	public void setPlan(Plan plan) {
+		this.plan = plan;
+	}
+
+	public MainControlleur getFenetre() {
+		return fenetre;
+	}
+
+	public void setFenetre(MainControlleur fenetre) {
+		this.fenetre = fenetre;
+	}
+
+	public DemandeLivraison getDemandeLivraison() {
+		return demandeLivraison;
+	}
+
+	public void setDemandeLivraison(DemandeLivraison demandeLivraison) {
+		this.demandeLivraison = demandeLivraison;
+	}
+
+	public Tournee getTournee() {
+		return tournee;
+	}
+
+	public void setTournee(Tournee tournee) {
+		this.tournee = tournee;
+	}
+	
+	
 	
 	
 	

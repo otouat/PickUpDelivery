@@ -15,6 +15,12 @@ public class EtatInit implements Etat {
 	}
 
 	@Override
+	public void chargerDemandeLivraison(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
 	public void calculerTournee(Controleur c, MainControlleur f) {
 		// TODO Auto-generated method stub
 		
