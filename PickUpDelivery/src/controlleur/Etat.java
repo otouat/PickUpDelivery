@@ -104,7 +104,7 @@ public interface Etat {
 		 * @param l la liste de commandes en cours
 		 * @param p les coordonnees du noeud clique
 		 */
-		public default void clicGauche(Controleur c, MainControlleur f, ListeDeCdes l, Noeud n){};
+		public default void clicGauche(Controleur c, MainControlleur f, ListeDeCommandes l, Noeud n){};
 	}
 
 

@@ -11,7 +11,7 @@ public class Controleur {
 	private Plan plan;
 	private DemandeLivraison demandeLivraison;
 	private MainControlleur fenetre;
-	private ListeDeCdes listeDeCdes;
+	private ListeDeCommandes listeDeCommandes;
 	private Etat etatCourant;
 	
 	// Instances associees a chaque etat possible du controleur
@@ -33,7 +33,7 @@ public class Controleur {
 		this.dataContainer=datacontainer;
 		plan=dataContainer.GetPlan();
 		demandeLivraison= dataContainer.GetDemandeLivraison();
-		listeDeCdes = new ListeDeCdes();
+		listeDeCommandes = new ListeDeCommandes();
 		etatCourant = etatInit;
 		
 	}
@@ -67,7 +67,7 @@ public class Controleur {
 	 * Methode appelee par fenetre apres un clic sur le bouton "Supprimer des formes"
 	 */
 	public void supprimer() {
-		etatCourant.supprimer(this, fenetre);
+		etatCourant.supprimerLivraison(this, fenetre);
 	}
 
 	/**
@@ -80,79 +80,24 @@ public class Controleur {
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(this, fenetre);
 	}
-	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Diminuer echelle"
-	 */
-	public void diminuerEchelle(){
-		etatCourant.diminuerEchelle( fenetre);
-	}
-
-	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Augmenter echelle"
-	 */
-	public void augmenterEchelle(){
-		etatCourant.augmenterEchelle(fenetre);
-	}
 	
 	/**
 	 * Methode appelee par la fenetre quand l'utilisateur clique sur le bouton "Undo"
 	 */
 	public void undo(){
-		etatCourant.undo(listeDeCdes);
+		etatCourant.undo(this,  listeDeCommandes, fenetre);
 	}
 
 	/**
 	 * Methode appelee par fenetre apres un clic sur le bouton "Redo"
 	 */
 	public void redo(){
-		etatCourant.redo(listeDeCdes);
+		etatCourant.redo(this,listeDeCommandes,fenetre);
 	}
 	
-	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Sauver le plan"
-	 */
-	public void sauver() {
-		etatCourant.sauver(plan, fenetre);
-	}
-
-	/**
-	 * Methode appelee par fenetre apres un clic sur le bouton "Ouvrir un plan"
-	 */
-	public void ouvrir() {
-		
-	}
-
-	/**
-	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue graphique
-	 * Precondition : p != null
-	 * @param p = coordonnees du plan correspondant au point clique
-	 */
-	public void clicGauche(Noeud n) {
-		etatCourant.clicGauche(this, fenetre,plan,listeDeCdes,n);
-	}
-	/**
-	 * Methode appelee par fenetre apres un clic droit
-	 */
-	public void clicDroit(){
-		etatCourant.clicDroit(this, fenetre, listeDeCdes);
-	}
-
-	/**
-	 * Methode appelee par fenetre apres un deplacement de la souris sur la vue graphique du plan
-	 * Precondition : p != null
-	 * @param p = coordonnees du plan correspondant a la position de la souris
-	 */
-	public void sourisBougee(Noeud n) {
-		etatCourant.sourisBougee(plan, n);
-	}
-
-	/**
-	 * Methode appelee par fenetre apres la saisie d'un caractere au clavier
-	 * @param codeCar le code ASCII du caractere saisi
-	 */
-	public void caractereSaisi(int codeCar) {
-		etatCourant.carSaisi(plan, listeDeCdes, codeCar);
-	}
+	
+	
+	
 }
 	
 

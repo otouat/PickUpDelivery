@@ -7,23 +7,40 @@ import modele.Plan;
 import vue.MainControlleur;
 
 public class EtatInit implements Etat {
-	public File selectFileXML() {
-		FileChooser fc = new FileChooser();
-		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
-		File selectedFile = fc.showOpenDialog(null);
-		
-		return selectedFile;
+
+	@Override
+	public void chargerPlan(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
 		
 	}
-	 
-	public void chargerPlan(Controleur c,MainControlleur fenetre,File selectedFile) {
-		DataContainer dataContainer= new DataContainer();//change
-		try {
-			dataContainer.chargerPlan(selectedFile.getAbsolutePath());
-		} catch (Exception e) {
-			// TODO Auto-generated catch bloc
-			e.printStackTrace();
-		}
-		// setEtatPlanCh
+
+	@Override
+	public void calculerTournee(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ajouterLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void supprimerLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void echangerLivraisons(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
 	}
 }
