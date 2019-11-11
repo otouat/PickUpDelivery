@@ -1,5 +1,5 @@
 package controlleur;
 
-public class EtatDemandeCharge implements Etat {
+public class EtatDemandeCharge extends EtatInit {
 	
 }

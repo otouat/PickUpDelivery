@@ -1,5 +1,5 @@
 package controlleur;
 
-public class EtatFeuilleDeRouteModifiee implements Etat {
+public class EtatFeuilleDeRouteModifiee extends EtatInit {
 	
 }

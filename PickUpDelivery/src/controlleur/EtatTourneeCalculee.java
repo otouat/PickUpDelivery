@@ -1,5 +1,5 @@
 package controlleur;
 
-public class EtatTourneeCalculee implements Etat {
+public class EtatTourneeCalculee extends EtatInit {
 	
 }
