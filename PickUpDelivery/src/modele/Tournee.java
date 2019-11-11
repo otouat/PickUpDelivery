@@ -9,21 +9,25 @@ import java.util.PriorityQueue;
 public class Tournee {
 	private Noeud entrepot;
 	private List<Livraison> livraisons;
-	private HashMap<Integer, Noeud> noeudAVisiter;
+	private HashMap<Integer, Triplet<Noeud,Livraison,Boolean>> noeudAVisiter;
 	private HashMap<Noeud, Integer> mapNoeuds;
 	private Plan plan;
 	private HashMap<Integer, Integer> mapDureeVisite;
 	private List<HashMap<Noeud, Noeud>> plusCourtChemins;
 	private HashMap<Integer, Integer> precedence;
+	List<Noeud> enchainementNoeud;
+	List<Noeud> enchainementNoeudAVisiter;
 
 	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
 		String idNoeudEntrepot = entrepot.GetIdNoeud();
 		this.entrepot  = plan.getNoeuds().get(idNoeudEntrepot);
 		this.livraisons = livraisons;
 		this.plan = plan;
-		mapNoeuds = new HashMap<Noeud, Integer>();
-		noeudAVisiter = new HashMap<Integer, Noeud>();
-		plusCourtChemins = new ArrayList<HashMap<Noeud, Noeud>>();
+		this.enchainementNoeud = new ArrayList<Noeud>();
+		this.enchainementNoeudAVisiter = new ArrayList<Noeud>();
+		this.mapNoeuds = new HashMap<Noeud, Integer>();
+		this.noeudAVisiter = new HashMap<Integer, Triplet<Noeud,Livraison,Boolean>>();
+		this.plusCourtChemins = new ArrayList<HashMap<Noeud, Noeud>>();
 		setNoeudAVisiter();
 		setNoeudPlan();
 	}
@@ -33,7 +37,6 @@ public class Tournee {
 
 	public List<Noeud> calculTournee() {
 
-		List<Noeud> enchainementNoeud = new ArrayList<Noeud>();
 		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()];
 		int[] distanceDijkstra = new int[plan.getNoeuds().size()];
 		int[] dureeVisite = new int[noeudAVisiter.size()];
@@ -41,10 +44,10 @@ public class Tournee {
 		// System.out.println(mapNoeuds.toString());
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			// System.out.println(noeudAVisiter.get(i).toString());
-			distanceDijkstra = dijkstra(noeudAVisiter.get(i));
+			distanceDijkstra = dijkstra(noeudAVisiter.get(i).getFirst());
 			for (Integer j = 0; j > i && j < noeudAVisiter.size(); j++) {
-				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j))];
-				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j))];
+				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j).getFirst())];
+				cout[j][i] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j).getFirst())];
 			}
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
@@ -52,33 +55,36 @@ public class Tournee {
 		System.out.println(precedence);
 
 		TSP2 voyageurCommerce = new TSP2();
-		voyageurCommerce.chercheSolution(20000, noeudAVisiter.size(), cout, dureeVisite,precedence);
+		voyageurCommerce.chercheSolution(2000, noeudAVisiter.size(), cout, dureeVisite,precedence);
+		
 		Integer indiceNoeud;
 		Integer indiceNoeudSuivant;
 		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
-		//System.out.println(plusCourtChemins);
+		
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)));
+			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
 		}
+		System.out.println("--------------------------\n");
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 		for (Integer i = 0; i < noeudAVisiter.size()-1; i++) {
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
-			
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
-			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud);
-			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant);
+			noeudActuel = (Noeud)noeudAVisiter.get(indiceNoeud).getFirst();
+			this.enchainementNoeudAVisiter.add(noeudActuel);
+			noeudSuivant = (Noeud)noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
-			enchainementNoeud.addAll(chemin);
-			//System.out.println(chemin);
+			
+			this.enchainementNoeud.addAll(chemin);
 			
 		}
+		this.enchainementNoeudAVisiter.add(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)).getFirst());
 		chemin = parcoursChemin(plusCourtChemins.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)),
-				(Noeud) entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)));
-		enchainementNoeud.addAll(chemin);
-		return enchainementNoeud;
+				(Noeud) this.entrepot, noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)).getFirst());
+		this.enchainementNoeud.addAll(chemin);
+		return this.enchainementNoeud;
 
 	}
 	
@@ -142,7 +148,7 @@ public class Tournee {
 			Noeud n = listeAttente.poll().getNoeud();
 			for (Troncon troncon : n.tronconsDepuisLeNoeud) {
 				Noeud noeud = troncon.GetNoeudDestination();
-				Integer cout = (int) troncon.GetLongueur();
+				Integer cout = (int) (troncon.GetLongueur()/4.166);
 				if (distanceAuNoeudSource[mapNoeuds.get(noeud)] > distanceAuNoeudSource[mapNoeuds.get(n)] + cout) {
 					distanceAuNoeudSource[mapNoeuds.get(noeud)] = distanceAuNoeudSource[mapNoeuds.get(n)] + cout;
 					tableauPrecedence.put(noeud, n);
@@ -158,25 +164,25 @@ public class Tournee {
 
 	private void setNoeudAVisiter() {
 
-		ArrayList<Noeud> ensembleNoeudAVisiter = new ArrayList<Noeud>();
+
 
 		mapDureeVisite = new HashMap<Integer, Integer>();
 
 		mapDureeVisite.put(0, 0);
 		Integer indice = 1;
+		Integer indiceBis = 1;
 		for (Livraison it : livraisons) {
-			ensembleNoeudAVisiter.add(it.getNoeudEnlevement());
+			Triplet<Noeud,Livraison,Boolean> noeudEnlevement=new Triplet<Noeud,Livraison,Boolean>(it.getNoeudEnlevement(),it,true);
+			Triplet<Noeud,Livraison,Boolean> noeudLivraison=new Triplet<Noeud,Livraison,Boolean>(it.getNoeudLivraison(),it,false);
+			noeudAVisiter.put(indiceBis++, noeudEnlevement);
+			noeudAVisiter.put(indiceBis++, noeudLivraison);
 			mapDureeVisite.put(indice++, it.getDureeEnlevement());
-			ensembleNoeudAVisiter.add(it.getNoeudLivraison());
 			mapDureeVisite.put(indice++, it.getDureeLivraison());
 		}
 
-		noeudAVisiter.put(0, entrepot);
-		indice = 1;
-
-		for (Noeud it : ensembleNoeudAVisiter) {
-			noeudAVisiter.put(indice++, it);
-		}
+		Triplet<Noeud,Livraison,Boolean> tripletEntrepot=new Triplet<Noeud,Livraison,Boolean>(this.entrepot,null,null);
+		noeudAVisiter.put(0, tripletEntrepot);
+		
 
 	}
 
