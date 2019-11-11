@@ -1,6 +1,7 @@
 package vue;
 
 import java.io.File;
+import java.util.List;
 import java.util.Observable;
 
 import javafx.collections.FXCollections;
@@ -113,11 +114,23 @@ public class MainControlleur {
 	
 	
 	public void initialiseListView(){
-		ObservableList<Livraison> observable = FXCollections.observableArrayList();
+		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+		
+		List<Livraison> livraisonList = demande.getLivraisons();
+		for(int i=0;i<livraisonList.size();i++) {
+			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
+			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
+			observable.add(livraisonDisplay1);
+			observable.add(livraisonDisplay2);
+		}
+		
+	/*	observable.addAll(
+                demande.getLivraisons()
+        );
 		
 		observable.addAll(
                 demande.getLivraisons()
-        );
+        ); */
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
