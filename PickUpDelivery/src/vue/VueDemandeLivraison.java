@@ -3,6 +3,7 @@ package vue;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -23,9 +24,9 @@ public class VueDemandeLivraison {
 	
 
 		
-	public static void drawDemandeLivraison(Plan plan,DemandeLivraison demande, AnchorPane livraisonPane) {
+	public static Group drawDemandeLivraison(Plan plan,DemandeLivraison demande, AnchorPane livraisonPane, List<LivraisonDisplay> livraisonsVue) {
 	
-
+		Group livraisons = new Group();
 		Entrepot entrepot = demande.getEntrepotLivraison();
 		VueUtils.initalisationDonnees(plan, livraisonPane);
 		double x_entrepot = VueUtils.getNewX(entrepot.GetLongitude());
@@ -40,24 +41,25 @@ public class VueDemandeLivraison {
         
         //Create Pick up
         int i=0;
-        for (Livraison l : demande.getLivraisons()) {
-        	
-        	Noeud pickup = l.getNoeudEnlevement();
-        	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,couleurs.get(i));
+        for (Livraison liv : demande.getLivraisons()) {
+        	LivraisonDisplay lPickUp = new LivraisonDisplay(liv.getNoeudEnlevement(),false,couleurs.get(i));
+        	livraisonsVue.add(lPickUp);
+        	Noeud pickup = lPickUp.getNoeud();
+        	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,lPickUp.getColor());
     		cercleP.setId(pickup.GetIdNoeud());
         	
-    		cercleP.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-	            System.out.println(cercleP.getId());
-	        });
-    		
-    		Noeud delivery = l.getNoeudLivraison();
+    		LivraisonDisplay lDelivery = new LivraisonDisplay(liv.getNoeudLivraison(),false,couleurs.get(i));
+    		livraisonsVue.add(lDelivery);
+    		Noeud delivery = lDelivery.getNoeud();
         	Rectangle rectangle = new Rectangle(VueUtils.getNewX(delivery.GetLongitude())-5,VueUtils.getNewY(delivery.GetLatitude())-5,10,10);
-        	rectangle.setFill(couleurs.get(i));
+        	rectangle.setFill(lDelivery.getColor());
         	rectangle.setId(delivery.GetIdNoeud());
         	
-        	livraisonPane.getChildren().addAll(cercleP,rectangle);
+        	livraisons.getChildren().addAll(cercleP,rectangle);
         	i++;
         }
+        livraisonPane.getChildren().add(livraisons);
+        return livraisons;
 		
 		
 	}

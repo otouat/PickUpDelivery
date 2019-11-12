@@ -5,18 +5,18 @@ import modele.Livraison;
 import modele.Noeud;
 
 public class LivraisonDisplay {
-	private Livraison livraison;
+	private Noeud noeud;
 	private Boolean isPickup;
 	private Color color;
 	
-	public LivraisonDisplay(Livraison livraison, Boolean isPickup, Color color) {
-		this.livraison = livraison;
+	public LivraisonDisplay(Noeud noeud, Boolean isPickup, Color color) {
+		this.noeud = noeud;
 		this.isPickup = isPickup;
 		this.color = color;
 	}
 	
-	public Livraison getLivraison() {
-		return livraison;
+	public Noeud getNoeud() {
+		return noeud;
 	}
 
 	public Boolean getIsPickup() {

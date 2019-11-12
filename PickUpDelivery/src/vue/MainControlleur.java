@@ -1,19 +1,27 @@
 package vue;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.FileChooser;
 import modele.DataContainer;
 import modele.DemandeLivraison;
@@ -30,6 +38,8 @@ public class MainControlleur {
 	private Button calculerTourneeButton;
 	@FXML
 	private Button genererFeuilleRouteButton;
+	@FXML
+	private Button supprimer;
 	
 	@FXML
 	private BorderPane paneMap;
@@ -50,6 +60,8 @@ public class MainControlleur {
 	private Plan plan;
 	private DataContainer dataContainer= new DataContainer() ;
 	private Tournee tournee;
+	private Group livraisons;
+	private List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
 	
 	
 	public File selectFileXML() {
@@ -103,10 +115,10 @@ public class MainControlleur {
 			
 			livraisonPane.getChildren().clear();
 			tourneePane.getChildren().clear();
-			VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
+			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 			
 			initialiseListView();
-			console.setText("Charger une tournï¿½e. ");
+			console.setText("Charger une tournee. ");
 			calculerTourneeButton.setDisable(false);
 			
 		}
@@ -117,12 +129,15 @@ public class MainControlleur {
 	public void initialiseListView(){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
-		List<Livraison> livraisonList = demande.getLivraisons();
+		/*List<Livraison> livraisonList = demande.getLivraisons();
 		for(int i=0;i<livraisonList.size();i++) {
 			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
+	LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
 			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
+			observable.add(livraisonDisplay);
+		}*/
+		for (LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);			
 		}
 		
 	/*	observable.addAll(
@@ -136,9 +151,19 @@ public class MainControlleur {
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
-			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
-		
-		            System.out.println(l.getLivraison().getNoeudEnlevement());
+			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();		
+		            System.out.println(l.getNoeud().GetIdNoeud());
+		           //recherche par id
+		            DropShadow b  = new DropShadow();
+		            for (Node n : livraisons.getChildren()) {
+		            	Shape s = (Shape)n;
+		            	s.setEffect(null);
+		            	if(l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
+					        s.setEffect(b);
+		            	}else if (! l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
+		            		 s.setEffect(b);            		
+		            	}
+		            }
 		        });
 	}
 	
@@ -153,5 +178,21 @@ public class MainControlleur {
 		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
 	}
+	
+	public void supprimerLivraison(ActionEvent event) {
+		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		for (Node n : livraisons.getChildren()) {
+			if(l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
+				Shape s = (Shape)n;
+				livraisons.getChildren().remove(s);
+			}else if(! l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()){
+				Shape s = (Shape)n;
+				livraisons.getChildren().remove(s);
+			}
+		}
+		
+	
+	}
+	
 
 }
