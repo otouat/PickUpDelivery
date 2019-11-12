@@ -45,7 +45,6 @@ public class VueTroncon {
 		
 		PathTransition pathT = new PathTransition();
 		double time = noeuds.size()*0.3 ;
-		System.out.println(time);
 		pathT.setDuration(Duration.seconds(time));
 		pathT.setPath(path);
 		pathT.setNode(circuit);

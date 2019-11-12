@@ -50,10 +50,6 @@ public class Tournee {
 		calculPrecedence();
 	}
 
-	// Constructeur test IHM
-	public Tournee() {
-	}
-	
 	public HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> getNoeudAVisiter() {
 		return noeudAVisiter;
 	}
@@ -72,6 +68,9 @@ public class Tournee {
 
 	public List<Integer> getEnchainementNoeudAVisiter(){
 		return this.enchainementNoeudAVisiter;
+	}
+	public List<Triplet<Noeud, Livraison, Boolean>> getenchainementNoeudAVisiterAvecInfos(){
+		return enchainementNoeudAVisiterAvecInfos;
 	}
 
 	/**
@@ -112,7 +111,7 @@ public class Tournee {
 		voyageurCommerce.chercheSolution(300000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
+			System.out.println("-------- "+noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
 		}
 
 		//Etablit l'enchainement de noeuds final a renvoyer de l'entrepot vers le dernier noeud a visiter
