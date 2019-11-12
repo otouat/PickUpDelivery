@@ -30,7 +30,7 @@ public class EtatPlanCharge extends EtatInit {
 			VueUtils.initalisationDonnees(c.getPlan(),c.getFenetre().paneMap);
 
 			VueTroncon.drawTroncons(c.getPlan(), c.getFenetre().paneMap);
-			VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
+			//VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
 			c.getFenetre().console.setText("Charger une demande de livraison. ");
 			c.getFenetre().chargerDemandeButton.setDisable(false);
 			

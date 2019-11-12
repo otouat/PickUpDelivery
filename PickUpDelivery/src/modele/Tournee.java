@@ -55,8 +55,8 @@ public class Tournee {
 	}
 
 	/**
-	 * Methode calculant la tournée optimisée à partir des attributs indiqués plus
-	 * tôt dans le constructeur
+	 * Methode calculant la tournï¿½e optimisï¿½e ï¿½ partir des attributs indiquï¿½s plus
+	 * tï¿½t dans le constructeur
 	 * 
 	 * @return une liste stockant tous les noeuds du plan sur lesquels on passe pour
 	 *         effectuer la tournee
@@ -69,43 +69,43 @@ public class Tournee {
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
 		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()]; //Tableau de couts de tous les chemins du plan
-		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout à partir d'un noeud
-		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout à partir d'un noeud
+		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout ï¿½ partir d'un noeud
+		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout ï¿½ partir d'un noeud
 		TSP2 voyageurCommerce = new TSP2();//Initialise la classe de calcul du tsp
-		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds à visiter
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds ï¿½ visiter
 
 		//On calcule ici le tableau des couts
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			//Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud à visiter indicié par i ( dans noeudAVisiter)
+			//Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud ï¿½ visiter indiciï¿½ par i ( dans noeudAVisiter)
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i).getFirst());
 			
 			for (Integer j = 0; j < noeudAVisiter.size(); j++) {
-				//Recupere les couts de trajet entre les noeuds à visiter repérées par leur indice dans mapNoeuds
+				//Recupere les couts de trajet entre les noeuds ï¿½ visiter repï¿½rï¿½es par leur indice dans mapNoeuds
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j).getFirst())];
 			}
 			
-			//Recupere la durée de visite du noeud à visiter indicié par i ( dans noeudAVisiter)
+			//Recupere la durï¿½e de visite du noeud ï¿½ visiter indiciï¿½ par i ( dans noeudAVisiter)
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
 		
-		//Execute la méthode de calcul de la tournée
+		//Execute la mï¿½thode de calcul de la tournï¿½e
 		voyageurCommerce.chercheSolution(2000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
 		}
 
-		//Etablit l'enchainement de noeuds final à renvoyer de l'entrepot vers le dernier noeud à visiter
+		//Etablit l'enchainement de noeuds final ï¿½ renvoyer de l'entrepot vers le dernier noeud ï¿½ visiter
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
-			//Recupère les indices des noeuds à visiter depuis le résultat du tsp ( les indices dans noeudAVisiter)
+			//Recupï¿½re les indices des noeuds ï¿½ visiter depuis le rï¿½sultat du tsp ( les indices dans noeudAVisiter)
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
 			
-			//Récupère les noeuds à visiter ( actuel et suivant) 
+			//Rï¿½cupï¿½re les noeuds ï¿½ visiter ( actuel et suivant) 
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			
-			//Récupère le tableau de précédence depuis le noeud Actuel
+			//Rï¿½cupï¿½re le tableau de prï¿½cï¿½dence depuis le noeud Actuel
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			
 			//Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et enchainementNoeudAVisiterAvecInfos
@@ -131,11 +131,11 @@ public class Tournee {
 	}
 
 	/**
-	 * Methode recalculant la tournée à partir du changement d'un noeud parmi ceux à
+	 * Methode recalculant la tournï¿½e ï¿½ partir du changement d'un noeud parmi ceux ï¿½
 	 * visiter
 	 * 
 	 * @param noeudChange:      le nouveau noeud remplacant de l'ancien
-	 * @param rangNoeudAChanger : rang du noeud à changer
+	 * @param rangNoeudAChanger : rang du noeud ï¿½ changer
 	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
 	 */
 	public List<Noeud> recalculTournee(Noeud noeudChange, Integer rangNoeudAChanger) {
@@ -214,12 +214,12 @@ public class Tournee {
 	/**
 	 * Methode qui donne le plus court chemin entre noeudActuel et noeudSuivant
 	 * 
-	 * @param courtChemin: tableau de précédence ayant comme noeud source le
+	 * @param courtChemin: tableau de prï¿½cï¿½dence ayant comme noeud source le
 	 *                     noeudActuel
-	 * @param noeudSuivant : noeud qui suit le noeud Actuel dans l'ordre donnée par
+	 * @param noeudSuivant : noeud qui suit le noeud Actuel dans l'ordre donnï¿½e par
 	 *                     le tsp
-	 * @param noeudActuel  : noeud Actuel dans l'ordre donnée par le tsp
-	 * @return une liste qui stocke les noeuds décrivant le chemin de noeudActuel
+	 * @param noeudActuel  : noeud Actuel dans l'ordre donnï¿½e par le tsp
+	 * @return une liste qui stocke les noeuds dï¿½crivant le chemin de noeudActuel
 	 *         vers noeudSuivant
 	 */
 	private ArrayList<Noeud> parcoursChemin(HashMap<Noeud, Noeud> courtChemin, Noeud noeudSuivant, Noeud noeudActuel) {
@@ -245,9 +245,9 @@ public class Tournee {
 	/**
 	 * Methode qui donne le plus court chemin entre noeudActuel et noeudSuivant
 	 * 
-	 * @param source: un noeud qu'on définit comme point de départ
+	 * @param source: un noeud qu'on dï¿½finit comme point de dï¿½part
 	 * @return un tableau d'entiers correspondant aux couts des chemins entre les
-	 *         noeuds du plan et le noeud source ( ici exprimés en secondes)
+	 *         noeuds du plan et le noeud source ( ici exprimï¿½s en secondes)
 	 */
 	private int[] dijkstra(Noeud source) {
 		HashMap<Noeud, Noeud> tableauPrecedence = new HashMap<Noeud, Noeud>();
@@ -340,6 +340,22 @@ public class Tournee {
 		for (int i = 2; i < noeudAVisiter.size(); i = i + 2) {
 			precedence.put(i, i - 1);
 		}
+	}
+
+	public HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> getNoeudAVisiter() {
+		return noeudAVisiter;
+	}
+
+	public void setNoeudAVisiter(HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter) {
+		this.noeudAVisiter = noeudAVisiter;
+	}
+
+	public HashMap<Noeud, Integer> getMapNoeuds() {
+		return mapNoeuds;
+	}
+
+	public void setMapNoeuds(HashMap<Noeud, Integer> mapNoeuds) {
+		this.mapNoeuds = mapNoeuds;
 	}
 
 }
