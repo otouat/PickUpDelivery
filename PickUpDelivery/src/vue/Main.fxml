@@ -22,6 +22,5 @@
             <ListView fx:id="listview" prefHeight="453.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
          </top>
       </BorderPane>
-      <Button fx:id="supprimer" layoutX="22.0" layoutY="320.0" mnemonicParsing="false" onAction="#supprimerLivraison" prefHeight="27.0" prefWidth="211.0" text="Supprimer" />
    </children>
 </AnchorPane>
