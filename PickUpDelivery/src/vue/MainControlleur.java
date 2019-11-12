@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
-
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import modele.DataContainer;
 import modele.DemandeLivraison;
 import modele.Plan;
@@ -38,8 +39,7 @@ public class MainControlleur {
 	private Button calculerTourneeButton;
 	@FXML
 	private Button genererFeuilleRouteButton;
-	@FXML
-	private Button supprimer;
+	
 	
 	@FXML
 	private BorderPane paneMap;
@@ -63,7 +63,6 @@ public class MainControlleur {
 	private Group livraisons;
 	private List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
 	private ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-	
 	
 	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
@@ -133,20 +132,13 @@ public class MainControlleur {
 			listview.getItems().clear();
 		}
 
-		
-		
 		for (LivraisonDisplay l : livraisonsVue) {
 			observable.add(l);	
 		}
-		System.out.println(observable.size());
-		
 		listview.setItems(observable);
-	/*	for (LivraisonDisplay l : livraisonsVue) {
-			listview.getItems().add(l);	
-		}*/
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 		
-		listview.refresh();
+		//listview.refresh();
 		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();		
 		           // System.out.println(l.getNoeud().GetIdNoeud());
@@ -164,7 +156,7 @@ public class MainControlleur {
 	
 	public void chargerTournee(ActionEvent event){
 		
-		tournee = new Tournee();
+		
 		
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
@@ -175,31 +167,19 @@ public class MainControlleur {
 	}
 	
 	public void supprimerLivraison(ActionEvent event) {
+		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
-		LivraisonDisplay PickASupprimer = l ;
-		LivraisonDisplay DeliveryASupprimer = l;
-		System.out.println(livraisonsVue.size());
-		for(LivraisonDisplay lD : livraisonsVue ) {
-			if (lD.getColor()== l.getColor() && lD.getIsPickup()) {
-				PickASupprimer= lD;
-			}else if (lD.getColor()== l.getColor() && !lD.getIsPickup()) {
-				DeliveryASupprimer= lD;
-			}
-		}
 		
-		//suppression vue textuelle
-		livraisonsVue.remove(PickASupprimer);
-		livraisonsVue.remove(DeliveryASupprimer);
-		for(LivraisonDisplay test : livraisonsVue) {
-			System.out.println(test.getColor());
-		}
+		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
 		
 		initialiseListView();
 		
-		
-		System.out.println(livraisonsVue.size());
-		
-		VueDemandeLivraison.removeLivraison(livraisons, l.getColor());
+		VueDemandeLivraison.removeLivraisonGraphiquement(livraisons, l.getColor());
+		//VueTroncon.drawTournee(tournee.recalculTourneeApresSupression(), tourneePane);
+	
+		}else {
+			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
+		}
 	
 	}
 	

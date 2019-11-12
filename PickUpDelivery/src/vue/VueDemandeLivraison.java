@@ -66,7 +66,7 @@ public class VueDemandeLivraison {
 		
 	}
 	
-	public static void removeLivraison(Group livraisons ,Color couleur) {
+	public static void removeLivraisonGraphiquement(Group livraisons ,Color couleur) {
 		
 		Shape CercleASupprimer = new Circle();
 		Shape RectASupprimer =new Rectangle() ;
@@ -83,6 +83,24 @@ public class VueDemandeLivraison {
 		livraisons.getChildren().remove(CercleASupprimer);
 		livraisons.getChildren().remove(RectASupprimer);
 		
+	}
+	
+	public static void removeLivraisonTextuellement(LivraisonDisplay l, List<LivraisonDisplay> livraisonsVue) {
+		LivraisonDisplay PickASupprimer = l ;
+		LivraisonDisplay DeliveryASupprimer = l;
+		
+		for(LivraisonDisplay lD : livraisonsVue ) {
+			if (lD.getColor()== l.getColor() && lD.getIsPickup()) {
+				PickASupprimer= lD;
+			}else if (lD.getColor()== l.getColor() && !lD.getIsPickup()) {
+				DeliveryASupprimer= lD;
+			}
+		}
+		
+		//suppression vue textuelle
+		livraisonsVue.remove(PickASupprimer);
+		livraisonsVue.remove(DeliveryASupprimer);
+		System.out.println(livraisonsVue.size());
 	}
 
 }
