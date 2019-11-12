@@ -7,17 +7,17 @@ import java.util.List;
 import java.util.PriorityQueue;
 
 public class Tournee {
-	private Noeud entrepot;
+	private Noeud entrepot; 
 	private List<Livraison> livraisons;
-	private HashMap<Integer, Triplet<Noeud,Livraison,Boolean>> noeudAVisiter;
-	private HashMap<Noeud, Integer> mapNoeuds;
+	private HashMap<Integer, Triplet<Noeud,Livraison,Boolean>> noeudAVisiter; //Associe les indices des noeuds a visiter avec les noeuds a visiter
+	private HashMap<Noeud, Integer> mapNoeuds; //Associe les noeuds du plan a un indice unique
 	private Plan plan;
-	private HashMap<Integer, Integer> mapDureeVisite;
-	private List<HashMap<Noeud, Noeud>> plusCourtChemins;
-	private HashMap<Integer, Integer> precedence;
-	private List<Integer> enchainementNoeudAVisiter;
-	List<Noeud> enchainementNoeud;
-	List<Triplet<Noeud,Livraison,Boolean>> enchainementNoeudAVisiterAvecInfos;
+	private HashMap<Integer, Integer> mapDureeVisite; //Associe l'indice du noeud a visiter avec la duree de la visite du noeud (selon l'action enlevement ou livraison)
+	private List<HashMap<Noeud, Noeud>> plusCourtChemins; //Une liste stockant le tableaux de precedence range selon le noeud a visiter qui represente ici le noeud source
+	private HashMap<Integer, Integer> precedence; //Associe l'indice d'un noeud 1 a visiter avec celui d'un noeud 2 selon la relation "2 avant 1"
+	private List<Integer> enchainementNoeudAVisiter; //une liste stockant les indices des noeuds a visiter ranges dans l'ordre de visite
+	List<Noeud> enchainementNoeud; //une liste stockant tous les noeuds du plan sur lesquels on passe pour effectuer la tournee
+	List<Triplet<Noeud,Livraison,Boolean>> enchainementNoeudAVisiterAvecInfos;// Une liste stockant les noeuds a visiter dans l'ordre de visite avec la livraison et un booleen a valeur 'true' si le noeud correspond a un enlevement
 	
 
 	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
@@ -38,6 +38,9 @@ public class Tournee {
 	//Constructeur test IHM
 	public Tournee() {}
 
+	
+	/* Cette fonction retourne l'enchainement globale des noeuds par lesquels on passe lors d'une tournee complete */
+	
 	public List<Noeud> calculTournee() {
 
 		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()];
