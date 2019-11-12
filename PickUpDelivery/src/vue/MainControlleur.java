@@ -11,6 +11,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -18,8 +21,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import modele.DataContainer;
 import modele.DemandeLivraison;
+import modele.FeuilleDeRoute;
 import modele.Plan;
 import modele.Tournee;
 import modele.Triplet;
@@ -70,7 +75,7 @@ public class MainControlleur {
 	
 	
 	
-	
+	public static FeuilleDeRoute feuilleDeRoute;
 	public DemandeLivraison demande;
 	public Plan plan;
 	public DataContainer dataContainer= new DataContainer() ;
@@ -92,7 +97,11 @@ public class MainControlleur {
 			System.out.println(selectedFile.getName());
 			
 			try {
-				dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+				Boolean success = dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+				if(!success) {
+					console.setText("Echec du chargement du plan avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -124,8 +133,11 @@ public class MainControlleur {
 			System.out.println(selectedFile.getName());
 			
 			try {
-				dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
-				
+				Boolean success = dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
+				if(!success) {
+					console.setText("Echec du chargement des livraisons avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -173,6 +185,25 @@ public class MainControlleur {
 		
 		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
+		genererFeuilleRouteButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	try {
+	            		 new FeuilleDeRoute(tournee.calculTournee(),plan,tournee);
+	            		//MainControlleur.feuilleDeRoute =
+	            		System.out.println(feuilleDeRoute);
+	            		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/feuilleDeRoute.fxml"));
+		            	Parent root = (Parent) fxmlLoader.load();
+		            	Stage stage = new Stage();
+		            	stage.setScene(new Scene(root));
+		            	stage.show();
+	            	} catch(Exception e) {
+	            		
+	            	}
+	            	
+	            }
+	            
+	        });
 		
 		reInitialiseListView();
 		
