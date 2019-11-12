@@ -53,6 +53,26 @@ public class Tournee {
 	// Constructeur test IHM
 	public Tournee() {
 	}
+	
+	public HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> getNoeudAVisiter() {
+		return noeudAVisiter;
+	}
+
+	public void setNoeudAVisiter(HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter) {
+		this.noeudAVisiter = noeudAVisiter;
+	}
+
+	public HashMap<Noeud, Integer> getMapNoeuds() {
+		return mapNoeuds;
+	}
+
+	public void setMapNoeuds(HashMap<Noeud, Integer> mapNoeuds) {
+		this.mapNoeuds = mapNoeuds;
+	}
+
+	public List<Integer> getEnchainementNoeudAVisiter(){
+		return this.enchainementNoeudAVisiter;
+	}
 
 	/**
 	 * Methode calculant la tournï¿½e optimisï¿½e ï¿½ partir des attributs indiquï¿½s plus
@@ -89,7 +109,7 @@ public class Tournee {
 		}
 		
 		//Execute la mï¿½thode de calcul de la tournee
-		voyageurCommerce.chercheSolution(2000, noeudAVisiter.size(), cout, dureeVisite, precedence);
+		voyageurCommerce.chercheSolution(300000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
@@ -138,7 +158,7 @@ public class Tournee {
 	 * @param rangNoeudAChanger : rang du noeud ï¿½ changer
 	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
 	 */
-	public List<Noeud> recalculTournee(Noeud noeudChange, Integer rangNoeudAChanger) {
+	public List<Noeud> recalculTourneeApresChangementNoeud(Noeud noeudChange, Integer rangNoeudAChanger) {
 
 		Integer indiceNoeud;
 		Integer indiceNoeudSuivant;
@@ -192,6 +212,22 @@ public class Tournee {
 		return enchainementNoeudBis;
 
 	}
+	
+	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonAAjouter,Integer rangPreEnlevement,Integer rangPreLivraison) {
+		
+		
+		recalculTournee();
+		return this.enchainementNoeud;
+		
+	}
+
+	public List<Noeud> recalculTourneeApresAjoutLivraison() {
+		
+		recalculTournee();
+		return this.enchainementNoeud;
+		
+	}
+
 
 	public List<Noeud> FausseTourneePetitIHM() {
 		List<Noeud> enchainementNoeud = new ArrayList<Noeud>();
@@ -342,20 +378,45 @@ public class Tournee {
 		}
 	}
 
-	public HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> getNoeudAVisiter() {
-		return noeudAVisiter;
-	}
+	/**
+	 * Methode qui recalcule la tournée ( au niveau de l'enchainement
+	 * des noeuds du plan ) a partir des attributs deja définies
+	 */
+	private void recalculTournee() {
 
-	public void setNoeudAVisiter(HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter) {
-		this.noeudAVisiter = noeudAVisiter;
-	}
+		Integer indiceNoeud;
+		Integer indiceNoeudSuivant;
+		HashMap<Noeud, Noeud> courtChemin;
+		Noeud noeudActuel;
+		Noeud noeudSuivant;
+		List<Noeud> enchainementNoeudBis = new ArrayList<Noeud>();
+		List<Integer> enchainementNoeudAVisiterBis = new ArrayList<Integer>();
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 
-	public HashMap<Noeud, Integer> getMapNoeuds() {
-		return mapNoeuds;
-	}
+		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
 
-	public void setMapNoeuds(HashMap<Noeud, Integer> mapNoeuds) {
-		this.mapNoeuds = mapNoeuds;
+			indiceNoeud = this.enchainementNoeudAVisiter.get(i);
+			indiceNoeudSuivant = this.enchainementNoeudAVisiter.get(i + 1);
+			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
+			enchainementNoeudAVisiterBis.add(indiceNoeud);
+			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
+			courtChemin = plusCourtChemins.get(indiceNoeud);
+			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
+			enchainementNoeudBis.addAll(chemin);
+
+		}
+
+		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
+		
+		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
+		
+		chemin = parcoursChemin(courtChemin, (Noeud) this.entrepot,
+				noeudAVisiter.get(noeudAVisiter.size() - 1).getFirst());
+
+		enchainementNoeudBis.addAll(chemin);
+
+		this.enchainementNoeud.clear();
+		this.enchainementNoeud.addAll(enchainementNoeudBis);
 	}
 
 }
