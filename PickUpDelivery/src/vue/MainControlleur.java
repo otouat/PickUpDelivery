@@ -189,7 +189,7 @@ public class MainControlleur {
 	            @Override
 	            public void handle(ActionEvent event) {
 	            	try {
-	            		 new FeuilleDeRoute(tournee.calculTournee(),plan,tournee);
+	            		 FeuilleDeRoute feuille = new FeuilleDeRoute(tournee.calculTournee(),plan,tournee);
 	            		//MainControlleur.feuilleDeRoute =
 	            		System.out.println(feuilleDeRoute);
 	            		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/feuilleDeRoute.fxml"));
