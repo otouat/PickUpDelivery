@@ -6,7 +6,8 @@ public class Instruction {
 	private double longueur;
 	private String direction;
 	private String toDo;
-	// private String aFaire;
+	private Noeud noeudCourant;
+	private Noeud noeudSuivant;
 
 	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Noeud noeudApres, Plan plan) {
 		Troncon tronconCourant = plan.ChercherTronconDepuisDeuxNoeuds(noeudCourant.GetIdNoeud(),
@@ -14,24 +15,31 @@ public class Instruction {
 
 		this.nomRueCourant = tronconCourant.GetNomRue();
 		this.longueur = tronconCourant.GetLongueur();
-
+		this.noeudCourant = noeudCourant;
+		this.noeudSuivant = noeudSuivant;
 		Troncon tronconSuivant = plan.ChercherTronconDepuisDeuxNoeuds(noeudSuivant.GetIdNoeud(),
 				noeudApres.GetIdNoeud());
 		this.nomRueSuivant = tronconSuivant.GetNomRue();
 		this.direction = calculerDirection(noeudSuivant, noeudCourant, noeudApres);
+
 	}
 
-	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Plan plan, boolean typeNoeud) {
+	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Plan plan, String toDO, String direction) {
 		Troncon tronconCourant = plan.ChercherTronconDepuisDeuxNoeuds(noeudCourant.GetIdNoeud(),
 				noeudSuivant.GetIdNoeud());
-
+		this.noeudCourant = noeudCourant;
+		this.noeudSuivant = noeudSuivant;
 		this.nomRueCourant = tronconCourant.GetNomRue();
 		this.longueur = tronconCourant.GetLongueur();
-		if (typeNoeud == true) {
-			toDo = "récupérer un colis";
-		} else {
-			toDo = "livrer un colis";
+		this.direction = direction;
+		if (toDO.contentEquals("recuperer")) {
+			this.toDo = "récupérer un colis";
+		} else if (toDO.contentEquals("livrer")) {
+			this.toDo = "livrer un colis";
+		} else if (toDO.contentEquals("termine")) {
+			this.toDo = "arriver à l'entrepôt. Terminé";
 		}
+
 	}
 
 	public String getNomRueCourant() {
@@ -83,9 +91,9 @@ public class Instruction {
 				angle = angle - 360;
 			}
 		}
-		if (angle == 0) {
+		if (angle == 180) {
 			return "aller tout droit";
-		} else if (angle == 180) {
+		} else if (angle == 0) {
 			return "retourner";
 		} else if (angle > 0) {
 			return "tourner à gauche";
@@ -97,9 +105,11 @@ public class Instruction {
 	public String toString() {
 		if (toDo == null) {
 			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mettres, " + "puis "
-					+ this.direction + ", pour atteindre " + this.nomRueSuivant;
+					+ this.direction + " et atteindre " + this.nomRueSuivant;
 		} else {
-			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mettres, " + "puis " + this.toDo;
+			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mettres, " + "puis "
+					+ "atteindre noeud" + noeudSuivant.GetIdNoeud() + " et " + this.toDo + ", puis " + this.direction;
+
 		}
 	}
 
