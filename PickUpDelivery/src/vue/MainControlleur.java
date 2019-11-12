@@ -2,22 +2,32 @@ package vue;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Bloom;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.*;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 import modele.DataContainer;
 import modele.DemandeLivraison;
 import modele.Plan;
@@ -35,6 +45,13 @@ public class MainControlleur {
 	public Button calculerTourneeButton;
 	@FXML
 	public Button genererFeuilleRouteButton;
+	@FXML
+	public Button ajoutLivraisonBoutton;	
+	@FXML
+	public Button saveButtonAjoutLivraison;	
+	@FXML
+	public Button annulerAjoutBoutton;
+	
 	
 	@FXML
 	public BorderPane paneMap;
@@ -43,23 +60,23 @@ public class MainControlleur {
 	@FXML 
 	public AnchorPane livraisonPane;
 	@FXML
+	public AnchorPane ajoutBouttonAnchorPane;
+	
+	
+	@FXML
 	public TextArea console;
 	@FXML
 	public ListView listview;
 	
 	
-	@FXML
-	public Button ajoutLivraisonBoutton;
-	@FXML
-	public AnchorPane ajoutBouttonAnchorPane;
+	
+
 	@FXML
 	public TextField dureeEnlevementTextField;
 	@FXML
 	public TextField dureeLivraisonTextField;
-	@FXML
-	public Button saveButtonAjoutLivraison;	
-	@FXML
-	public Button annulerAjoutBoutton;	
+
+	
 	public static Noeud noeudPickUp;
 	public static Noeud noeudBeforePickUp;
 	public static Noeud noeudDelivery;
@@ -68,14 +85,13 @@ public class MainControlleur {
 	public static Boolean isNoeudBeforePickUpAdded=false;
 	
 	
-	
-	
-	
 	public DemandeLivraison demande;
 	public Plan plan;
 	public DataContainer dataContainer= new DataContainer() ;
 	public Tournee tournee;
-	
+	public Group livraisons;
+	public List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
+	//public ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 	
 	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
@@ -134,13 +150,11 @@ public class MainControlleur {
 			
 			livraisonPane.getChildren().clear();
 			tourneePane.getChildren().clear();
-			//VueNoeud.drawClikableNoeud(plan, livraisonPane);
-			VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
+			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 			
 			initialiseListView();
-			console.setText("Charger une tourné. ");
-			calculerTourneeButton.setDisable(false);
-			
+			console.setText("Charger une tournee. ");
+			calculerTourneeButton.setDisable(false);	
 			
 		}
 		
@@ -148,34 +162,44 @@ public class MainControlleur {
 	
 	
 	public void initialiseListView(){
-		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
-		List<Livraison> livraisonList = demande.getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
+		if (!listview.getItems().isEmpty()){
+			listview.getItems().clear();
 		}
-	
 		
+		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+
+		for (LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);	
+		}
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+	
+		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		           
+					//recherche par id
+		            DropShadow b  = new DropShadow();	                
+		            for (Node n : livraisons.getChildren()) {
+		            	Shape s = (Shape)n;
+		            	s.setEffect(null);
+		            	if(n.getId()==l.getNoeud().GetIdNoeud()) {
+					        s.setEffect(b);
+		            	}
+		            }
+		        });
 	}
 	
 	public void chargerTournee(ActionEvent event){
 		
-		tournee = new Tournee();
-	
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
 		VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
 		
-		console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
+		console.setText("Vous pouvez maintenant modifier la tournee ou generer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
 		
 		reInitialiseListView();
-		
 		
 		ajoutLivraisonBoutton.setVisible(true);
 		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -184,7 +208,7 @@ public class MainControlleur {
 	            	livraisonPane.getChildren().clear();
 	        		VueNoeud.drawClikableNoeud(plan, livraisonPane,MainControlleur.this);
 	            	//VueNoeud.drawClikableNoeudOfTournee(tournee, livraisonPane, MainControlleur.this);
-	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
+	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane,livraisonsVue);
 	        		
 	                ajoutBouttonAnchorPane.setVisible(true);
 	                console.setText("Vous entrez en mode ajout de livraison : "
@@ -200,7 +224,7 @@ public class MainControlleur {
 	            	isPickUpAdded=false;
 	            	isNoeudBeforePickUpAdded = false;
 	            	livraisonPane.getChildren().clear();
-	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane);
+	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 	        		
 	                ajoutBouttonAnchorPane.setVisible(false);
 	                console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
@@ -258,18 +282,53 @@ public class MainControlleur {
 
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
+		List<LivraisonDisplay> temp = new ArrayList<LivraisonDisplay>();
 		int i =0;
 		for (Entry<Integer, Triplet<Noeud, Livraison, Boolean>> e : hashMAp.entrySet()) {
 			if(i!=0) {
-				LivraisonDisplay livraisonDisplay = new LivraisonDisplay( e.getValue().getSecond(), e.getValue().getThird(), VueDemandeLivraison.couleurs.get(1));
-				observable.add(livraisonDisplay);
+				Color c = Color.WHITE ;
+				for(LivraisonDisplay l : livraisonsVue) {
+					if(l.getNoeud().GetIdNoeud() == e.getValue().getFirst().GetIdNoeud() ) {
+						c=l.getColor();
+					}
+				}
+				LivraisonDisplay livraisonDisplay = new LivraisonDisplay( e.getValue().getFirst(), e.getValue().getThird(), c);
+				temp.add(livraisonDisplay);
 			}
 			i++;
+		}
+		System.out.println("Size normale : "+livraisonsVue.size()+" Size temp : "+temp.size());
+		
+		livraisonsVue.clear();
+		
+		for(LivraisonDisplay l : temp) {
+			//MAJ de la liste qu'on utilise
+			livraisonsVue.add(l);
+			observable.add(l);
 		}
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 		
 	}
+	
+	public void supprimerLivraison(ActionEvent event) {
+		if(livraisonsVue.size()>2) {
+		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		
+		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
+		
+		initialiseListView();
+		
+		VueDemandeLivraison.removeLivraisonGraphiquement(livraisons, l.getColor());
+		//VueTroncon.drawTournee(tournee.recalculTourneeApresSupression(), tourneePane);
+	
+		}else {
+			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
+		}
+	
+	}
+	
+	
 
 }

@@ -82,6 +82,4 @@ public class VueTroncon {
 		tourneePane.getChildren().add(line); 
 	}
 	
-
-	
 }

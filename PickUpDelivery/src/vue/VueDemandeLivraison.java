@@ -3,12 +3,16 @@ package vue;
 import java.util.Arrays;
 import java.util.List;
 
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import modele.DemandeLivraison;
 import modele.Livraison;
 import modele.Noeud;
@@ -22,9 +26,9 @@ public class VueDemandeLivraison {
 	
 
 		
-	public static void drawDemandeLivraison(Plan plan,DemandeLivraison demande, AnchorPane livraisonPane) {
+	public static Group drawDemandeLivraison(Plan plan,DemandeLivraison demande, AnchorPane livraisonPane, List<LivraisonDisplay> livraisonsVue) {
 	
-
+		Group livraisons = new Group();
 		Entrepot entrepot = demande.getEntrepotLivraison();
 		VueUtils.initalisationDonnees(plan, livraisonPane);
 		double x_entrepot = VueUtils.getNewX(entrepot.GetLongitude());
@@ -39,21 +43,64 @@ public class VueDemandeLivraison {
         
         //Create Pick up
         int i=0;
-        for (Livraison l : demande.getLivraisons()) {
+        for (Livraison liv : demande.getLivraisons()) {
+        	LivraisonDisplay lPickUp = new LivraisonDisplay(liv.getNoeudEnlevement(),true,couleurs.get(i));
+        	livraisonsVue.add(lPickUp);
+        	Noeud pickup = lPickUp.getNoeud();
+        	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,lPickUp.getColor());
+    		cercleP.setId(pickup.GetIdNoeud());
         	
-        	Noeud pickup = l.getNoeudEnlevement();
-        	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,couleurs.get(i));
-    		
-        	Noeud delivery = l.getNoeudLivraison();
+    		LivraisonDisplay lDelivery = new LivraisonDisplay(liv.getNoeudLivraison(),false,couleurs.get(i));
+    		livraisonsVue.add(lDelivery);
+    		Noeud delivery = lDelivery.getNoeud();
         	Rectangle rectangle = new Rectangle(VueUtils.getNewX(delivery.GetLongitude())-5,VueUtils.getNewY(delivery.GetLatitude())-5,10,10);
-        	rectangle.setFill(couleurs.get(i));
+        	rectangle.setFill(lDelivery.getColor());
+        	rectangle.setId(delivery.GetIdNoeud());
         	
-        	livraisonPane.getChildren().addAll(cercleP,rectangle);
+        	livraisons.getChildren().addAll(cercleP,rectangle);
         	i++;
         }
+        livraisonPane.getChildren().add(livraisons);
+        return livraisons;
 		
 		
+	}
+	
+	public static void removeLivraisonGraphiquement(Group livraisons ,Color couleur) {
 		
+		Shape CercleASupprimer = new Circle();
+		Shape RectASupprimer =new Rectangle() ;
+		for (Node n : livraisons.getChildren()) {
+        	Shape s = (Shape)n;
+        	if(s.getFill()==couleur && s instanceof Circle) {
+        		CercleASupprimer=s;
+        	}else if (s.getFill()==couleur && s instanceof Rectangle) {
+        		RectASupprimer=s;
+        	}
+        }
+		
+		//Supression graphique
+		livraisons.getChildren().remove(CercleASupprimer);
+		livraisons.getChildren().remove(RectASupprimer);
+		
+	}
+	
+	public static void removeLivraisonTextuellement(LivraisonDisplay l, List<LivraisonDisplay> livraisonsVue) {
+		LivraisonDisplay PickASupprimer = l ;
+		LivraisonDisplay DeliveryASupprimer = l;
+		
+		for(LivraisonDisplay lD : livraisonsVue ) {
+			if (lD.getColor()== l.getColor() && lD.getIsPickup()) {
+				PickASupprimer= lD;
+			}else if (lD.getColor()== l.getColor() && !lD.getIsPickup()) {
+				DeliveryASupprimer= lD;
+			}
+		}
+		
+		//suppression vue textuelle
+		livraisonsVue.remove(PickASupprimer);
+		livraisonsVue.remove(DeliveryASupprimer);
+		System.out.println(livraisonsVue.size());
 	}
 
 }

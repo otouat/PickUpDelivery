@@ -51,10 +51,9 @@ public class Data {
 	    public void setInfo(LivraisonDisplay livraisonDisplay)
 	    {	
 	    		if(livraisonDisplay.getIsPickup()) {
-	    			String idNoeud = livraisonDisplay.getLivraison().getNoeudEnlevement().GetIdNoeud();
-		    		
+	    			String idNoeud = livraisonDisplay.getNoeud().GetIdNoeud();
 		    		String adresse ="";
-			    	List<Troncon> tronconList = livraisonDisplay.getLivraison().getNoeudEnlevement().GetTronconsDepuisLeNoeud();
+			    	List<Troncon> tronconList = livraisonDisplay.getNoeud().GetTronconsDepuisLeNoeud();
 			    	List<String> adressesList = new ArrayList<>();
 			    	for(int i=0;i<tronconList.size();i++) {
 			    		if((!adressesList.contains(tronconList.get(i).GetNomRue())) && adressesList.size()<2) {
@@ -73,10 +72,10 @@ public class Data {
 			    	circle.setFill(livraisonDisplay.getColor());
 			    	paneShape.getChildren().add(circle);
 	    		} else {
-	    			String idNoeud = livraisonDisplay.getLivraison().getNoeudLivraison().GetIdNoeud();
+	    			String idNoeud = livraisonDisplay.getNoeud().GetIdNoeud();
 		    		
 		    		String adresse ="";
-			    	List<Troncon> tronconList = livraisonDisplay.getLivraison().getNoeudLivraison().GetTronconsDepuisLeNoeud();
+			    	List<Troncon> tronconList = livraisonDisplay.getNoeud().GetTronconsDepuisLeNoeud();
 			    	List<String> adressesList = new ArrayList<>();
 			    	for(int i=0;i<tronconList.size();i++) {
 			    		if((!adressesList.contains(tronconList.get(i).GetNomRue())) && adressesList.size()<2) {
@@ -99,6 +98,12 @@ public class Data {
 	    	
 	    		
 		    	
+	    	
+	    }
+	    
+	    public void setVide() {
+	    	title_label.setText( "");
+	    	text1.setText("");
 	    	
 	    }
 
