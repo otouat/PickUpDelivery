@@ -8,6 +8,8 @@ public class CommandeAjoutLivraison implements Commande {
 	private Livraison livraison;
 	private Tournee tournee;
 	private int positionAjout;
+	private int rangPreEnlevement;
+	private int rangPreLivraison;
 
 	/**
 	 * Cree la commande qui ajoute a la position position la livraison livraison
@@ -24,14 +26,12 @@ public class CommandeAjoutLivraison implements Commande {
 
 	@Override
 	public void doCommande() {
-		// demandeLivraison.ajouterLivraison(livraison);
-		// recalcul avec algo
-		//tournee.ajouterLivraison(position, livraison);
+		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 	}
 
 	@Override
 	public void undoCommande() {
-		//tournee.supprimerLivraison(livraison);
+		tournee.recalculTourneeApresSupressionLivraison(livraison);
 
 	}
 

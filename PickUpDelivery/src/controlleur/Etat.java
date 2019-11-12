@@ -2,6 +2,7 @@ package controlleur;
 import java.io.File;
 
 import modele.DataContainer;
+import modele.Livraison;
 import modele.Plan;
 import modele.Noeud;
 import vue.MainControlleur;
@@ -32,7 +33,7 @@ public interface Etat {
 	 * @param controleur
 	 * @param fenetre
 	 */
-	public void ajouterLivraison(Controleur controleur, MainControlleur fenetre);
+	public void ajouterLivraison(Controleur controleur,MainControlleur fenetre);
 
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Retirer une
@@ -58,18 +59,7 @@ public interface Etat {
 	 * @param controleur
 	 * @param fenetre
 	 */
-	public void validerTournee(Controleur controleur, MainControlleur fenetre);
-
-	/**
-	 * Methode appelee par fenetre apres un clic gauche sur un point de la vue
-	 * graphique
-	 * 
-	 * @param controleur
-	 * @param fenetre
-	 * @param listeDeCommandes
-	 * @param point
-	 *            = coordonnees du plan correspondant au point clique
-	 */
+	
 		
 	public default void genererFeuilleDeRoute(Controleur c, MainControlleur f){};
 	
@@ -94,17 +84,6 @@ public interface Etat {
 		 * @param f la fenetre
 		 */
 	
-	public default void sourisBougee(Controleur c, Noeud n){};
-		/**
-		 * Methode appelee par controleur apres un clic gauche sur un point de la vue graphique
-		 * Precondition : p != null
-		 * @param c le controleur
-		 * @param f la fenetre
-		 * @param plan le plan
-		 * @param l la liste de commandes en cours
-		 * @param p les coordonnees du noeud clique
-		 */
-		public default void clicGauche(Controleur c, MainControlleur f, ListeDeCommandes l, Noeud n){};
 	}
 
 

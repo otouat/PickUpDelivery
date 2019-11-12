@@ -3,6 +3,7 @@ import java.io.File;
 
 import javafx.stage.FileChooser;
 import modele.DataContainer;
+import modele.Livraison;
 import modele.Plan;
 import vue.MainControlleur;
 
@@ -44,9 +45,7 @@ public class EtatInit implements Etat {
 		
 	}
 
-	@Override
-	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
+
+
+	
 }

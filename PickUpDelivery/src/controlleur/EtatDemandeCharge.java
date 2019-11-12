@@ -33,7 +33,7 @@ public class EtatDemandeCharge extends EtatInit {
 			//VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
 			
 			initialiseListView(c,f);
-			c.getFenetre().console.setText("Charger une tourn�e. ");
+			c.getFenetre().console.setText("Charger une tournee. ");
 			c.getFenetre().calculerTourneeButton.setDisable(false);
 			
 			c.setEtatCourant(c.etatTourneeCalculee);
