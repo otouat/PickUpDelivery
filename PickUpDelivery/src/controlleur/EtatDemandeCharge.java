@@ -30,7 +30,7 @@ public class EtatDemandeCharge extends EtatInit {
 			
 			c.getFenetre().livraisonPane.getChildren().clear();
 			c.getFenetre().tourneePane.getChildren().clear();
-			VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
+			//VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
 			
 			initialiseListView(c,f);
 			c.getFenetre().console.setText("Charger une tourn�e. ");
@@ -44,13 +44,13 @@ public class EtatDemandeCharge extends EtatInit {
 	private void initialiseListView(Controleur c, MainControlleur f){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
-		List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
+		/*List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
 		for(int i=0;i<livraisonList.size();i++) {
 			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
 			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
 			observable.add(livraisonDisplay1);
 			observable.add(livraisonDisplay2);
-		}
+		}*/
 
 		
 		c.getFenetre().listview.setItems(observable);
