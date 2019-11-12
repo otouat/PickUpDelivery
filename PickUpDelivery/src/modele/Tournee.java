@@ -211,10 +211,32 @@ public class Tournee {
 		}
 	}
 
+	public HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> getNoeudAVisiter() {
+		return noeudAVisiter;
+	}
+
+	public void setNoeudAVisiter(HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter) {
+		this.noeudAVisiter = noeudAVisiter;
+	}
+
+	public HashMap<Noeud, Integer> getMapNoeuds() {
+		return mapNoeuds;
+	}
+
+	public void setMapNoeuds(HashMap<Noeud, Integer> mapNoeuds) {
+		this.mapNoeuds = mapNoeuds;
+	}
+	
+	
+	
+	
+
 	/*
 	 * public FeuilleDeRoute GenererFeuilleDeRoute() {
 	 * 
 	 * 
 	 * }
 	 */
+	
+	
 }
