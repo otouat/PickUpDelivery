@@ -128,40 +128,23 @@ public class MainControlleur {
 	
 	public void initialiseListView(){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		
-		/*List<Livraison> livraisonList = demande.getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-	LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay);
-		}*/
+	
 		for (LivraisonDisplay l : livraisonsVue) {
 			observable.add(l);			
 		}
-		
-	/*	observable.addAll(
-                demande.getLivraisons()
-        );
-		
-		observable.addAll(
-                demande.getLivraisons()
-        ); */
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();		
-		            System.out.println(l.getNoeud().GetIdNoeud());
+		           // System.out.println(l.getNoeud().GetIdNoeud());
 		           //recherche par id
-		            DropShadow b  = new DropShadow();
+		            DropShadow b  = new DropShadow();	                
 		            for (Node n : livraisons.getChildren()) {
 		            	Shape s = (Shape)n;
 		            	s.setEffect(null);
-		            	if(l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
+		            	if(n.getId()==l.getNoeud().GetIdNoeud()) {
 					        s.setEffect(b);
-		            	}else if (! l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
-		            		 s.setEffect(b);            		
 		            	}
 		            }
 		        });
@@ -181,16 +164,22 @@ public class MainControlleur {
 	
 	public void supprimerLivraison(ActionEvent event) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
-		for (Node n : livraisons.getChildren()) {
-			if(l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()) {
-				Shape s = (Shape)n;
-				livraisons.getChildren().remove(s);
-			}else if(! l.getIsPickup() && n.getId()==l.getNoeud().GetIdNoeud()){
-				Shape s = (Shape)n;
-				livraisons.getChildren().remove(s);
+		LivraisonDisplay PickASupprimer = l ;
+		LivraisonDisplay DeliveryASupprimer = l;
+		System.out.println(livraisonsVue.size());
+		for(LivraisonDisplay lD : livraisonsVue ) {
+			if (lD.getColor()== l.getColor() && lD.getIsPickup()) {
+				PickASupprimer= lD;
+			}else if (lD.getColor()== l.getColor() && !lD.getIsPickup()) {
+				DeliveryASupprimer= lD;
 			}
 		}
 		
+		//suppression vue textuelle
+		livraisonsVue.remove(PickASupprimer);
+		livraisonsVue.remove(DeliveryASupprimer);
+		initialiseListView();
+		VueDemandeLivraison.removeLivraison(livraisons, l.getColor());
 	
 	}
 	

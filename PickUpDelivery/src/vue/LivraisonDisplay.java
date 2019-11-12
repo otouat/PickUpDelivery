@@ -26,4 +26,5 @@ public class LivraisonDisplay {
 	public Color getColor() {
 		return color;
 	}
+	
 }

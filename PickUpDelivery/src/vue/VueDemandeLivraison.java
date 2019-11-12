@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -11,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import modele.DemandeLivraison;
 import modele.Livraison;
 import modele.Noeud;
@@ -42,7 +44,7 @@ public class VueDemandeLivraison {
         //Create Pick up
         int i=0;
         for (Livraison liv : demande.getLivraisons()) {
-        	LivraisonDisplay lPickUp = new LivraisonDisplay(liv.getNoeudEnlevement(),false,couleurs.get(i));
+        	LivraisonDisplay lPickUp = new LivraisonDisplay(liv.getNoeudEnlevement(),true,couleurs.get(i));
         	livraisonsVue.add(lPickUp);
         	Noeud pickup = lPickUp.getNoeud();
         	Circle cercleP = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,lPickUp.getColor());
@@ -61,6 +63,25 @@ public class VueDemandeLivraison {
         livraisonPane.getChildren().add(livraisons);
         return livraisons;
 		
+		
+	}
+	
+	public static void removeLivraison(Group livraisons ,Color couleur) {
+		
+		Shape CercleASupprimer = new Circle();
+		Shape RectASupprimer =new Rectangle() ;
+		for (Node n : livraisons.getChildren()) {
+        	Shape s = (Shape)n;
+        	if(s.getFill()==couleur && s instanceof Circle) {
+        		CercleASupprimer=s;
+        	}else if (s.getFill()==couleur && s instanceof Rectangle) {
+        		RectASupprimer=s;
+        	}
+        }
+		
+		//Supression graphique
+		livraisons.getChildren().remove(CercleASupprimer);
+		livraisons.getChildren().remove(RectASupprimer);
 		
 	}
 
