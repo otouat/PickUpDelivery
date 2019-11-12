@@ -26,12 +26,12 @@ public class CommandeSuppressionLivraison implements Commande {
 	public void doCommande() {
 		// demandeLivraison.supprimerLivraison(livraison);
 		// recalcul avec algo
-		tournee.supprimerLivraison(livraison);
+		//tournee.supprimerLivraison(livraison);
 	}
 
 	@Override
 	public void undoCommande() {
-		tournee.ajouterLivraison(positionAjout,livraison);
+		//tournee.ajouterLivraison(positionAjout,livraison);
 
 	}
 
