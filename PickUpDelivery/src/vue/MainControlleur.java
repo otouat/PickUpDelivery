@@ -194,8 +194,6 @@ public class MainControlleur {
 			System.out.println(test.getColor());
 		}
 		
-		observable.remove(PickASupprimer);
-		//listview.getItems().clear();
 		initialiseListView();
 		
 		

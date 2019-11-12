@@ -100,6 +100,12 @@ public class Data {
 		    	
 	    	
 	    }
+	    
+	    public void setVide() {
+	    	title_label.setText( "");
+	    	text1.setText("");
+	    	
+	    }
 
 	    public Pane getPane()
 	    {

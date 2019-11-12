@@ -20,7 +20,9 @@ public class LivraisonListViewCell extends ListCell<LivraisonDisplay>{
 	            data.setInfo(livraisonDisplay);
 	            setGraphic(data.getPane());
 	        } else {
-	        	  Data data = new Data();
+	        	  Data datavide = new Data();
+	        	  datavide.setVide();
+	        	  setGraphic(datavide.getPane());
 	        }
 	    }
 }
