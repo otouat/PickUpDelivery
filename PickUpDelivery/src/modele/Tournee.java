@@ -69,43 +69,43 @@ public class Tournee {
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
 		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()]; //Tableau de couts de tous les chemins du plan
-		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout � partir d'un noeud
-		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout � partir d'un noeud
+		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout a partir d'un noeud
+		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout a partir d'un noeud
 		TSP2 voyageurCommerce = new TSP2();//Initialise la classe de calcul du tsp
-		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds � visiter
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds a visiter
 
 		//On calcule ici le tableau des couts
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			//Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud � visiter indici� par i ( dans noeudAVisiter)
+			//Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud a visiter indicie par i ( dans noeudAVisiter)
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i).getFirst());
 			
 			for (Integer j = 0; j < noeudAVisiter.size(); j++) {
-				//Recupere les couts de trajet entre les noeuds � visiter rep�r�es par leur indice dans mapNoeuds
+				//Recupere les couts de trajet entre les noeuds a visiter reperees par leur indice dans mapNoeuds
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j).getFirst())];
 			}
 			
-			//Recupere la dur�e de visite du noeud � visiter indici� par i ( dans noeudAVisiter)
+			//Recupere la duree de visite du noeud a visiter indicie par i ( dans noeudAVisiter)
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
 		
-		//Execute la m�thode de calcul de la tourn�e
+		//Execute la m�thode de calcul de la tournee
 		voyageurCommerce.chercheSolution(2000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			System.out.println(noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
 		}
 
-		//Etablit l'enchainement de noeuds final � renvoyer de l'entrepot vers le dernier noeud � visiter
+		//Etablit l'enchainement de noeuds final a renvoyer de l'entrepot vers le dernier noeud a visiter
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
-			//Recup�re les indices des noeuds � visiter depuis le r�sultat du tsp ( les indices dans noeudAVisiter)
+			//Recupere les indices des noeuds a visiter depuis le resultat du tsp ( les indices dans noeudAVisiter)
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
 			
-			//R�cup�re les noeuds � visiter ( actuel et suivant) 
+			//Recupere les noeuds a visiter ( actuel et suivant) 
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			
-			//R�cup�re le tableau de pr�c�dence depuis le noeud Actuel
+			//Recupere le tableau de precedence depuis le noeud Actuel
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			
 			//Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et enchainementNoeudAVisiterAvecInfos
