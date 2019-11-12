@@ -58,6 +58,14 @@ public class Instruction {
 		this.nomRueSuivant = nomRueSuivant;
 	}
 
+	public String getToDo() {
+		return toDo;
+	}
+
+	public void setToDo(String toDo) {
+		this.toDo = toDo;
+	}
+
 	public double getLongueur() {
 		return longueur;
 	}
