@@ -1,6 +1,9 @@
 /bin/
+/.classpath
 /.gitignore
-/vue/
-/modele/
+/.project
 /controlleur/
+/fxml/
+/modele/
 /test/
+/vue/

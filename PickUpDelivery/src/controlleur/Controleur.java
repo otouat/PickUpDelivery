@@ -23,7 +23,6 @@ public class Controleur {
 	public final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 	public final EtatTourneeModifiee etatTourneeModifiee = new EtatTourneeModifiee();
 	public final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
-	public final EtatFeuilleDeRouteModifiee etatFeuilleDeRouteModifiee = new EtatFeuilleDeRouteModifiee();
 	public final EtatSupprimer etatSupprimer = new EtatSupprimer();
 
 	/**

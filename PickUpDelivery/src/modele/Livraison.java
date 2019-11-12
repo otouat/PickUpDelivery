@@ -35,4 +35,8 @@ public class Livraison {
 				+ noeudLivraison.GetIdNoeud() + ", durée d'enlevement:" + dureeEnlevement + ", durée de livraison:"
 				+ dureeLivraison;
 	}
+	
+	
+	
+	
 }
