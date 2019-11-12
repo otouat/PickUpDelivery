@@ -62,6 +62,7 @@ public class MainControlleur {
 	private Tournee tournee;
 	private Group livraisons;
 	private List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
+	private ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 	
 	
 	public File selectFileXML() {
@@ -127,14 +128,25 @@ public class MainControlleur {
 	
 	
 	public void initialiseListView(){
-		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-	
-		for (LivraisonDisplay l : livraisonsVue) {
-			observable.add(l);			
+		
+		if (!listview.getItems().isEmpty()){
+			listview.getItems().clear();
 		}
+
+		
+		
+		for (LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);	
+		}
+		System.out.println(observable.size());
 		
 		listview.setItems(observable);
+	/*	for (LivraisonDisplay l : livraisonsVue) {
+			listview.getItems().add(l);	
+		}*/
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+		
+		listview.refresh();
 		listview.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
 			LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();		
 		           // System.out.println(l.getNoeud().GetIdNoeud());
@@ -178,10 +190,21 @@ public class MainControlleur {
 		//suppression vue textuelle
 		livraisonsVue.remove(PickASupprimer);
 		livraisonsVue.remove(DeliveryASupprimer);
+		for(LivraisonDisplay test : livraisonsVue) {
+			System.out.println(test.getColor());
+		}
+		
+		observable.remove(PickASupprimer);
+		//listview.getItems().clear();
 		initialiseListView();
+		
+		
+		System.out.println(livraisonsVue.size());
+		
 		VueDemandeLivraison.removeLivraison(livraisons, l.getColor());
 	
 	}
+	
 	
 
 }
