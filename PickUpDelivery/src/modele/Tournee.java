@@ -213,16 +213,59 @@ public class Tournee {
 
 	}
 	
-	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonAAjouter,Integer rangPreEnlevement,Integer rangPreLivraison) {
+	/**
+	 * Methode qui recalcule la tournée après suppression d'une livraison de la tournée
+	 * 
+	 * @param livraisonASupprimer: l'objet de classe livraison a supprimer
+	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
+	 */
+	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonASupprimer) {
 		
+		Noeud noeudEnlevementASupprimer=livraisonASupprimer.getNoeudEnlevement();
+		Noeud noeudLivraisonASupprimer=livraisonASupprimer.getNoeudLivraison();
+		int indiceNoeudEnlevementASupprimer=0;
+		int indiceNoeudLivraisonASupprimer=0;
 		
+
+		for (HashMap.Entry<Integer, Triplet<Noeud, Livraison, Boolean>> it : noeudAVisiter.entrySet()) {
+			if(it.getValue().getFirst()==noeudEnlevementASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
+				indiceNoeudEnlevementASupprimer=it.getKey();
+			}
+			else if(it.getValue().getFirst()==noeudLivraisonASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
+				indiceNoeudLivraisonASupprimer=it.getKey();
+			}
+		}
+		
+		if(indiceNoeudEnlevementASupprimer==0 || indiceNoeudLivraisonASupprimer==0) {
+			return null;
+		}
+		enchainementNoeudAVisiter.remove((Integer)indiceNoeudEnlevementASupprimer);
+		enchainementNoeudAVisiter.remove((Integer)indiceNoeudLivraisonASupprimer);
+		plusCourtChemins.remove(indiceNoeudEnlevementASupprimer);
+		plusCourtChemins.remove(indiceNoeudLivraisonASupprimer);
+		
+		this.livraisons.remove(livraisonASupprimer);		
+		setNoeudPlan();
 		recalculTournee();
-		return this.enchainementNoeud;
-		
+		return this.enchainementNoeud;	
 	}
 
-	public List<Noeud> recalculTourneeApresAjoutLivraison() {
+	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Integer rangPreEnlevement,Integer rangPreLivraison) {
 		
+		this.livraisons.add(livraisonAAjouter);		
+		setNoeudPlan();
+		
+		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
+		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-1);
+		
+		plusCourtChemins.clear();
+		
+		// On calcule ici le tableau des couts
+		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
+			// Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud
+			// a visiter indicie par i ( dans noeudAVisiter)
+			dijkstra(noeudAVisiter.get(i).getFirst());
+		}
 		recalculTournee();
 		return this.enchainementNoeud;
 		
@@ -325,6 +368,7 @@ public class Tournee {
 	 */
 	private void setNoeudAVisiter() {
 
+		noeudAVisiter.clear();
 		mapDureeVisite = new HashMap<Integer, Integer>();
 
 		mapDureeVisite.put(0, 0);
