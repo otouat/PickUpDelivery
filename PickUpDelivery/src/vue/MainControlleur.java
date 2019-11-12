@@ -183,9 +183,9 @@ public class MainControlleur {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					FeuilleDeRoute feuille = new FeuilleDeRoute(listeTournee, plan, tournee);
+					feuilleDeRoute = new FeuilleDeRoute(listeTournee, plan, tournee);
 					// MainControlleur.feuilleDeRoute =
-					System.out.println(feuille.toString());
+					//System.out.println(feuille.toString());
 					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/feuilleDeRoute.fxml"));
 					Parent root = (Parent) fxmlLoader.load();
 					Stage stage = new Stage();
