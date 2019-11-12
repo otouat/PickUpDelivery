@@ -256,7 +256,7 @@ public class Tournee {
 		setNoeudPlan();
 		
 		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
-		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-1);
+		enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
 		
 		plusCourtChemins.clear();
 		
