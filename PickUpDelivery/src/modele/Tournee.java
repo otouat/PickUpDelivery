@@ -256,7 +256,7 @@ public class Tournee {
 		 * noeudAVisiter) dijkstra(noeudAVisiter.get(i).getFirst()); }
 		 * recalculTournee(); return this.enchainementNoeud;
 		 */
-		this.livraisons.remove(livraisonAAjouter);
+		this.livraisons.add(livraisonAAjouter);
 		setNoeudAVisiter();
 		calculPrecedence();		
 		calculTournee();

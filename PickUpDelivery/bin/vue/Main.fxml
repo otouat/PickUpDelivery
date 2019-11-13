@@ -14,7 +14,6 @@
       <Button fx:id="chargerDemandeButton" disable="true" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#chargerDemandeLivraison" prefHeight="35.0" prefWidth="211.0" text="Charger une demande de livraison" />
       <Button fx:id="calculerTourneeButton" disable="true" layoutX="22.0" layoutY="117.0" mnemonicParsing="false" onAction="#chargerTournee" prefHeight="27.0" prefWidth="211.0" text="Calculer une tournée" />
       <Button fx:id="genererFeuilleRouteButton" disable="true" layoutX="22.0" layoutY="156.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Générer une feuille de route" />
-      <Button disable="true" layoutX="22.0" layoutY="194.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Modifier une feuille de route" />
       <TextArea fx:id="console" editable="false" layoutX="19.0" layoutY="488.0" prefHeight="79.0" prefWidth="962.0" text="Bienvenue dans l'application Pick up &amp; Delivery ! Charger un plan" />
       <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-color: white;" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="30.0" />
       <AnchorPane fx:id="tourneePane" layoutX="263.0" layoutY="30.0" prefHeight="450.0" prefWidth="450.0" />
