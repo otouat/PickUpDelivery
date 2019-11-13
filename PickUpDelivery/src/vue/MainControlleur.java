@@ -110,7 +110,7 @@ public class MainControlleur {
 	public Tournee tournee;
 	public Group livraisons;
 	public List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
-	//public ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+	//ppublic ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 	
 	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
@@ -274,8 +274,8 @@ public class MainControlleur {
 	            	livraisonPane.getChildren().clear();
 	        		VueNoeud.drawClikableNoeud(plan, livraisonPane,MainControlleur.this);
 	            	//VueNoeud.drawClikableNoeudOfTournee(tournee, livraisonPane, MainControlleur.this);
-	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane,livraisonsVue);
-	        		
+	        		//VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane,livraisonsVue);
+	        		livraisonPane.getChildren().add(livraisons);
 	                ajoutBouttonAnchorPane.setVisible(true);
 	                console.setText("Vous entrez en mode ajout de livraison : "
 	                		+ "\n- Commencez par renseigner la dur�e de l'enlevement et de la livraison"
@@ -323,6 +323,7 @@ public class MainControlleur {
 	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
 	            	listeDeCommandes.ajoute(commande);
 	            	
+	            	
 	            	reset();
 	            }
 	        });
@@ -332,8 +333,8 @@ public class MainControlleur {
 		isPickUpAdded=false;
     	isNoeudBeforePickUpAdded = false;
     	livraisonPane.getChildren().clear();
-		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
-		
+		//VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
+		livraisonPane.getChildren().add(livraisons);
         ajoutBouttonAnchorPane.setVisible(false);
         console.setText("Vous pouvez maintenant modifier la tourn�e ou generer une feuille de route. ");
 	}

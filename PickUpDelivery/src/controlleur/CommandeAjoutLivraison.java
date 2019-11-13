@@ -1,11 +1,14 @@
 package controlleur;
 
 import modele.Tournee;
+import vue.LivraisonDisplay;
 import vue.MainControlleur;
+import vue.VueDemandeLivraison;
 import vue.VueTroncon;
 
 import java.util.List;
 
+import javafx.util.Pair;
 import modele.Livraison;
 import modele.Noeud;
 
@@ -16,6 +19,7 @@ public class CommandeAjoutLivraison implements Commande {
 	private Noeud noeudBeforePickUp;
 	private Noeud noeudBeforeDelivery;
 	private MainControlleur fenetre;
+	private Pair<LivraisonDisplay,LivraisonDisplay> pair;
 
 	/**
 	 * Cree la commande qui ajoute a la position position la livraison livraison
@@ -31,18 +35,33 @@ public class CommandeAjoutLivraison implements Commande {
 
 	@Override
 	public void doCommande() {
+		
+		//Ajout graphique
+		pair = VueDemandeLivraison.ajouterLivraison(fenetre.livraisonsVue, livraison, fenetre.livraisons, true);
 		List<Noeud> listeNoeuds = tournee.recalculTourneeApresAjoutLivraison( livraison,noeudBeforePickUp,noeudBeforeDelivery);
+		
+		//Ajout textuel
+		VueDemandeLivraison.updateLivraisonsVueAjout(noeudBeforePickUp,pair.getKey(),fenetre.livraisonsVue);
+		VueDemandeLivraison.updateLivraisonsVueAjout(noeudBeforeDelivery,pair.getValue(),fenetre.livraisonsVue);
 		fenetre.reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
-		System.out.println("Tournee : " + tournee.getenchainementNoeudAVisiterAvecInfos());
+		
+		//Draw nouvelle Tournee
 		VueTroncon.drawTournee(listeNoeuds, fenetre.tourneePane);
 		
 	}
 
 	@Override
 	public void undoCommande() {
+		
 		List<Noeud> listeNoeuds = tournee.recalculTourneeApresSupressionLivraison(livraison);
 		fenetre.reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
+		
 		VueTroncon.drawTournee(listeNoeuds, fenetre.tourneePane);
+		//remove textuel
+		VueDemandeLivraison.removeLivraisonTextuellement(pair.getKey(),fenetre.livraisonsVue);
+		fenetre.initialiseListView();
+		//remove graphiquement
+		VueDemandeLivraison.removeLivraisonGraphiquement(fenetre.livraisons, pair.getKey().getColor());
 	}
 
 }

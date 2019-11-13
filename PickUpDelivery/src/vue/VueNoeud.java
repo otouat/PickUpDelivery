@@ -41,8 +41,10 @@ public class VueNoeud {
 						mainControlleur.console.setText("Renseigner le noeud avant le pick-up");
 						
 						mainControlleur.livraisonPane.getChildren().clear();
-		        		VueNoeud.drawClikableNoeudOfTournee(mainControlleur.tournee, mainControlleur.livraisonPane, mainControlleur);
-		        		VueDemandeLivraison.drawDemandeLivraison(plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+						VueNoeud.drawClikableNoeudOfTournee(mainControlleur.tournee, mainControlleur.livraisonPane, mainControlleur);
+						mainControlleur.livraisonPane.getChildren().add(mainControlleur.livraisons);
+						//VueDemandeLivraison.drawDemandeLivraison(plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+
 		        		
 		        		MainControlleur.isPickUpAdded = true;
 						
@@ -53,7 +55,8 @@ public class VueNoeud {
 						
 						mainControlleur.livraisonPane.getChildren().clear();
 		        		VueNoeud.drawClikableNoeudOfTournee(mainControlleur.tournee, mainControlleur.livraisonPane, mainControlleur);
-		        		VueDemandeLivraison.drawDemandeLivraison(plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+		        		mainControlleur.livraisonPane.getChildren().add(mainControlleur.livraisons);
+		        		//VueDemandeLivraison.drawDemandeLivraison(plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
 					}
 				
 		        });
@@ -95,8 +98,10 @@ public class VueNoeud {
 						mainControlleur.console.setText("Renseigner le noeud correspondant au delivery");
 						
 						mainControlleur.livraisonPane.getChildren().clear();
+						
 		        		VueNoeud.drawClikableNoeud(mainControlleur.plan, mainControlleur.livraisonPane, mainControlleur);
-		        		VueDemandeLivraison.drawDemandeLivraison(mainControlleur.plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+		        		mainControlleur.livraisonPane.getChildren().add(mainControlleur.livraisons);
+		        		//VueDemandeLivraison.drawDemandeLivraison(mainControlleur.plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
 		        		MainControlleur.isNoeudBeforePickUpAdded = true;
 						
 					}else {
@@ -104,7 +109,8 @@ public class VueNoeud {
 						mainControlleur.console.setText("Appuyez maintenant sur enregistrer pour ajouter la livraison");
 						
 						mainControlleur.livraisonPane.getChildren().clear();
-		        		VueDemandeLivraison.drawDemandeLivraison(mainControlleur.plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+						mainControlleur.livraisonPane.getChildren().add(mainControlleur.livraisons);
+						//VueDemandeLivraison.drawDemandeLivraison(mainControlleur.plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
 					}
 				
 		        });
