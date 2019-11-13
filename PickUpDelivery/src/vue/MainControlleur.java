@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import controlleur.CommandeSuppressionLivraison;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -230,7 +231,7 @@ public class MainControlleur {
 
 		});
 
-		reInitialiseListView();
+		reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
 		
 		ajoutLivraisonBoutton.setVisible(true);
 		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -309,14 +310,15 @@ public class MainControlleur {
 		return true;
 	}
 
-	public void reInitialiseListView() {
+	public void reInitialiseListView(	List< Triplet<Noeud, Livraison, Boolean>> liste ) {
 		listview.getItems().clear();
 		
-		List< Triplet<Noeud, Livraison, Boolean>> liste = tournee.getenchainementNoeudAVisiterAvecInfos();
+		//List< Triplet<Noeud, Livraison, Boolean>> liste = tournee.getenchainementNoeudAVisiterAvecInfos();
 
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
 		List<LivraisonDisplay> temp = new ArrayList<LivraisonDisplay>();
+		
 		int i =0;
 		for( Triplet<Noeud, Livraison, Boolean> e : liste) {
 			if(i!=0) {
@@ -349,6 +351,7 @@ public class MainControlleur {
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
 		
+	//	CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison();
 		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
 		
 		initialiseListView();

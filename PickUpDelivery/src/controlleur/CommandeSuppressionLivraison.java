@@ -1,6 +1,7 @@
 package controlleur;
 
 import modele.Tournee;
+import vue.MainControlleur;
 import modele.Livraison;
 
 public class CommandeSuppressionLivraison implements Commande {
@@ -10,6 +11,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	private int positionAjout;
 	private int rangPreEnlevement;
 	private int rangPreLivraison;
+	private MainControlleur fenetre;
 
 	/**
 	 * Cree la commande qui ajoute a la position position la livraison livraison
@@ -18,7 +20,8 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	CommandeSuppressionLivraison(int positionAjout, Livraison livraison, Tournee tournee) {
+	CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, Tournee tournee) {
+		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.tournee = tournee;
 		this.positionAjout = positionAjout; //
