@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
 
+import controlleur.CommandeAjoutLivraison;
+import controlleur.ListeDeCommandes;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -84,6 +86,13 @@ public class MainControlleur {
 	public static Boolean isPickUpAdded=false;
 	public static Boolean isNoeudBeforePickUpAdded=false;
 	
+	@FXML
+	public Button undoButton;
+	@FXML
+	public Button redoButton;
+	private ListeDeCommandes listeDeCommandes = new ListeDeCommandes();
+	
+	
 	
 	public DemandeLivraison demande;
 	public Plan plan;
@@ -124,6 +133,21 @@ public class MainControlleur {
 			
 			console.setText("Charger une demande de livraison. ");
 			chargerDemandeButton.setDisable(false);
+			
+			undoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	listeDeCommandes.undo();
+	            }
+	        });
+			
+			redoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	listeDeCommandes.redo();
+	            }
+	        });
+			
 		}
 		
 	}
@@ -191,7 +215,8 @@ public class MainControlleur {
 	}
 	
 	public void chargerTournee(ActionEvent event){
-		
+		undoButton.setVisible(true);
+		redoButton.setVisible(true);
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
 		VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
@@ -260,7 +285,9 @@ public class MainControlleur {
 	            	System.out.println(noeudDelivery);
 	            	
 	            	// TODO : RECALCUL TOURNEE
-	            	
+	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
+	            	listeDeCommandes.ajoute(commande);
+	            	commande.doCommande();
 	            }
 	        });
 	}
