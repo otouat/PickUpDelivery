@@ -173,7 +173,10 @@ public class Tournee {
 		tripletAChanger.setFirst(noeudChange);
 		noeudAVisiter.put(indiceNoeudAChanger, tripletAChanger);
 		dijkstra(noeudChange);
-
+		courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
+		plusCourtChemins.set(indiceNoeudAChanger,courtChemin);
+		plusCourtChemins.remove(plusCourtChemins.size() - 1);
+		
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
 
 			indiceNoeud = this.enchainementNoeudAVisiter.get(i);
@@ -181,22 +184,18 @@ public class Tournee {
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			enchainementNoeudAVisiterBis.add(indiceNoeud);
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
-			if (i == rangNoeudAChanger) {
-				courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
-			} else {
-				courtChemin = plusCourtChemins.get(indiceNoeud);
-			}
+
+			courtChemin = plusCourtChemins.get(indiceNoeud);
+
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
 
 			enchainementNoeudBis.addAll(chemin);
 
 		}
 
-		if (rangNoeudAChanger == noeudAVisiter.size() - 1) {
-			courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
-		} else {
-			courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
-		}
+
+		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
+
 		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
 		chemin = parcoursChemin(courtChemin, (Noeud) this.entrepot,
 				noeudAVisiter.get(noeudAVisiter.size() - 1).getFirst());
@@ -249,13 +248,28 @@ public class Tournee {
 		return this.enchainementNoeud;	
 	}
 
-	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Integer rangPreEnlevement,Integer rangPreLivraison) {
+	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
 		this.livraisons.add(livraisonAAjouter);		
 		setNoeudPlan();
 		
+		Integer rangPreEnlevement=0;
+		Integer rangPreLivraison=0;
+		
+		for(int i=0;i<enchainementNoeudAVisiter.size();i++ ) {
+			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreEnlevement)) {
+				rangPreEnlevement=i;
+			}
+			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreLivraison)) {
+				rangPreLivraison=i;
+			}
+		}
 		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
 		enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
+		
+		if(rangPreEnlevement==0 || rangPreLivraison==0) {
+			return null;
+		}
 		
 		plusCourtChemins.clear();
 		
