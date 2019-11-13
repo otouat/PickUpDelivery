@@ -322,7 +322,7 @@ public class MainControlleur {
 	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
 	            	listeDeCommandes.ajoute(commande);
 	            	
-	            	VueDemandeLivraison.ajouterLivraison(livraisonsVue, new_livraison, livraisons);
+	            	
 	            	reset();
 	            }
 	        });

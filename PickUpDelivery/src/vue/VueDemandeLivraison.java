@@ -13,6 +13,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.util.Pair;
 import modele.DemandeLivraison;
 import modele.Livraison;
 import modele.Noeud;
@@ -39,7 +40,8 @@ public class VueDemandeLivraison {
         triangle.getPoints().addAll(x_entrepot, y_entrepot-7,  x_entrepot-6,y_entrepot+4,x_entrepot+6, y_entrepot+4);
         triangle.setFill(Color.RED);
         triangle.setStroke(Color.BLACK);
-        livraisonPane.getChildren().add(triangle);
+        livraisons.getChildren().add(triangle);
+        //livraisonPane.getChildren().add(triangle);
         
         //Create Pick up
         int i=0;
@@ -103,18 +105,26 @@ public class VueDemandeLivraison {
 		System.out.println(livraisonsVue.size());
 	}
 	
-	public static void ajouterLivraison(List<LivraisonDisplay> livraisonsVue, Livraison l, Group livraisons) {
+	public static Pair<LivraisonDisplay,LivraisonDisplay> ajouterLivraison(List<LivraisonDisplay> livraisonsVue, Livraison l, Group livraisons, Boolean isNew) {
 		Color c= Color.WHITE;
 		Noeud delivery = l.getNoeudLivraison();
 		Noeud pickup = l.getNoeudEnlevement();
-		for(LivraisonDisplay lD : livraisonsVue ) {
-			if (lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==l.getNoeudEnlevement().GetIdNoeud()) {
-				c=lD.getColor();
-				break;
-			}else if (!lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==delivery.GetIdNoeud()) {
-				c=lD.getColor();
-				break;
+		LivraisonDisplay pickUpAAjouter=null;
+		LivraisonDisplay deliveryAAjouter=null;
+		if(!isNew) {
+			for(LivraisonDisplay lD : livraisonsVue ) {
+				if (lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==l.getNoeudEnlevement().GetIdNoeud()) {
+					c=lD.getColor();
+					break;
+				}else if (!lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==delivery.GetIdNoeud()) {
+					c=lD.getColor();
+					break;
+				}
 			}
+		}else{
+			c= couleurs.get(livraisonsVue.size()-1);
+			pickUpAAjouter = new LivraisonDisplay(l.getNoeudEnlevement(),true,c);
+			deliveryAAjouter = new LivraisonDisplay(l.getNoeudLivraison(),false,c);
 		}
 		Circle cercle = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,c);
 		cercle.setId(pickup.GetIdNoeud());
@@ -124,7 +134,19 @@ public class VueDemandeLivraison {
     	rectangle.setId(delivery.GetIdNoeud());
 		
     	livraisons.getChildren().addAll(rectangle,cercle);
-		
+    	return new Pair<LivraisonDisplay,LivraisonDisplay>(pickUpAAjouter,deliveryAAjouter);
+	}
+	
+	//Ajout d'un élément après noeudBefore
+	public static void updateLivraisonsVueAjout(Noeud noeudBefore, LivraisonDisplay liv ,List<LivraisonDisplay> livraisonsVue) {
+		int index =0;
+		for(int i=0 ; i<livraisonsVue.size() ;i++) {
+			if(noeudBefore.GetIdNoeud()==livraisonsVue.get(i).getNoeud().GetIdNoeud()) {
+				index= i+1;
+				break;
+			}		
+		}
+		livraisonsVue.add(index, liv);
 	}
 
 }
