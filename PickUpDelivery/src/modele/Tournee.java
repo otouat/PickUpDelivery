@@ -251,7 +251,7 @@ public class Tournee {
 	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
 		this.livraisons.add(livraisonAAjouter);		
-		setNoeudPlan();
+		setNoeudAVisiter();
 		
 		Integer rangPreEnlevement=0;
 		Integer rangPreLivraison=0;
