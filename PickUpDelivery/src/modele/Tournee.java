@@ -240,25 +240,40 @@ public class Tournee {
 	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Triplet<Noeud, Livraison, Boolean> noeudPreEnlevement,Triplet<Noeud, Livraison, Boolean> noeudPreLivraison) {
 		
 			
-		  Triplet<Noeud,Livraison,Boolean> tripletNoeudEnlevementAAjouter=new Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudEnlevement(),livraisonAAjouter,true);
-		  Triplet<Noeud,Livraison,Boolean> tripletNoeudLivraisonAAjouter=new Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudLivraison(),livraisonAAjouter,false);
-		  this.livraisons.add(livraisonAAjouter); 
+		/*
+		 * Triplet<Noeud,Livraison,Boolean> tripletNoeudEnlevementAAjouter=new
+		 * Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudEnlevement(),
+		 * livraisonAAjouter,true); Triplet<Noeud,Livraison,Boolean>
+		 * tripletNoeudLivraisonAAjouter=new
+		 * Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudLivraison(),
+		 * livraisonAAjouter,false); this.livraisons.add(livraisonAAjouter);
+		 * setNoeudAVisiter();
+		 * 
+		 * Integer
+		 * rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement);
+		 * Integer
+		 * rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison);
+		 * 
+		 * 
+		 * enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.
+		 * get(tripletNoeudEnlevementAAjouter));
+		 * enchainementNoeudAVisiter.add(rangPreLivraison,noeudAVisiterAssocieIndice.get
+		 * (tripletNoeudLivraisonAAjouter));
+		 * 
+		 * 
+		 * plusCourtChemins.clear();
+		 * 
+		 * for (Integer i = 0; i <noeudAVisiter.size(); i++) {
+		 * dijkstra(noeudAVisiter.get(i).getFirst()); } recalculTournee(); return
+		 * this.enchainementNoeud;
+		 */
+		  
+		  
+		  
+		  this.livraisons.add(livraisonAAjouter);
 		  setNoeudAVisiter();
-		  
-		  Integer rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement); 
-		  Integer rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison); 
-		  
-		  
-		  enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.get(tripletNoeudEnlevementAAjouter));
-		  enchainementNoeudAVisiter.add(rangPreLivraison,noeudAVisiterAssocieIndice.get(tripletNoeudLivraisonAAjouter));
-		  
-		  
-		  plusCourtChemins.clear();
-		  
-		  for (Integer i = 0; i <noeudAVisiter.size(); i++) {
-			  dijkstra(noeudAVisiter.get(i).getFirst());
-		  }
-		  recalculTournee(); 
+		  calculPrecedence();		
+		  calculTournee();
 		  return this.enchainementNoeud;
 
 		
@@ -319,10 +334,6 @@ public class Tournee {
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 		Noeud current = noeudSuivant;
 		chemin.add(noeudSuivant);
-		System.out.println("CC "+courtChemin);
-		System.out.println("current "+current);
-		System.out.println("Na "+noeudActuel);
-		System.out.println("court . get "+courtChemin.get(current));
 		if (courtChemin.get(current).equal(noeudActuel)) {
 			chemin.add(noeudActuel);
 		} else {
