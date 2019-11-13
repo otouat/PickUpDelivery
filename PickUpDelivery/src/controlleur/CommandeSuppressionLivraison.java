@@ -74,7 +74,7 @@ public class CommandeSuppressionLivraison implements Commande {
 		
 		//affichage graphique
 		//fenetre.demande.AjouterLivraison(livraison);
-		
+		VueDemandeLivraison.ajouterLivraison(fenetre.livraisonsVue,livraison,fenetre.livraisons);
 		//affichage tournee
 		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
 		//TODO : modif graphique

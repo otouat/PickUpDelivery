@@ -102,5 +102,29 @@ public class VueDemandeLivraison {
 		livraisonsVue.remove(DeliveryASupprimer);
 		System.out.println(livraisonsVue.size());
 	}
+	
+	public static void ajouterLivraison(List<LivraisonDisplay> livraisonsVue, Livraison l, Group livraisons) {
+		Color c= Color.WHITE;
+		Noeud delivery = l.getNoeudLivraison();
+		Noeud pickup = l.getNoeudEnlevement();
+		for(LivraisonDisplay lD : livraisonsVue ) {
+			if (lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==l.getNoeudEnlevement().GetIdNoeud()) {
+				c=lD.getColor();
+				break;
+			}else if (!lD.getIsPickup() && lD.getNoeud().GetIdNoeud()==delivery.GetIdNoeud()) {
+				c=lD.getColor();
+				break;
+			}
+		}
+		Circle cercle = new Circle(VueUtils.getNewX(pickup.GetLongitude()),VueUtils.getNewY(pickup.GetLatitude()),5,c);
+		cercle.setId(pickup.GetIdNoeud());
+		
+		Rectangle rectangle = new Rectangle(VueUtils.getNewX(delivery.GetLongitude())-5,VueUtils.getNewY(delivery.GetLatitude())-5,10,10);
+    	rectangle.setFill(c);
+    	rectangle.setId(delivery.GetIdNoeud());
+		
+    	livraisons.getChildren().addAll(rectangle,cercle);
+		
+	}
 
 }
