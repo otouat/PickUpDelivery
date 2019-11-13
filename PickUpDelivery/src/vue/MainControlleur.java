@@ -124,6 +124,7 @@ public class MainControlleur {
 	public void resetVue() {
 		listview.getItems().clear();
 	}
+	
 	public void chargerPlanAction(ActionEvent event) {
 		File selectedFile = selectFileXML();
 		resetVue();
@@ -394,8 +395,7 @@ public class MainControlleur {
 				break;
 			}
 		}
-		List< Triplet<Noeud, Livraison, Boolean>> liste= tournee.getenchainementNoeudAVisiterAvecInfos();
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, liste) ;
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
 		listeDeCommandes.ajoute(cde);
 		
 		}else {

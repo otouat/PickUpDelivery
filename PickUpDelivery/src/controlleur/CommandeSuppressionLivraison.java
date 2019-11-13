@@ -31,7 +31,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee,List< Triplet<Noeud, Livraison, Boolean>> liste ) {
+	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee) {
 		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.l = l;
@@ -39,7 +39,6 @@ public class CommandeSuppressionLivraison implements Commande {
 		this.liste = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
 		for(Triplet<Noeud, Livraison, Boolean> t : tournee.getenchainementNoeudAVisiterAvecInfos()) {
 			this.liste.add(t);
-			System.out.println("CEST ICI ----"+t.getFirst().GetIdNoeud());
 		}
 		ancienneTournee =new ArrayList<Noeud>();
 		for(Noeud n : tournee.calculTournee()) {
