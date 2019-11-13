@@ -124,6 +124,7 @@ public class MainControlleur {
 	public void resetVue() {
 		listview.getItems().clear();
 	}
+	
 	public void chargerPlanAction(ActionEvent event) {
 		File selectedFile = selectFileXML();
 		resetVue();
@@ -214,9 +215,7 @@ public class MainControlleur {
 		
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 
-		for (LivraisonDisplay l : livraisonsVue) {
-			observable.add(l);	
-		}
+		remplirObservable(livraisonsVue,observable);
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 	
@@ -296,7 +295,7 @@ public class MainControlleur {
 	            @Override
 	            public void handle(ActionEvent event) {
 	            	if(!((estUnEntier(dureeEnlevementTextField.getText()))&& (estUnEntier(dureeLivraisonTextField.getText())))){
-	            		console.setText("La durée de l'enlevement et de livraison doivent être des entiers");
+	            		console.setText("La durï¿½e de l'enlevement et de livraison doivent ï¿½tre des entiers");
 	            		return;
 	            	} else if(noeudPickUp == null){
 	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
@@ -336,7 +335,7 @@ public class MainControlleur {
 		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 		
         ajoutBouttonAnchorPane.setVisible(false);
-        console.setText("Vous pouvez maintenant modifier la tournée ou generer une feuille de route. ");
+        console.setText("Vous pouvez maintenant modifier la tournï¿½e ou generer une feuille de route. ");
 	}
 	private boolean estUnEntier(String chaine) {
 		try {
@@ -362,6 +361,7 @@ public class MainControlleur {
 				for(LivraisonDisplay l : livraisonsVue) {
 					if(l.getNoeud().GetIdNoeud() == e.getFirst().GetIdNoeud() ) {
 						c=l.getColor();
+						break;
 					}
 				}
 				System.out.println(e.getFirst());
@@ -370,13 +370,10 @@ public class MainControlleur {
 			}
 			i++;
 		}
-		livraisonsVue.clear();
 		
-		for(LivraisonDisplay l : temp) {
-			//MAJ de la liste qu'on utilise
-			livraisonsVue.add(l);
-			observable.add(l);
-		}
+		setLivraisonsVue(temp);
+		remplirObservable(livraisonsVue, observable);
+
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
@@ -387,6 +384,7 @@ public class MainControlleur {
 		//S'il reste plus d'une livraison
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		
 		Livraison liv = new Livraison(l.getNoeud(),l.getNoeud(),0,0);
 		for (Livraison livraison : demande.getLivraisons()) {
 			if(l.getIsPickup() && livraison.getNoeudEnlevement().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
@@ -397,9 +395,7 @@ public class MainControlleur {
 				break;
 			}
 		}
-		
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, tournee.getenchainementNoeudAVisiterAvecInfos()) ;
-		cde.doCommande();
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
 		listeDeCommandes.ajoute(cde);
 		
 		}else {
@@ -408,6 +404,19 @@ public class MainControlleur {
 	
 	}
 	
+	public List<LivraisonDisplay> setLivraisonsVue(List<LivraisonDisplay> temp){
+		livraisonsVue.clear();
+		for(LivraisonDisplay l : temp) {
+			livraisonsVue.add(l);
+		}
+		return livraisonsVue;
+	}
+	
+	public void remplirObservable(List<LivraisonDisplay> livraisonsVue, ObservableList<LivraisonDisplay> observable) {
+		for(LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);
+		}
+	}
 	
 
 }

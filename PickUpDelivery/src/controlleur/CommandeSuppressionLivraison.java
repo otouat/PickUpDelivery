@@ -7,6 +7,7 @@ import vue.MainControlleur;
 import vue.VueDemandeLivraison;
 import vue.VueTroncon;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import modele.Livraison;
@@ -19,6 +20,8 @@ public class CommandeSuppressionLivraison implements Commande {
 	private LivraisonDisplay l;
 	private MainControlleur fenetre;
 	private List< Triplet<Noeud, Livraison, Boolean>> liste;
+	private List<LivraisonDisplay> ancienLivraisonsVue;
+	private List<Noeud> ancienneTournee;
 	
 
 	/**
@@ -28,21 +31,34 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee,List< Triplet<Noeud, Livraison, Boolean>> liste ) {
+	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee) {
 		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.l = l;
 		this.tournee = tournee;
-		this.liste=liste;
+		this.liste = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
+		for(Triplet<Noeud, Livraison, Boolean> t : tournee.getenchainementNoeudAVisiterAvecInfos()) {
+			this.liste.add(t);
+		}
+		ancienneTournee =new ArrayList<Noeud>();
+		for(Noeud n : tournee.calculTournee()) {
+			ancienneTournee.add(n);
+		}
+		ancienLivraisonsVue = new ArrayList<LivraisonDisplay>();
 		
 	}
 
 	@Override
 	public void doCommande() {
 		
+		
+		for ( LivraisonDisplay l : fenetre.livraisonsVue) {
+			ancienLivraisonsVue.add(l);
+		}
+		//affichage textuel
 		VueDemandeLivraison.removeLivraisonTextuellement(l,fenetre.livraisonsVue);
 		fenetre.initialiseListView();
-		
+		//affichage graphique
 		VueDemandeLivraison.removeLivraisonGraphiquement(fenetre.livraisons, l.getColor());
 	
 		// recalcul avec algo
@@ -51,9 +67,15 @@ public class CommandeSuppressionLivraison implements Commande {
 
 	@Override
 	public void undoCommande() {
-		
-		//rajouter la couleur 
+		//affichage textuel
+		fenetre.setLivraisonsVue(ancienLivraisonsVue);
 		fenetre.reInitialiseListView(liste);
+		
+		//affichage graphique
+		//fenetre.demande.AjouterLivraison(livraison);
+		VueDemandeLivraison.ajouterLivraison(fenetre.livraisonsVue,livraison,fenetre.livraisons);
+		//affichage tournee
+		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
 		//TODO : modif graphique
 	}
 
