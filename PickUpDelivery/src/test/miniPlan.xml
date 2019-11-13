@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<reseau>
+<noeud id="1" latitude="0" longitude="10"/>
+<noeud id="2" latitude="10" longitude="20"/>
+<noeud id="3" latitude="12" longitude="0"/>
+<noeud id="4" latitude="15" longitude="10"/>
+<noeud id="5" latitude="22" longitude="0"/>
+<noeud id="6" latitude="22" longitude="20"/>
+<!-- <noeud id="7" latitude="45.448651" longitude="5.16123"/>
+<noeud id="8" latitude="45.115656" longitude="5.5421"/>
+<noeud id="9" latitude="44.651651" longitude="5.59896"/>
+<noeud id="10" latitude="45.7545" longitude="5.4848"/> -->
+<troncon destination="2" longueur="20" nomRue="Rue 1-2" origine="1"/>
+<troncon destination="1" longueur="20" nomRue="Rue 2-1" origine="2"/>
+<troncon destination="3" longueur="30" nomRue="Rue 1-3" origine="1"/>
+<troncon destination="1" longueur="30" nomRue="Rue 3-1" origine="3"/>
+<troncon destination="4" longueur="50" nomRue="Rue 1-4" origine="1"/>
+<troncon destination="1" longueur="50" nomRue="Rue 4-1" origine="4"/>
+<troncon destination="4" longueur="20" nomRue="Rue 2-4" origine="2"/>
+<troncon destination="2" longueur="20" nomRue="Rue 4-2" origine="4"/>
+<troncon destination="6" longueur="30" nomRue="Rue 2-6" origine="2"/>
+<troncon destination="2" longueur="30" nomRue="Rue 6-2" origine="6"/>
+<troncon destination="4" longueur="40" nomRue="Rue 3-4" origine="3"/>
+<troncon destination="3" longueur="40" nomRue="Rue 4-3" origine="4"/>
+<troncon destination="5" longueur="100" nomRue="Rue 3-5" origine="3"/>
+<troncon destination="3" longueur="100" nomRue="Rue 5-3" origine="5"/>
+<troncon destination="5" longueur="25" nomRue="Rue 4-5" origine="4"/>
+<troncon destination="4" longueur="25" nomRue="Rue 5-4" origine="5"/>
+<troncon destination="6" longueur="20" nomRue="Rue 4-6" origine="4"/>
+<troncon destination="4" longueur="20" nomRue="Rue 6-4" origine="6"/>
+<troncon destination="6" longueur="30" nomRue="Rue 5-6" origine="5"/>
+<troncon destination="5" longueur="30" nomRue="Rue 6-5" origine="6"/>
+</reseau>
