@@ -108,6 +108,7 @@ public class EtatTourneeCalculee extends EtatInit {
 		c.setEtatCourant(c.etatFeuilleDeRouteEditee);
 	}
 	
+
 	
 	
 }

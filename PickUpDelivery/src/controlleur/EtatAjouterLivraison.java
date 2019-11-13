@@ -1,6 +1,6 @@
 package controlleur;
 
-import vue.MainControlleur;//
+import vue.MainControlleur;
 import java.io.File;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import vue.VueDemandeLivraison;
 import vue.VueTroncon;
 import vue.VueUtils;
 
-public class EtatAjouterLivraison  extends EtatInit {
+public class EtatAjouterLivraison implements Etat {
 
 	@Override
 	public void ajouterLivraison(Controleur c, MainControlleur f) {
@@ -108,6 +108,48 @@ public class EtatAjouterLivraison  extends EtatInit {
 		
 		c.getFenetre().listview.setItems(observable);
 		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+	}
+
+	@Override
+	public void calculerTournee(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void supprimerLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierOrdreLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
