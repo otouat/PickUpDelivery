@@ -23,7 +23,7 @@ public class CommandeAjoutLivraison implements Commande {
 	}
 
 	@Override
-	public void doCommande() {
+	public void doCommande() {//
 		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 		//TODO : modif graphique
 	}
