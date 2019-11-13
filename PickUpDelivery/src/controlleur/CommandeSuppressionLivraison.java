@@ -24,7 +24,6 @@ public class CommandeSuppressionLivraison implements Commande {
 		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.tournee = tournee;
-		this.positionAjout = positionAjout; //
 	}
 
 	@Override
@@ -32,13 +31,14 @@ public class CommandeSuppressionLivraison implements Commande {
 		// demandeLivraison.supprimerLivraison(livraison);
 		// recalcul avec algo
 		tournee.recalculTourneeApresSupressionLivraison(livraison);
+		//TODO : modif graphique
 	}
 
 	@Override
 	public void undoCommande() {
 		
-		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
-
+		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
+		//TODO : modif graphique
 	}
 
 }
