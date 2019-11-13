@@ -381,7 +381,7 @@ public class Tournee {
 	 */
 	private void setNoeudAVisiter() {
 
-		noeudAVisiter.clear();
+		noeudAVisiter.clear();//
 		mapDureeVisite = new HashMap<Integer, Integer>();
 
 		mapDureeVisite.put(0, 0);
