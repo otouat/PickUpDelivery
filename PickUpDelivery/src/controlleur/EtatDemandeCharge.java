@@ -65,4 +65,5 @@ public class EtatDemandeCharge extends EtatInit {
 		return selectedFile;
 		
 	}
+	
 }

@@ -22,9 +22,12 @@ public class Controleur {
 	public final EtatDemandeCharge etatDemandeCharge = new EtatDemandeCharge();
 	public final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 	public final EtatTourneeModifiee etatTourneeModifiee = new EtatTourneeModifiee();
-	public final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
 	public final EtatAjouterLivraison etatAjouter = new EtatAjouterLivraison();
 	public final EtatSupprimerLivraison etatSupprimer = new EtatSupprimerLivraison();
+	public final EtatModifierOrdreLivraison etatModifieOrdreLivraison = new EtatModifierOrdreLivraison();
+	public final EtatModifierNoeudLivraison etatModifieNoeudLivraison = new EtatModifierNoeudLivraison();
+	public final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
+	
 
 	/**
 	 * Cree le controleur de l'applcation
@@ -79,6 +82,18 @@ public class Controleur {
 		etatCourant.calculerTournee(this,fenetre);
 	}
 	
+	public void modifierTournee() {
+		etatCourant.modifierTournee(this,fenetre);
+	};
+	
+	public void validerTournee() {
+		etatCourant.validerTournee(this,fenetre);
+	};
+	
+	public void consulterTournee() {
+		etatCourant.consulterTournee(this,fenetre);
+	};
+
 	public void genererFeuilleDeRoute() {
 		etatCourant.genererFeuilleDeRoute(this, fenetre);
 	}

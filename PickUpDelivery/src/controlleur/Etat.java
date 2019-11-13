@@ -42,16 +42,25 @@ public interface Etat {
 	 * @param controleur
 	 * @param fenetre
 	 */
-	public void supprimerLivraison(Controleur controleur, MainControlleur fenetre);
+	
+	public void supprimerLivraison(Controleur controleur,MainControlleur fenetre);
 
 	/**
-	 * Methode appelee par controleur apres un clic sur le bouton "Echanger 2
-	 * Livraisons"
+	 * Methode appelee par controleur apres un clic sur le bouton "Retirer une
+	 * Livraison"
 	 * 
 	 * @param controleur
 	 * @param fenetre
 	 */
-	public void echangerLivraisons(Controleur controleur, MainControlleur fenetre);
+	public void modifierOrdreLivraison(Controleur controleur, MainControlleur fenetre);
+
+	/**
+	 * Methode appelee par controleur 
+	 * @param controleur
+	 * @param fenetre
+	 */
+	
+	public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre);
 
 	/**
 	 * Methode appelee par controleur apres un clic sur le bouton "Valider Tournee"
@@ -60,8 +69,16 @@ public interface Etat {
 	 * @param fenetre
 	 */
 	
+	public void modifierTournee(Controleur controleur, MainControlleur fenetre);
+	
+	public void validerTournee(Controleur controleur, MainControlleur fenetre);
+	
+	
+	public void consulterTournee(Controleur controleur, MainControlleur fenetre);
+
+	
 		
-	public default void genererFeuilleDeRoute(Controleur c, MainControlleur f){};
+	public void genererFeuilleDeRoute(Controleur c, MainControlleur f);
 	
 	/**
 	 * Methode appelee par le controleur apres un clic sur le bouton "Undo"
