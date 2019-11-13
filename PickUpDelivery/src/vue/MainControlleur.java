@@ -120,9 +120,13 @@ public class MainControlleur {
 		return selectedFile;
 
 	}
-
+	
+	public void resetVue() {
+		listview.getItems().clear();
+	}
 	public void chargerPlanAction(ActionEvent event) {
 		File selectedFile = selectFileXML();
+		resetVue();
 		if (selectedFile != null) {
 			System.out.println(selectedFile.getName());
 
@@ -309,7 +313,7 @@ public class MainControlleur {
 	            	}
 	            	
 	            	Livraison new_livraison = new Livraison(noeudPickUp,noeudDelivery,Integer.valueOf(dureeEnlevementTextField.getText()),Integer.valueOf(dureeLivraisonTextField.getText()));
-	            	demande.AjouterLivraison(new_livraison);
+	            	//demande.AjouterLivraison(new_livraison);
 	            	
 	            	System.out.println(noeudBeforeDelivery);
 	            	System.out.println(noeudBeforePickUp);
@@ -319,7 +323,6 @@ public class MainControlleur {
 	            	// TODO : RECALCUL TOURNEE
 	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
 	            	listeDeCommandes.ajoute(commande);
-	            	commande.doCommande();
 	            	
 	            	reset();
 	            }
