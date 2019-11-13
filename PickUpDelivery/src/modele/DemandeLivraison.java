@@ -16,7 +16,6 @@ public class DemandeLivraison {
 	public Entrepot getEntrepotLivraison() {
 		return entrepotLivraison;
 	}
-	
 
 	public void setLivraisons(List<Livraison> livraisons) {
 		this.livraisons = livraisons;
@@ -39,10 +38,21 @@ public class DemandeLivraison {
 	}
 
 	public void getInfo() {
-		System.out.println("Heure de depart de l'entrepot: " + entrepotLivraison.getHeureDepart());
+		//System.out.println("Heure de depart de l'entrepot: " + entrepotLivraison.getHeureDepart());
 		System.out.println("nombre de livraisons: " + livraisons.size());
 		System.out.println(livraisons.get(4).getDureeEnlevement());
 
 	}
 
+	public String toString() {
+
+		String infoDemande = "nombre de livraisons: " + livraisons.size() + "\n";
+		infoDemande = infoDemande + entrepotLivraison.toString() + "\n";
+		for (int i = 0; i < livraisons.size(); i++) {
+			infoDemande = infoDemande + livraisons.get(i).toString() + "\n";
+		}
+		return infoDemande;
+	}
+	
+	
 }

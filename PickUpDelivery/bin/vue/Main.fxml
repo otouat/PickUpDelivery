@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.shape.Rectangle?>
 
-<AnchorPane prefHeight="605.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vue.MainControlleur">
+<AnchorPane fx:id="listview_item" prefHeight="605.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vue.MainControlleur">
    <children>
-      <Button fx:id="chargerPlanBoutton" layoutX="22.0" layoutY="67.0" mnemonicParsing="false" onAction="#chargerPlanAction" prefHeight="27.0" prefWidth="211.0" text="Charger un plan" />
-      <Button disable="true" layoutX="22.0" layoutY="115.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="211.0" text="Charger une demande de livraison" />
-      <Button disable="true" layoutX="22.0" layoutY="172.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Calculer une tournée" />
-      <Button disable="true" layoutX="22.0" layoutY="219.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Générer une feuille de route" />
-      <Button disable="true" layoutX="22.0" layoutY="271.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Modifier une feuille de route" />
-      <TextArea editable="false" layoutX="19.0" layoutY="488.0" prefHeight="79.0" prefWidth="962.0" text="Bienvenue dans l'application Pick up &amp; Delivery ! Charger un plan" />
-      <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style=" -fx-border-color: black" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="30.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f7f8f8" height="450.0" layoutX="751.0" layoutY="33.0" stroke="BLACK" strokeType="INSIDE" width="199.0" />
+      <Button fx:id="chargerPlanBoutton" layoutX="22.0" layoutY="30.0" mnemonicParsing="false" onAction="#chargerPlanAction" prefHeight="27.0" prefWidth="211.0" text="Charger un plan" />
+      <Button fx:id="chargerDemandeButton" disable="true" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#chargerDemandeLivraison" prefHeight="35.0" prefWidth="211.0" text="Charger une demande de livraison" />
+      <Button fx:id="calculerTourneeButton" disable="true" layoutX="22.0" layoutY="117.0" mnemonicParsing="false" onAction="#chargerTournee" prefHeight="27.0" prefWidth="211.0" text="Calculer une tournée" />
+      <Button fx:id="genererFeuilleRouteButton" disable="true" layoutX="22.0" layoutY="156.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Générer une feuille de route" />
+      <TextArea fx:id="console" editable="false" layoutX="19.0" layoutY="488.0" prefHeight="79.0" prefWidth="962.0" text="Bienvenue dans l'application Pick up &amp; Delivery ! Charger un plan" />
+      <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-color: white;" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="30.0" />
+      <AnchorPane fx:id="tourneePane" layoutX="263.0" layoutY="30.0" prefHeight="450.0" prefWidth="450.0" />
+      <AnchorPane fx:id="livraisonPane" layoutX="264.0" layoutY="30.0" prefHeight="450.0" prefWidth="450.0" />
+      <BorderPane layoutX="748.0" layoutY="30.0" prefHeight="450.0" prefWidth="233.0">
+         <top>
+            <ListView fx:id="listview" prefHeight="453.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
+         </top>
+      </BorderPane>
+      <AnchorPane fx:id="ajoutBouttonAnchorPane" layoutX="29.0" layoutY="303.0" prefHeight="129.0" prefWidth="200.0" visible="false">
+         <children>
+            <Label layoutX="36.0" layoutY="6.0" prefHeight="17.0" prefWidth="133.0" text="Ajouter une livraison" />
+            <Label layoutX="14.0" layoutY="30.0" text="durée enlevement" />
+            <TextField fx:id="dureeEnlevementTextField" layoutX="14.0" layoutY="47.0" prefHeight="25.0" prefWidth="173.0" text="30" />
+            <Label layoutX="14.0" layoutY="82.0" text="duree livraison" />
+            <TextField fx:id="dureeLivraisonTextField" layoutX="14.0" layoutY="99.0" prefHeight="25.0" prefWidth="173.0" text="30" />
+            <Button fx:id="saveButtonAjoutLivraison" layoutX="11.0" layoutY="137.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Enregistrer" />
+            <Button id="annulerAjoutBoutton" fx:id="annulerAjoutBoutton" layoutX="103.0" layoutY="137.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="88.0" text="Annuler" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="ajoutLivraisonBoutton" layoutX="19.0" layoutY="269.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="211.0" text="Ajouter une livraison" visible="false" />
+      <Button fx:id="undoButton" layoutX="469.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="undo" visible="false" />
+      <Button fx:id="redoButton" layoutX="562.0" layoutY="1.0" mnemonicParsing="false" text="redo" visible="false" />
+      <Button fx:id="supprimerBoutton" layoutX="21.0" layoutY="230.0" mnemonicParsing="false" onAction="#supprimerLivraison" prefHeight="27.0" prefWidth="211.0" text="Supprimer une livraison" visible="false" />
    </children>
 </AnchorPane>

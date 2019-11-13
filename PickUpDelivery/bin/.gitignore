@@ -1,1 +1,7 @@
+/bin/
+/.gitignore
+/controlleur/
+/fxml/
+/modele/
 /test/
+/vue/
