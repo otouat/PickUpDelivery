@@ -10,7 +10,7 @@ import vue.LivraisonDisplay;
 import vue.LivraisonListViewCell;
 import vue.MainControlleur;
 import vue.VueTroncon;
-import vue.VueUtils;
+import vue.VueUtils;//
 
 public class EtatFeuilleDeRouteEditee extends EtatInit {
 	
