@@ -33,9 +33,8 @@ public class CommandeAjoutLivraison implements Commande {
 	public void doCommande() {
 		List<Noeud> listeNoeuds = tournee.recalculTourneeApresAjoutLivraison( livraison,noeudBeforePickUp,noeudBeforeDelivery);
 		fenetre.reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
+		System.out.println("Tournee : " + tournee.getenchainementNoeudAVisiterAvecInfos());
 		VueTroncon.drawTournee(listeNoeuds, fenetre.tourneePane);
-		
-		
 		
 	}
 

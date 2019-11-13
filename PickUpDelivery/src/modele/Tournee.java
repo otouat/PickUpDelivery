@@ -318,6 +318,10 @@ public class Tournee {
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
 		Noeud current = noeudSuivant;
 		chemin.add(noeudSuivant);
+		System.out.println("CC "+courtChemin);
+		System.out.println("current "+current);
+		System.out.println("Na "+noeudActuel);
+		System.out.println("court . get "+courtChemin.get(current));
 		if (courtChemin.get(current).equal(noeudActuel)) {
 			chemin.add(noeudActuel);
 		} else {

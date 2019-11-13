@@ -320,7 +320,6 @@ public class MainControlleur {
 	            	// TODO : RECALCUL TOURNEE
 	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
 	            	listeDeCommandes.ajoute(commande);
-	            	commande.doCommande();
 	            	
 	            	reset();
 	            }
