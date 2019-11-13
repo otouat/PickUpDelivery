@@ -237,36 +237,30 @@ public class Tournee {
 		return this.enchainementNoeud;	
 	}
 
-	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
+	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Triplet<Noeud, Livraison, Boolean> noeudPreEnlevement,Triplet<Noeud, Livraison, Boolean> noeudPreLivraison) {
 		
-		/*
-		 * this.livraisons.add(livraisonAAjouter); setNoeudAVisiter();
-		 * 
-		 * Integer rangPreEnlevement=0; Integer rangPreLivraison=0;
-		 * 
-		 * for(int i=0;i<enchainementNoeudAVisiter.size();i++ ) {
-		 * if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(
-		 * noeudPreEnlevement)) { rangPreEnlevement=i; }
-		 * if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(
-		 * noeudPreLivraison)) { rangPreLivraison=i; } }
-		 * enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
-		 * enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
-		 * 
-		 * if(rangPreEnlevement==0 || rangPreLivraison==0) { return null; }
-		 * 
-		 * plusCourtChemins.clear();
-		 * 
-		 * // On calcule ici le tableau des couts for (Integer i = 0; i <
-		 * noeudAVisiter.size(); i++) { // Recupere le tableau de cout en executant
-		 * dijkstra sur le plan depuis le noeud // a visiter indicie par i ( dans
-		 * noeudAVisiter) dijkstra(noeudAVisiter.get(i).getFirst()); }
-		 * recalculTournee(); return this.enchainementNoeud;
-		 */
-		this.livraisons.add(livraisonAAjouter);
-		setNoeudAVisiter();
-		calculPrecedence();		
-		calculTournee();
-		return this.enchainementNoeud;	
+			
+		  Triplet<Noeud,Livraison,Boolean> tripletNoeudEnlevementAAjouter=new Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudEnlevement(),livraisonAAjouter,true);
+		  Triplet<Noeud,Livraison,Boolean> tripletNoeudLivraisonAAjouter=new Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudLivraison(),livraisonAAjouter,false);
+		  this.livraisons.add(livraisonAAjouter); 
+		  setNoeudAVisiter();
+		  
+		  Integer rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement); 
+		  Integer rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison); 
+		  
+		  
+		  enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.get(tripletNoeudEnlevementAAjouter));
+		  enchainementNoeudAVisiter.add(rangPreLivraison,noeudAVisiterAssocieIndice.get(tripletNoeudLivraisonAAjouter));
+		  
+		  
+		  plusCourtChemins.clear();
+		  
+		  for (Integer i = 0; i <noeudAVisiter.size(); i++) {
+			  dijkstra(noeudAVisiter.get(i).getFirst());
+		  }
+		  recalculTournee(); 
+		  return this.enchainementNoeud;
+
 		
 	}
 	
@@ -472,6 +466,7 @@ public class Tournee {
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			enchainementNoeudAVisiterBis.add(indiceNoeud);
 			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
+			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud),i);
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
