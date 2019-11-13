@@ -233,37 +233,34 @@ public class Tournee {
 
 	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
-		this.livraisons.add(livraisonAAjouter);		
+		/*
+		 * this.livraisons.add(livraisonAAjouter); setNoeudAVisiter();
+		 * 
+		 * Integer rangPreEnlevement=0; Integer rangPreLivraison=0;
+		 * 
+		 * for(int i=0;i<enchainementNoeudAVisiter.size();i++ ) {
+		 * if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(
+		 * noeudPreEnlevement)) { rangPreEnlevement=i; }
+		 * if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(
+		 * noeudPreLivraison)) { rangPreLivraison=i; } }
+		 * enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
+		 * enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
+		 * 
+		 * if(rangPreEnlevement==0 || rangPreLivraison==0) { return null; }
+		 * 
+		 * plusCourtChemins.clear();
+		 * 
+		 * // On calcule ici le tableau des couts for (Integer i = 0; i <
+		 * noeudAVisiter.size(); i++) { // Recupere le tableau de cout en executant
+		 * dijkstra sur le plan depuis le noeud // a visiter indicie par i ( dans
+		 * noeudAVisiter) dijkstra(noeudAVisiter.get(i).getFirst()); }
+		 * recalculTournee(); return this.enchainementNoeud;
+		 */
+		this.livraisons.remove(livraisonAAjouter);
 		setNoeudAVisiter();
-		
-		Integer rangPreEnlevement=0;
-		Integer rangPreLivraison=0;
-		
-		for(int i=0;i<enchainementNoeudAVisiter.size();i++ ) {
-			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreEnlevement)) {
-				rangPreEnlevement=i;
-			}
-			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreLivraison)) {
-				rangPreLivraison=i;
-			}
-		}
-		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
-		enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
-		
-		if(rangPreEnlevement==0 || rangPreLivraison==0) {
-			return null;
-		}
-		
-		plusCourtChemins.clear();
-		
-		// On calcule ici le tableau des couts
-		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			// Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud
-			// a visiter indicie par i ( dans noeudAVisiter)
-			dijkstra(noeudAVisiter.get(i).getFirst());
-		}
-		recalculTournee();
-		return this.enchainementNoeud;
+		calculPrecedence();		
+		calculTournee();
+		return this.enchainementNoeud;	
 		
 	}
 
