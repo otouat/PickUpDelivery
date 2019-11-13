@@ -1,8 +1,13 @@
+/**
+ * La classe CommandeAjoutLivraison permet de modifier une livraison dans
+ * la liste de demande 
+ */
+
 package controlleur;
 
+import modele.Livraison;
 import modele.Tournee;
 import vue.MainControlleur;
-import modele.Livraison;
 
 public class CommandeSuppressionLivraison implements Commande {
 
@@ -20,27 +25,28 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, Tournee tournee) {
-		this.fenetre=fenetre;
+	public CommandeSuppressionLivraison(MainControlleur fenetre, Livraison livraison, Tournee tournee) {
+		this.fenetre = fenetre;
 		this.livraison = livraison;
 		this.tournee = tournee;
 	}
 
 	@Override
 	public void doCommande() {
-		
+
 		// demandeLivraison.supprimerLivraison(livraison);
-		
+
 		// recalcul avec algo
 		tournee.recalculTourneeApresSupressionLivraison(livraison);
-		//TODO : modif graphique
+		// TODO : modif graphique
 	}
 
 	@Override
 	public void undoCommande() {
-		
-		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
-		//TODO : modif graphique
+
+		// tournee.recalculTourneeApresAjoutLivraison(
+		// livraison,rangPreEnlevement,rangPreLivraison);
+		// TODO : modif graphique
 	}
 
 }

@@ -1,3 +1,7 @@
+/**
+ * La classe CommandeAjoutLivraison permet de modifier une livraison dans
+ * la liste de demande 
+ */
 package controlleur;
 
 import modele.Livraison;//
@@ -11,19 +15,18 @@ public class CommandeModifierNoeudLivraison implements Commande {
 	private Noeud noeudChange;
 	private Noeud noeudActuel;
 	private int rangNoeudAChanger;
-	
-	
+
 	@Override
 	public void doCommande() {
 		// TODO Auto-generated method stub
-		tournee.recalculTourneeApresChangementNoeud(noeudChange,rangNoeudAChanger);
+		tournee.recalculTourneeApresChangementNoeud(noeudChange, rangNoeudAChanger);
 	}
 
 	@Override
 	public void undoCommande() {
 		// TODO Auto-generated method stub
-		tournee.recalculTourneeApresChangementNoeud(noeudActuel,rangNoeudAChanger);
-		
+		tournee.recalculTourneeApresChangementNoeud(noeudActuel, rangNoeudAChanger);
+
 	}
 
 }

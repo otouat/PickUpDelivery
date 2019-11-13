@@ -2,6 +2,7 @@
  * DataContainer est une structure des données qui contient un plan et une demande de livraisons,
  * cette classe est responsable pour charger les fichiers xml plan et demande livraisons
  * @author Tianming 
+ * @author Joel
  */
 
 package modele;

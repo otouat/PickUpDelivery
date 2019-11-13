@@ -1,3 +1,8 @@
+/**
+ *  Une tournÃ©e est une sÃ©quence ordonnÃ©e de noeuds que le livreur doit visiter en commenÃ§ant
+ *  et terminant par l'entrepÃ´t, afin dâ€™accomplir les livraisons demandÃ©s en un temps minimal.
+ */
+
 package modele;
 
 import java.util.ArrayList;
@@ -34,6 +39,13 @@ public class Tournee {
 	// livraison et un booleen a valeur 'true' si le noeud correspond a un
 	// enlevement
 
+	/**
+	 * Constructeur de la classe Tournee
+	 * 
+	 * @param entrepot
+	 * @param livraisons
+	 * @param plan
+	 */
 	public Tournee(Noeud entrepot, List<Livraison> livraisons, Plan plan) {
 		String idNoeudEntrepot = entrepot.GetIdNoeud();
 		this.entrepot = plan.getNoeuds().get(idNoeudEntrepot);
@@ -66,10 +78,11 @@ public class Tournee {
 		this.mapNoeuds = mapNoeuds;
 	}
 
-	public List<Integer> getEnchainementNoeudAVisiter(){
+	public List<Integer> getEnchainementNoeudAVisiter() {
 		return this.enchainementNoeudAVisiter;
 	}
-	public List<Triplet<Noeud, Livraison, Boolean>> getenchainementNoeudAVisiterAvecInfos(){
+
+	public List<Triplet<Noeud, Livraison, Boolean>> getenchainementNoeudAVisiterAvecInfos() {
 		return enchainementNoeudAVisiterAvecInfos;
 	}
 
@@ -82,59 +95,67 @@ public class Tournee {
 	 */
 	public List<Noeud> calculTournee() {
 
-		Integer indiceNoeud; 
+		Integer indiceNoeud;
 		Integer indiceNoeudSuivant;
-		HashMap<Noeud, Noeud> courtChemin; 
+		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
-		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()]; //Tableau de couts de tous les chemins du plan
-		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout a partir d'un noeud
-		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout a partir d'un noeud
-		TSP2 voyageurCommerce = new TSP2();//Initialise la classe de calcul du tsp
-		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds a visiter
+		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()]; // Tableau de couts de tous les chemins du
+																			// plan
+		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; // Initialise le tableau de cout a partir d'un noeud
+		int[] dureeVisite = new int[noeudAVisiter.size()]; // Initialise le tableau de cout a partir d'un noeud
+		TSP2 voyageurCommerce = new TSP2();// Initialise la classe de calcul du tsp
+		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); // liste de noeud qui represente le chemin qui reliera deux
+															// noeuds a visiter
 
-		//On calcule ici le tableau des couts
+		// On calcule ici le tableau des couts
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			//Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud a visiter indicie par i ( dans noeudAVisiter)
+			// Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud
+			// a visiter indicie par i ( dans noeudAVisiter)
 			distanceDijkstra = dijkstra(noeudAVisiter.get(i).getFirst());
-			
+
 			for (Integer j = 0; j < noeudAVisiter.size(); j++) {
-				//Recupere les couts de trajet entre les noeuds a visiter reperees par leur indice dans mapNoeuds
+				// Recupere les couts de trajet entre les noeuds a visiter reperees par leur
+				// indice dans mapNoeuds
 				cout[i][j] = distanceDijkstra[mapNoeuds.get(noeudAVisiter.get(j).getFirst())];
 			}
-			
-			//Recupere la duree de visite du noeud a visiter indicie par i ( dans noeudAVisiter)
+
+			// Recupere la duree de visite du noeud a visiter indicie par i ( dans
+			// noeudAVisiter)
 			dureeVisite[i] = mapDureeVisite.get(i);
 		}
-		
-		//Execute la mï¿½thode de calcul de la tournee
+
+		// Execute la mï¿½thode de calcul de la tournee
 		voyageurCommerce.chercheSolution(300000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
-			System.out.println("-------- "+noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
+			System.out.println("-------- " + noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
 		}
 
-		//Etablit l'enchainement de noeuds final a renvoyer de l'entrepot vers le dernier noeud a visiter
+		// Etablit l'enchainement de noeuds final a renvoyer de l'entrepot vers le
+		// dernier noeud a visiter
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
-			//Recupere les indices des noeuds a visiter depuis le resultat du tsp ( les indices dans noeudAVisiter)
+			// Recupere les indices des noeuds a visiter depuis le resultat du tsp ( les
+			// indices dans noeudAVisiter)
 			indiceNoeud = voyageurCommerce.getMeilleureSolution(i);
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
-			
-			//Recupere les noeuds a visiter ( actuel et suivant) 
+
+			// Recupere les noeuds a visiter ( actuel et suivant)
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
-			
-			//Recupere le tableau de precedence depuis le noeud Actuel
+
+			// Recupere le tableau de precedence depuis le noeud Actuel
 			courtChemin = plusCourtChemins.get(indiceNoeud);
-			
-			//Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et enchainementNoeudAVisiterAvecInfos
+
+			// Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et
+			// enchainementNoeudAVisiterAvecInfos
 			this.enchainementNoeudAVisiter.add(indiceNoeud);
 			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
-			
-			//Recupere le chemin entre noeudActuel et noeud Suivant
+
+			// Recupere le chemin entre noeudActuel et noeud Suivant
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
-			
-			//Ajoute le chemin dans enchainementNoeud
+
+			// Ajoute le chemin dans enchainementNoeud
 			this.enchainementNoeud.addAll(chemin);
 		}
 		this.enchainementNoeudAVisiter.add(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1));
@@ -144,7 +165,7 @@ public class Tournee {
 				(Noeud) this.entrepot,
 				noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(noeudAVisiter.size() - 1)).getFirst());
 		this.enchainementNoeud.addAll(chemin);
-		
+
 		return this.enchainementNoeud;
 
 	}
@@ -174,9 +195,9 @@ public class Tournee {
 		noeudAVisiter.put(indiceNoeudAChanger, tripletAChanger);
 		dijkstra(noeudChange);
 		courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
-		plusCourtChemins.set(indiceNoeudAChanger,courtChemin);
+		plusCourtChemins.set(indiceNoeudAChanger, courtChemin);
 		plusCourtChemins.remove(plusCourtChemins.size() - 1);
-		
+
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
 
 			indiceNoeud = this.enchainementNoeudAVisiter.get(i);
@@ -192,7 +213,6 @@ public class Tournee {
 			enchainementNoeudBis.addAll(chemin);
 
 		}
-
 
 		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
 
@@ -210,69 +230,71 @@ public class Tournee {
 		return enchainementNoeudBis;
 
 	}
-	
+
 	/**
-	 * Methode qui recalcule la tournée après suppression d'une livraison de la tournée
+	 * Methode qui recalcule la tournï¿½e aprï¿½s suppression d'une livraison de la
+	 * tournï¿½e
 	 * 
 	 * @param livraisonASupprimer: l'objet de classe livraison a supprimer
 	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
 	 */
 	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonASupprimer) {
-		
-		Noeud noeudEnlevementASupprimer=livraisonASupprimer.getNoeudEnlevement();
-		Noeud noeudLivraisonASupprimer=livraisonASupprimer.getNoeudLivraison();
-		int indiceNoeudEnlevementASupprimer=0;
-		int indiceNoeudLivraisonASupprimer=0;
-		
+
+		Noeud noeudEnlevementASupprimer = livraisonASupprimer.getNoeudEnlevement();
+		Noeud noeudLivraisonASupprimer = livraisonASupprimer.getNoeudLivraison();
+		int indiceNoeudEnlevementASupprimer = 0;
+		int indiceNoeudLivraisonASupprimer = 0;
 
 		for (HashMap.Entry<Integer, Triplet<Noeud, Livraison, Boolean>> it : noeudAVisiter.entrySet()) {
-			if(it.getValue().getFirst()==noeudEnlevementASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
-				indiceNoeudEnlevementASupprimer=it.getKey();
-			}
-			else if(it.getValue().getFirst()==noeudLivraisonASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
-				indiceNoeudLivraisonASupprimer=it.getKey();
+			if (it.getValue().getFirst() == noeudEnlevementASupprimer
+					&& it.getValue().getSecond() == livraisonASupprimer) {
+				indiceNoeudEnlevementASupprimer = it.getKey();
+			} else if (it.getValue().getFirst() == noeudLivraisonASupprimer
+					&& it.getValue().getSecond() == livraisonASupprimer) {
+				indiceNoeudLivraisonASupprimer = it.getKey();
 			}
 		}
-		
-		if(indiceNoeudEnlevementASupprimer==0 || indiceNoeudLivraisonASupprimer==0) {
+
+		if (indiceNoeudEnlevementASupprimer == 0 || indiceNoeudLivraisonASupprimer == 0) {
 			return null;
 		}
-		enchainementNoeudAVisiter.remove((Integer)indiceNoeudEnlevementASupprimer);
-		enchainementNoeudAVisiter.remove((Integer)indiceNoeudLivraisonASupprimer);
+		enchainementNoeudAVisiter.remove((Integer) indiceNoeudEnlevementASupprimer);
+		enchainementNoeudAVisiter.remove((Integer) indiceNoeudLivraisonASupprimer);
 		plusCourtChemins.remove(indiceNoeudEnlevementASupprimer);
 		plusCourtChemins.remove(indiceNoeudLivraisonASupprimer);
-		
-		this.livraisons.remove(livraisonASupprimer);		
+
+		this.livraisons.remove(livraisonASupprimer);
 		setNoeudPlan();
 		recalculTournee();
-		return this.enchainementNoeud;	
+		return this.enchainementNoeud;
 	}
 
-	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
-		
-		this.livraisons.add(livraisonAAjouter);		
+	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter, Noeud noeudPreEnlevement,
+			Noeud noeudPreLivraison) {
+
+		this.livraisons.add(livraisonAAjouter);
 		setNoeudPlan();
-		
-		Integer rangPreEnlevement=0;
-		Integer rangPreLivraison=0;
-		
-		for(int i=0;i<enchainementNoeudAVisiter.size();i++ ) {
-			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreEnlevement)) {
-				rangPreEnlevement=i;
+
+		Integer rangPreEnlevement = 0;
+		Integer rangPreLivraison = 0;
+
+		for (int i = 0; i < enchainementNoeudAVisiter.size(); i++) {
+			if (noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreEnlevement)) {
+				rangPreEnlevement = i;
 			}
-			if(noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreLivraison)) {
-				rangPreLivraison=i;
+			if (noeudAVisiter.get(enchainementNoeudAVisiter.get(i)).getFirst().equal(noeudPreLivraison)) {
+				rangPreLivraison = i;
 			}
 		}
-		enchainementNoeudAVisiter.add(rangPreEnlevement,this.noeudAVisiter.size()-2);
-		enchainementNoeudAVisiter.add(rangPreLivraison,this.noeudAVisiter.size()-1);
-		
-		if(rangPreEnlevement==0 || rangPreLivraison==0) {
+		enchainementNoeudAVisiter.add(rangPreEnlevement, this.noeudAVisiter.size() - 2);
+		enchainementNoeudAVisiter.add(rangPreLivraison, this.noeudAVisiter.size() - 1);
+
+		if (rangPreEnlevement == 0 || rangPreLivraison == 0) {
 			return null;
 		}
-		
+
 		plusCourtChemins.clear();
-		
+
 		// On calcule ici le tableau des couts
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			// Recupere le tableau de cout en executant dijkstra sur le plan depuis le noeud
@@ -281,9 +303,8 @@ public class Tournee {
 		}
 		recalculTournee();
 		return this.enchainementNoeud;
-		
-	}
 
+	}
 
 	public List<Noeud> FausseTourneePetitIHM() {
 		List<Noeud> enchainementNoeud = new ArrayList<Noeud>();
@@ -436,8 +457,8 @@ public class Tournee {
 	}
 
 	/**
-	 * Methode qui recalcule la tournée ( au niveau de l'enchainement
-	 * des noeuds du plan ) a partir des attributs deja définies
+	 * Methode qui recalcule la tournï¿½e ( au niveau de l'enchainement des noeuds du
+	 * plan ) a partir des attributs deja dï¿½finies
 	 */
 	private void recalculTournee() {
 
@@ -464,9 +485,9 @@ public class Tournee {
 		}
 
 		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
-		
+
 		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
-		
+
 		chemin = parcoursChemin(courtChemin, (Noeud) this.entrepot,
 				noeudAVisiter.get(noeudAVisiter.size() - 1).getFirst());
 

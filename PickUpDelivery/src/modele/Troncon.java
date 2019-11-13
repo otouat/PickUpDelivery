@@ -1,3 +1,8 @@
+/**
+ * Un tronçon est un couple de noeuds (nommés destination et origine) associé à une longueur
+ * ( correspondant à la distance géographique entre les noeuds) et à un nom de voie existant.
+ * @author Tianming
+ */
 package modele;
 
 public class Troncon {

@@ -1,3 +1,8 @@
+/**
+ * Livraison: Un couple de noeuds (nommées adresseEnlevement et adresseLivraison) 
+ * associé à une relation de précédence où le livreur doit récupérer la commande 
+ * à adresseEnlevement (Pick-up)  avant de la délivrer à adresseLivraison (Delivery)
+ */
 package modele;
 
 public class Livraison {
@@ -35,8 +40,5 @@ public class Livraison {
 				+ noeudLivraison.GetIdNoeud() + ", durée d'enlevement:" + dureeEnlevement + ", durée de livraison:"
 				+ dureeLivraison;
 	}
-	
-	
-	
-	
+
 }
