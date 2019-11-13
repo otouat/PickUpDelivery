@@ -36,12 +36,14 @@ public class CommandeAjoutLivraison implements Commande {
 		VueTroncon.drawTournee(listeNoeuds, fenetre.tourneePane);
 		
 		
+		
 	}
 
 	@Override
 	public void undoCommande() {
-		tournee.recalculTourneeApresSupressionLivraison(livraison);
-		//TODO : modif graphique
+		List<Noeud> listeNoeuds = tournee.recalculTourneeApresSupressionLivraison(livraison);
+		fenetre.reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
+		VueTroncon.drawTournee(listeNoeuds, fenetre.tourneePane);
 	}
 
 }
