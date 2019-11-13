@@ -20,16 +20,17 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, Tournee tournee) {
+	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, Tournee tournee) {
 		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.tournee = tournee;
-		this.positionAjout = positionAjout; //
 	}
 
 	@Override
 	public void doCommande() {
+		
 		// demandeLivraison.supprimerLivraison(livraison);
+		
 		// recalcul avec algo
 		tournee.recalculTourneeApresSupressionLivraison(livraison);
 	}
@@ -37,7 +38,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	@Override
 	public void undoCommande() {
 		
-		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
+		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 
 	}
 

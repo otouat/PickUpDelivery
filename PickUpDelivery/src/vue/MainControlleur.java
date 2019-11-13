@@ -350,8 +350,20 @@ public class MainControlleur {
 	public void supprimerLivraison(ActionEvent event) {
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		Livraison liv = new Livraison(l.getNoeud(),l.getNoeud(),0,0);
+		for (Livraison livraison : demande.getLivraisons()) {
+			if(l.getIsPickup() && livraison.getNoeudEnlevement().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
+				liv = livraison;
+				break;
+			}else if (!l.getIsPickup() && livraison.getNoeudLivraison().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
+				liv = livraison;
+				break;
+			}
+		}
 		
-	//	CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison();
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, tournee) ;
+		
+		
 		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
 		
 		initialiseListView();
