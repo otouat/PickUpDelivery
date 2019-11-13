@@ -281,13 +281,7 @@ public class MainControlleur {
 		annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
-	            	isPickUpAdded=false;
-	            	isNoeudBeforePickUpAdded = false;
-	            	livraisonPane.getChildren().clear();
-	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
-	        		
-	                ajoutBouttonAnchorPane.setVisible(false);
-	                console.setText("Vous pouvez maintenant modifier la tournï¿½e ou gï¿½nï¿½rer une feuille de route. ");
+	            	reset();
 	            }
 	        });
 		
@@ -295,7 +289,7 @@ public class MainControlleur {
 	            @Override
 	            public void handle(ActionEvent event) {
 	            	if(!((estUnEntier(dureeEnlevementTextField.getText()))&& (estUnEntier(dureeLivraisonTextField.getText())))){
-	            		console.setText("La duree de l'enlevement et de livraison doivent ï¿½tre des entiers");
+	            		console.setText("La durée de l'enlevement et de livraison doivent être des entiers");
 	            		return;
 	            	} else if(noeudPickUp == null){
 	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
@@ -320,13 +314,24 @@ public class MainControlleur {
 	            	System.out.println(noeudDelivery);
 	            	
 	            	// TODO : RECALCUL TOURNEE
-	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
+	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
 	            	listeDeCommandes.ajoute(commande);
 	            	commande.doCommande();
+	            	
+	            	reset();
 	            }
 	        });
 	}
 
+	private void reset() {
+		isPickUpAdded=false;
+    	isNoeudBeforePickUpAdded = false;
+    	livraisonPane.getChildren().clear();
+		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
+		
+        ajoutBouttonAnchorPane.setVisible(false);
+        console.setText("Vous pouvez maintenant modifier la tournée ou generer une feuille de route. ");
+	}
 	private boolean estUnEntier(String chaine) {
 		try {
 			Integer.parseInt(chaine);
