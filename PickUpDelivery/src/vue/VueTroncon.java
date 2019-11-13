@@ -31,6 +31,7 @@ public class VueTroncon {
 	}
 	
 	public static void drawTournee(List<Noeud> noeuds, AnchorPane tourneePane) {
+		tourneePane.getChildren().clear();
 		Path path = new Path();
 		path.getElements().add(new MoveTo(VueUtils.getNewX(noeuds.get(0).GetLongitude()),VueUtils.getNewY(noeuds.get(0).GetLatitude())));
 		for(int i=0; i<noeuds.size()-1;i++) {

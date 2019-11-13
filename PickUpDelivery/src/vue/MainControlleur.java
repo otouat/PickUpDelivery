@@ -210,9 +210,7 @@ public class MainControlleur {
 		
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 
-		for (LivraisonDisplay l : livraisonsVue) {
-			observable.add(l);	
-		}
+		remplirObservable(livraisonsVue,observable);
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 	
@@ -354,6 +352,7 @@ public class MainControlleur {
 				for(LivraisonDisplay l : livraisonsVue) {
 					if(l.getNoeud().GetIdNoeud() == e.getFirst().GetIdNoeud() ) {
 						c=l.getColor();
+						break;
 					}
 				}
 				System.out.println(e.getFirst());
@@ -362,13 +361,10 @@ public class MainControlleur {
 			}
 			i++;
 		}
-		livraisonsVue.clear();
 		
-		for(LivraisonDisplay l : temp) {
-			//MAJ de la liste qu'on utilise
-			livraisonsVue.add(l);
-			observable.add(l);
-		}
+		setLivraisonsVue(temp);
+		remplirObservable(livraisonsVue, observable);
+
 		
 		listview.setItems(observable);
 		listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
@@ -379,6 +375,7 @@ public class MainControlleur {
 		//S'il reste plus d'une livraison
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		
 		Livraison liv = new Livraison(l.getNoeud(),l.getNoeud(),0,0);
 		for (Livraison livraison : demande.getLivraisons()) {
 			if(l.getIsPickup() && livraison.getNoeudEnlevement().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
@@ -389,9 +386,8 @@ public class MainControlleur {
 				break;
 			}
 		}
-		
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, tournee.getenchainementNoeudAVisiterAvecInfos()) ;
-		cde.doCommande();
+		List< Triplet<Noeud, Livraison, Boolean>> liste= tournee.getenchainementNoeudAVisiterAvecInfos();
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, liste) ;
 		listeDeCommandes.ajoute(cde);
 		
 		}else {
@@ -400,6 +396,19 @@ public class MainControlleur {
 	
 	}
 	
+	public List<LivraisonDisplay> setLivraisonsVue(List<LivraisonDisplay> temp){
+		livraisonsVue.clear();
+		for(LivraisonDisplay l : temp) {
+			livraisonsVue.add(l);
+		}
+		return livraisonsVue;
+	}
+	
+	public void remplirObservable(List<LivraisonDisplay> livraisonsVue, ObservableList<LivraisonDisplay> observable) {
+		for(LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);
+		}
+	}
 	
 
 }
