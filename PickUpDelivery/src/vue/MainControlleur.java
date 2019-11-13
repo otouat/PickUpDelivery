@@ -73,20 +73,14 @@ public class MainControlleur {
 	@FXML
 	public ListView listview;
 
-	@FXML
-	public Button ajoutLivraisonBoutton;
-	@FXML
-	public AnchorPane ajoutBouttonAnchorPane;
+
 	@FXML
 	public TextField dureeEnlevementTextField;
 	@FXML
 	public TextField dureeLivraisonTextField;
 
 	
-	@FXML
-	public Button saveButtonAjoutLivraison;
-	@FXML
-	public Button annulerAjoutBoutton;
+
 	public static Noeud noeudPickUp;
 	public static Noeud noeudBeforePickUp;
 	public static Noeud noeudDelivery;
@@ -211,7 +205,8 @@ public class MainControlleur {
 		
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
-		VueTroncon.drawTournee(tournee.calculTournee(), tourneePane);
+		List<Noeud> listeTournee=tournee.calculTournee();
+		VueTroncon.drawTournee(listeTournee, tourneePane);
 		
 		console.setText("Vous pouvez maintenant modifier la tournee ou generer une feuille de route. ");
 		genererFeuilleRouteButton.setDisable(false);
