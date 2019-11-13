@@ -45,6 +45,7 @@ public class Tournee {
 		this.enchainementNoeud = new ArrayList<Noeud>();
 		this.enchainementNoeudAVisiterAvecInfos = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
 		this.enchainementNoeudAVisiter = new ArrayList<Integer>();
+		this.mapDureeVisite = new HashMap<Integer, Integer>();
 		setNoeudAVisiter();
 		setNoeudPlan();
 		calculPrecedence();
@@ -92,6 +93,10 @@ public class Tournee {
 		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout a partir d'un noeud
 		TSP2 voyageurCommerce = new TSP2();//Initialise la classe de calcul du tsp
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds a visiter
+		this.plusCourtChemins.clear();
+		this.enchainementNoeudAVisiter.clear();
+		this.enchainementNoeudAVisiterAvecInfos.clear();
+		this.enchainementNoeud.clear();
 
 		//On calcule ici le tableau des couts
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
@@ -219,32 +224,10 @@ public class Tournee {
 	 */
 	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonASupprimer) {
 		
-		Noeud noeudEnlevementASupprimer=livraisonASupprimer.getNoeudEnlevement();
-		Noeud noeudLivraisonASupprimer=livraisonASupprimer.getNoeudLivraison();
-		int indiceNoeudEnlevementASupprimer=0;
-		int indiceNoeudLivraisonASupprimer=0;
-		
-
-		for (HashMap.Entry<Integer, Triplet<Noeud, Livraison, Boolean>> it : noeudAVisiter.entrySet()) {
-			if(it.getValue().getFirst()==noeudEnlevementASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
-				indiceNoeudEnlevementASupprimer=it.getKey();
-			}
-			else if(it.getValue().getFirst()==noeudLivraisonASupprimer && it.getValue().getSecond()==livraisonASupprimer  ) {
-				indiceNoeudLivraisonASupprimer=it.getKey();
-			}
-		}
-		
-		if(indiceNoeudEnlevementASupprimer==0 || indiceNoeudLivraisonASupprimer==0) {
-			return null;
-		}
-		enchainementNoeudAVisiter.remove((Integer)indiceNoeudEnlevementASupprimer);
-		enchainementNoeudAVisiter.remove((Integer)indiceNoeudLivraisonASupprimer);
-		plusCourtChemins.remove(indiceNoeudEnlevementASupprimer);
-		plusCourtChemins.remove(indiceNoeudLivraisonASupprimer);
-		
-		this.livraisons.remove(livraisonASupprimer);		
-		setNoeudPlan();
-		recalculTournee();
+		this.livraisons.remove(livraisonASupprimer);
+		setNoeudAVisiter();
+		calculPrecedence();		
+		calculTournee();
 		return this.enchainementNoeud;	
 	}
 
@@ -382,7 +365,7 @@ public class Tournee {
 	private void setNoeudAVisiter() {
 
 		noeudAVisiter.clear();
-		mapDureeVisite = new HashMap<Integer, Integer>();
+		mapDureeVisite.clear();
 
 		mapDureeVisite.put(0, 0);
 		Integer indice = 1;
