@@ -11,6 +11,7 @@ public class Tournee {
 	private List<Livraison> livraisons;
 	private HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter;
 	// Associe les indices des noeuds a visiter avec les noeuds a visiter
+	private HashMap<Triplet<Noeud, Livraison, Boolean>,Integer> noeudAVisiterAssocieIndice;
 	private HashMap<Noeud, Integer> mapNoeuds;
 	// Associe les noeuds du plan a un indice unique
 	private Plan plan;
@@ -26,6 +27,7 @@ public class Tournee {
 	private List<Integer> enchainementNoeudAVisiter;
 	// une liste stockant les indices des noeuds a visiter ranges dans l'ordre de
 	// visite
+	private HashMap<Triplet<Noeud, Livraison, Boolean>,Integer> noeudAVisiterAssocieRangVisite;
 	List<Noeud> enchainementNoeud;
 	// une liste stockant tous les noeuds du plan sur lesquels on passe pour
 	// effectuer la tournee
@@ -46,6 +48,8 @@ public class Tournee {
 		this.enchainementNoeudAVisiterAvecInfos = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
 		this.enchainementNoeudAVisiter = new ArrayList<Integer>();
 		this.mapDureeVisite = new HashMap<Integer, Integer>();
+		this.noeudAVisiterAssocieRangVisite=new HashMap<Triplet<Noeud, Livraison, Boolean>,Integer>();
+		this.noeudAVisiterAssocieIndice=new HashMap<Triplet<Noeud, Livraison, Boolean>,Integer>();
 		setNoeudAVisiter();
 		setNoeudPlan();
 		calculPrecedence();
@@ -135,6 +139,8 @@ public class Tournee {
 			//Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et enchainementNoeudAVisiterAvecInfos
 			this.enchainementNoeudAVisiter.add(indiceNoeud);
 			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
+			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud),i);
+			
 			
 			//Recupere le chemin entre noeudActuel et noeud Suivant
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
@@ -263,6 +269,27 @@ public class Tournee {
 		return this.enchainementNoeud;	
 		
 	}
+	
+	public List<Noeud> recalculTourneeApresModificationOrdre(Triplet<Noeud, Livraison, Boolean> noeudAChanger,Triplet<Noeud, Livraison, Boolean> noeudAvant) {
+		Integer rangNoeudAChanger=noeudAVisiterAssocieRangVisite.get(noeudAChanger);
+		Integer rangNoeudAvant=noeudAVisiterAssocieRangVisite.get(noeudAvant);
+		if(rangNoeudAChanger>rangNoeudAvant) {
+			enchainementNoeudAVisiter.add(rangNoeudAvant+1,noeudAVisiterAssocieIndice.get(noeudAChanger));
+			enchainementNoeudAVisiter.remove((int) rangNoeudAChanger+1);
+		}
+		else {
+			enchainementNoeudAVisiter.add(rangNoeudAvant+1,noeudAVisiterAssocieIndice.get(noeudAChanger));
+			enchainementNoeudAVisiter.remove((int) rangNoeudAChanger);
+		}
+		
+		
+		recalculTournee();
+		return this.enchainementNoeud;
+		
+		
+		
+	}
+
 
 
 	public List<Noeud> FausseTourneePetitIHM() {
@@ -371,6 +398,7 @@ public class Tournee {
 		mapDureeVisite.put(0, 0);
 		Integer indice = 1;
 		Integer indiceBis = 1;
+		Integer indiceBisI = 1;
 		for (Livraison it : livraisons) {
 			Triplet<Noeud, Livraison, Boolean> noeudEnlevement = new Triplet<Noeud, Livraison, Boolean>(
 					it.getNoeudEnlevement(), it, true);
@@ -378,6 +406,8 @@ public class Tournee {
 					it.getNoeudLivraison(), it, false);
 			noeudAVisiter.put(indiceBis++, noeudEnlevement);
 			noeudAVisiter.put(indiceBis++, noeudLivraison);
+			noeudAVisiterAssocieIndice.put(noeudEnlevement,indiceBisI++);
+			noeudAVisiterAssocieIndice.put(noeudLivraison,indiceBisI++);
 			mapDureeVisite.put(indice++, it.getDureeEnlevement());
 			mapDureeVisite.put(indice++, it.getDureeLivraison());
 		}
@@ -430,6 +460,7 @@ public class Tournee {
 		HashMap<Noeud, Noeud> courtChemin;
 		Noeud noeudActuel;
 		Noeud noeudSuivant;
+		this.enchainementNoeudAVisiterAvecInfos.clear();
 		List<Noeud> enchainementNoeudBis = new ArrayList<Noeud>();
 		List<Integer> enchainementNoeudAVisiterBis = new ArrayList<Integer>();
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
@@ -440,6 +471,7 @@ public class Tournee {
 			indiceNoeudSuivant = this.enchainementNoeudAVisiter.get(i + 1);
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			enchainementNoeudAVisiterBis.add(indiceNoeud);
+			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
