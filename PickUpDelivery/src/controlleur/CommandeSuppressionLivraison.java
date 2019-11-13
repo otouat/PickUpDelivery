@@ -31,13 +31,13 @@ public class CommandeSuppressionLivraison implements Commande {
 	public void doCommande() {
 		// demandeLivraison.supprimerLivraison(livraison);
 		// recalcul avec algo
-		tournee.recalculTourneeApresSupressionLivraison(livraison);
+		//tournee.recalculTourneeApresSupressionLivraison(livraison);
 	}
 
 	@Override
 	public void undoCommande() {
 		
-		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
+		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 
 	}
 
