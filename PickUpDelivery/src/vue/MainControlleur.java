@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import controlleur.CommandeSuppressionLivraison;
+import controlleur.CommandeAjoutLivraison;
+import controlleur.ListeDeCommandes;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -56,6 +58,8 @@ public class MainControlleur {
 	public Button saveButtonAjoutLivraison;	
 	@FXML
 	public Button annulerAjoutBoutton;
+	@FXML
+	public Button supprimerBoutton;
 	
 	
 
@@ -86,10 +90,20 @@ public class MainControlleur {
 	public static Noeud noeudBeforePickUp;
 	public static Noeud noeudDelivery;
 	public static Noeud noeudBeforeDelivery;
-	public static Boolean isPickUpAdded = false;
-	public static Boolean isNoeudBeforePickUpAdded = false;
+
 
 	public static FeuilleDeRoute feuilleDeRoute;
+	public static Boolean isPickUpAdded=false;
+	public static Boolean isNoeudBeforePickUpAdded=false;
+	
+	@FXML
+	public Button undoButton;
+	@FXML
+	public Button redoButton;
+	private ListeDeCommandes listeDeCommandes = new ListeDeCommandes();
+	
+	
+	
 	public DemandeLivraison demande;
 	public Plan plan;
 	public DataContainer dataContainer = new DataContainer();
@@ -133,6 +147,21 @@ public class MainControlleur {
 
 			console.setText("Charger une demande de livraison. ");
 			chargerDemandeButton.setDisable(false);
+			
+			undoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	listeDeCommandes.undo();
+	            }
+	        });
+			
+			redoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	listeDeCommandes.redo();
+	            }
+	        });
+			
 		}
 
 	}
@@ -203,7 +232,8 @@ public class MainControlleur {
 	}
 	
 	public void chargerTournee(ActionEvent event){
-		
+		undoButton.setVisible(true);
+		redoButton.setVisible(true);
 		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
 		tourneePane.getChildren().clear();
 		List<Noeud> listeTournee=tournee.calculTournee();
@@ -234,6 +264,7 @@ public class MainControlleur {
 		reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
 		
 		ajoutLivraisonBoutton.setVisible(true);
+		supprimerBoutton.setVisible(true);
 		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
@@ -253,53 +284,57 @@ public class MainControlleur {
 		annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
-	            	isPickUpAdded=false;
-	            	isNoeudBeforePickUpAdded = false;
-	            	livraisonPane.getChildren().clear();
-	        		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
-	        		
-	                ajoutBouttonAnchorPane.setVisible(false);
-	                console.setText("Vous pouvez maintenant modifier la tournï¿½e ou gï¿½nï¿½rer une feuille de route. ");
+	            	reset();
 	            }
 	        });
 		
 		saveButtonAjoutLivraison.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				if (!((estUnEntier(dureeEnlevementTextField.getText()))
-						&& (estUnEntier(dureeLivraisonTextField.getText())))) {
-					console.setText("La duree de l'enlevement et de livraison doivent ï¿½tre des entiers");
-					return;
-				} else if (noeudPickUp == null) {
-					console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
-					return;
-				} else if (noeudBeforePickUp == null) {
-					console.setText("Veuillez cliquer sur le noeud avant le pick-up");
-					return;
-				} else if (noeudDelivery == null) {
-					console.setText("Veuillez cliquer sur le noeud representant le lieu du delivery");
-					return;
-				} else if (noeudBeforeDelivery == null) {
-					console.setText("Veuillez cliquer sur le noeud avant le delivery");
-					return;
-				}
-
-				Livraison new_livraison = new Livraison(noeudPickUp, noeudDelivery,
-						Integer.valueOf(dureeEnlevementTextField.getText()),
-						Integer.valueOf(dureeLivraisonTextField.getText()));
-				demande.AjouterLivraison(new_livraison);
-
-				System.out.println(noeudBeforeDelivery);
-				System.out.println(noeudBeforePickUp);
-				System.out.println(noeudPickUp);
-				System.out.println(noeudDelivery);
-
-				// TODO : RECALCUL TOURNEE
-
-			}
-		});
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	if(!((estUnEntier(dureeEnlevementTextField.getText()))&& (estUnEntier(dureeLivraisonTextField.getText())))){
+	            		console.setText("La durée de l'enlevement et de livraison doivent être des entiers");
+	            		return;
+	            	} else if(noeudPickUp == null){
+	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
+	            		return;
+	            	} else if(noeudBeforePickUp == null){
+	            		console.setText("Veuillez cliquer sur le noeud avant le pick-up");
+	            		return;
+	            	} else if(noeudDelivery == null){
+	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du delivery");
+	            		return;
+	            	} else if(noeudBeforeDelivery == null){
+	            		console.setText("Veuillez cliquer sur le noeud avant le delivery");
+	            		return;
+	            	}
+	            	
+	            	Livraison new_livraison = new Livraison(noeudPickUp,noeudDelivery,Integer.valueOf(dureeEnlevementTextField.getText()),Integer.valueOf(dureeLivraisonTextField.getText()));
+	            	demande.AjouterLivraison(new_livraison);
+	            	
+	            	System.out.println(noeudBeforeDelivery);
+	            	System.out.println(noeudBeforePickUp);
+	            	System.out.println(noeudPickUp);
+	            	System.out.println(noeudDelivery);
+	            	
+	            	// TODO : RECALCUL TOURNEE
+	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
+	            	listeDeCommandes.ajoute(commande);
+	            	commande.doCommande();
+	            	
+	            	reset();
+	            }
+	        });
 	}
 
+	private void reset() {
+		isPickUpAdded=false;
+    	isNoeudBeforePickUpAdded = false;
+    	livraisonPane.getChildren().clear();
+		VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
+		
+        ajoutBouttonAnchorPane.setVisible(false);
+        console.setText("Vous pouvez maintenant modifier la tournée ou generer une feuille de route. ");
+	}
 	private boolean estUnEntier(String chaine) {
 		try {
 			Integer.parseInt(chaine);
@@ -313,8 +348,6 @@ public class MainControlleur {
 	public void reInitialiseListView(	List< Triplet<Noeud, Livraison, Boolean>> liste ) {
 		listview.getItems().clear();
 		
-		//List< Triplet<Noeud, Livraison, Boolean>> liste = tournee.getenchainementNoeudAVisiterAvecInfos();
-
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
 		List<LivraisonDisplay> temp = new ArrayList<LivraisonDisplay>();
@@ -348,17 +381,24 @@ public class MainControlleur {
 	}
 	
 	public void supprimerLivraison(ActionEvent event) {
+		//S'il reste plus d'une livraison
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		Livraison liv = new Livraison(l.getNoeud(),l.getNoeud(),0,0);
+		for (Livraison livraison : demande.getLivraisons()) {
+			if(l.getIsPickup() && livraison.getNoeudEnlevement().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
+				liv = livraison;
+				break;
+			}else if (!l.getIsPickup() && livraison.getNoeudLivraison().GetIdNoeud()==l.getNoeud().GetIdNoeud()) {
+				liv = livraison;
+				break;
+			}
+		}
 		
-	//	CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison();
-		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, tournee.getenchainementNoeudAVisiterAvecInfos()) ;
+		cde.doCommande();
+		listeDeCommandes.ajoute(cde);
 		
-		initialiseListView();
-		
-		VueDemandeLivraison.removeLivraisonGraphiquement(livraisons, l.getColor());
-		//VueTroncon.drawTournee(tournee.recalculTourneeApresSupression(), tourneePane);
-	
 		}else {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
 		}

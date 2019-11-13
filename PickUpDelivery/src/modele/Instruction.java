@@ -37,7 +37,7 @@ public class Instruction {
 		} else if (toDO.contentEquals("livrer")) {
 			this.toDo = "livrer un colis";
 		} else if (toDO.contentEquals("termine")) {
-			this.toDo = "arriver à l'entrepôt. Terminé";
+			this.toDo = "termine";
 		}
 
 	}
@@ -84,7 +84,7 @@ public class Instruction {
 
 	public String calculerDirection(Noeud cen, Noeud noeud1, Noeud noeud2) {
 		if (this.nomRueCourant.contentEquals(this.nomRueSuivant)) {
-			return "tout droit";
+			return "aller tout droit";
 		}
 		double y1 = noeud1.GetLatitude() - cen.GetLatitude();
 		double x1 = noeud1.GetLongitude() - cen.GetLongitude();
@@ -112,12 +112,18 @@ public class Instruction {
 
 	public String toString() {
 		if (toDo == null) {
-			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mettres, " + "puis "
+			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mètres, " + "puis "
 					+ this.direction + " et atteindre " + this.nomRueSuivant;
 		} else {
-			return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mettres, " + "puis "
-					+ "atteindre noeud" + noeudSuivant.GetIdNoeud() + " et " + this.toDo + ", puis " + this.direction;
-
+			if (toDo.contentEquals("termine")) {
+				return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mètres, " + "puis "
+						+ "atteindre noeud" + noeudSuivant.GetIdNoeud()
+						+ " et arriver à l'entrepôt.\nTournée est terminée";
+			} else {
+				return "Suivre " + this.nomRueCourant + ", marcher " + this.longueur + " mètres, " + "puis "
+						+ "atteindre noeud" + noeudSuivant.GetIdNoeud() + " et " + this.toDo + ", puis "
+						+ this.direction;
+			}
 		}
 	}
 
