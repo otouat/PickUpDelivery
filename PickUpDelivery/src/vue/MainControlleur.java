@@ -58,6 +58,8 @@ public class MainControlleur {
 	public Button saveButtonAjoutLivraison;	
 	@FXML
 	public Button annulerAjoutBoutton;
+	@FXML
+	public Button supprimerBoutton;
 	
 	
 
@@ -262,6 +264,7 @@ public class MainControlleur {
 		reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
 		
 		ajoutLivraisonBoutton.setVisible(true);
+		supprimerBoutton.setVisible(true);
 		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
@@ -340,8 +343,6 @@ public class MainControlleur {
 	public void reInitialiseListView(	List< Triplet<Noeud, Livraison, Boolean>> liste ) {
 		listview.getItems().clear();
 		
-		//List< Triplet<Noeud, Livraison, Boolean>> liste = tournee.getenchainementNoeudAVisiterAvecInfos();
-
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
 		List<LivraisonDisplay> temp = new ArrayList<LivraisonDisplay>();
@@ -375,6 +376,7 @@ public class MainControlleur {
 	}
 	
 	public void supprimerLivraison(ActionEvent event) {
+		//S'il reste plus d'une livraison
 		if(livraisonsVue.size()>2) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
 		Livraison liv = new Livraison(l.getNoeud(),l.getNoeud(),0,0);
@@ -388,16 +390,10 @@ public class MainControlleur {
 			}
 		}
 		
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, tournee) ;
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, tournee.getenchainementNoeudAVisiterAvecInfos()) ;
+		cde.doCommande();
+		listeDeCommandes.ajoute(cde);
 		
-		
-		VueDemandeLivraison.removeLivraisonTextuellement(l,livraisonsVue);
-		
-		initialiseListView();
-		
-		VueDemandeLivraison.removeLivraisonGraphiquement(livraisons, l.getColor());
-		//VueTroncon.drawTournee(tournee.recalculTourneeApresSupression(), tourneePane);
-	
 		}else {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
 		}
