@@ -7,10 +7,6 @@ public class CommandeSuppressionLivraison implements Commande {
 
 	private Livraison livraison;
 	private Tournee tournee;
-	private int positionAjout;
-	private int rangPreEnlevement;
-	private int rangPreLivraison;
-
 	/**
 	 * Cree la commande qui ajoute a la position position la livraison livraison
 	 * 
@@ -18,10 +14,9 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	CommandeSuppressionLivraison(int positionAjout, Livraison livraison, Tournee tournee) {
+	CommandeSuppressionLivraison(Livraison livraison, Tournee tournee) {
 		this.livraison = livraison;
 		this.tournee = tournee;
-		this.positionAjout = positionAjout; //
 	}
 
 	@Override
@@ -35,7 +30,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	@Override
 	public void undoCommande() {
 		
-		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
+		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 		//TODO : modif graphique
 	}
 
