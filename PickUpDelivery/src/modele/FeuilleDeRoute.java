@@ -1,3 +1,10 @@
+/**
+ * Une feuille de route est l'itinéraire détaillé indiquant au livreur l’ordre des lieux à visiter.
+ * La classe FeuilleDeRoute permet de générer la feuille de route depuis une tournée calculée.
+ * @author Tianming
+ * @see Tournee
+ */
+
 package modele;
 
 import java.util.ArrayList;
@@ -11,6 +18,12 @@ public class FeuilleDeRoute {
 	private List<Noeud> listeTournee;
 	private Plan plan;
 
+	/**
+	 * 
+	 * @param listeTournee
+	 * @param plan
+	 * @param tournee
+	 */
 	public FeuilleDeRoute(List<Noeud> listeTournee, Plan plan, Tournee tournee) {
 		this.tournee = tournee;
 		this.plan = plan;

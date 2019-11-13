@@ -1,3 +1,11 @@
+/**
+ * Une demande de livraison est une liste de livraison pour un livreur partant d’un entrepôt
+ * La classe DemandeLivraison contient une entrepôt et une liste de livraisons
+ * @author Tianming
+ * @see Entrepot
+ * @see Livraison
+ */
+
 package modele;
 
 import java.util.ArrayList;
@@ -38,7 +46,8 @@ public class DemandeLivraison {
 	}
 
 	public void getInfo() {
-		//System.out.println("Heure de depart de l'entrepot: " + entrepotLivraison.getHeureDepart());
+		// System.out.println("Heure de depart de l'entrepot: " +
+		// entrepotLivraison.getHeureDepart());
 		System.out.println("nombre de livraisons: " + livraisons.size());
 		System.out.println(livraisons.get(4).getDureeEnlevement());
 
@@ -53,6 +62,5 @@ public class DemandeLivraison {
 		}
 		return infoDemande;
 	}
-	
-	
+
 }
