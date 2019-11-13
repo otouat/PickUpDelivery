@@ -29,7 +29,7 @@ public class CommandeAjoutLivraison implements Commande {
 
 	@Override
 	public void doCommande() {
-		tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
+		//tournee.recalculTourneeApresAjoutLivraison( livraison,rangPreEnlevement,rangPreLivraison);
 	}
 
 	@Override
