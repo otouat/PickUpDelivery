@@ -63,7 +63,7 @@ public class FeuilleDeRoute {
 	public String toString() {
 		String resultat = "";
 		for (int i = 0; i < instructions.size(); i++) {
-			resultat += "Instruction " + (i + 1) + ":" + instructions.get(i).toString() + ".\n";
+			resultat += "Instruction " + (i + 1) + ":\n" + instructions.get(i).toString() + ".\n";
 		}
 		return resultat;
 	}
