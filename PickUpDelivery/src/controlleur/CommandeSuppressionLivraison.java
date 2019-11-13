@@ -21,7 +21,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	CommandeSuppressionLivraison(int positionAjout, Livraison livraison, Tournee tournee) {
 		this.livraison = livraison;
 		this.tournee = tournee;
-		this.positionAjout = positionAjout;
+		this.positionAjout = positionAjout; //
 	}
 
 	@Override

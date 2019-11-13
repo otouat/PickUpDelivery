@@ -31,7 +31,7 @@ public class CommandeAjoutLivraison implements Commande {
 
 	@Override
 	public void undoCommande() {
-		tournee.recalculTourneeApresSupressionLivraison(livraison);//
+		tournee.recalculTourneeApresSupressionLivraison(livraison);
 
 	}
 

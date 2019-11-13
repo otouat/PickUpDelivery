@@ -15,7 +15,7 @@ public class Controleur {
 	private ListeDeCommandes listeDeCommandes;
 	private Tournee tournee;
 	private Etat etatCourant;
-	
+	//
 	// Instances associees a chaque etat possible du controleur
 	public final EtatInit etatInit = new EtatInit();
 	public final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();

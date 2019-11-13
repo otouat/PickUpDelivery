@@ -8,7 +8,7 @@ public class EtatFeuilleDeRouteEditee extends EtatInit {
 	
 	public void modifierTournee(Controleur c, MainControlleur f) {
 		
-		c.setEtatCourant(c.etatTourneeModifiee);
+		c.setEtatCourant(c.etatTourneeModifiee); //
 	}
 	
 	@Override

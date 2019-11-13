@@ -17,7 +17,7 @@ public class EtatAjouterLivraison  extends EtatInit {
 
 	@Override
 	public void ajouterLivraison(Controleur c, MainControlleur f) {
-		//Traitement plus recalcul
+		//Traitement plus recalcul //
 		
 		
 		c.setEtatCourant(c.etatTourneeModifiee);

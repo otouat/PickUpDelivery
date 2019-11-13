@@ -12,7 +12,7 @@ public interface Etat {
 	/*
 		 * Methode appelee par le controleur apres un clic sur le bouton "Charger un plan"
 		 * @param c le controleur
-		 * @param f la fenetre
+		 * @param f la fenetre //
 		 */
 	public void chargerPlan(Controleur c, MainControlleur f);
 		
