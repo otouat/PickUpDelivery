@@ -278,27 +278,26 @@ public class MainControlleur {
 	public void reInitialiseListView(){
 		listview.getItems().clear();
 		
-		HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> hashMAp = tournee.getNoeudAVisiter();
+		List< Triplet<Noeud, Livraison, Boolean>> liste = tournee.getenchainementNoeudAVisiterAvecInfos();
 
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
 		List<LivraisonDisplay> temp = new ArrayList<LivraisonDisplay>();
 		int i =0;
-		for (Entry<Integer, Triplet<Noeud, Livraison, Boolean>> e : hashMAp.entrySet()) {
+		for( Triplet<Noeud, Livraison, Boolean> e : liste) {
 			if(i!=0) {
 				Color c = Color.WHITE ;
 				for(LivraisonDisplay l : livraisonsVue) {
-					if(l.getNoeud().GetIdNoeud() == e.getValue().getFirst().GetIdNoeud() ) {
+					if(l.getNoeud().GetIdNoeud() == e.getFirst().GetIdNoeud() ) {
 						c=l.getColor();
 					}
 				}
-				LivraisonDisplay livraisonDisplay = new LivraisonDisplay( e.getValue().getFirst(), e.getValue().getThird(), c);
+				System.out.println(e.getFirst());
+				LivraisonDisplay livraisonDisplay = new LivraisonDisplay( e.getFirst(), e.getThird(), c);
 				temp.add(livraisonDisplay);
 			}
 			i++;
 		}
-		System.out.println("Size normale : "+livraisonsVue.size()+" Size temp : "+temp.size());
-		
 		livraisonsVue.clear();
 		
 		for(LivraisonDisplay l : temp) {
