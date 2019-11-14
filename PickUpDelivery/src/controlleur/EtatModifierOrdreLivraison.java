@@ -13,8 +13,21 @@
 	import vue.VueTroncon;
 	import vue.VueUtils;
 
-	public class EtatModifierOrdreLivraison extends EtatInit {
+	public class EtatModifierOrdreLivraison implements Etat {
 		
+		
+		@Override
+		public void validerTournee(Controleur c, MainControlleur f) {
+			c.setEtatCourant(c.etatTourneeModifiee);
+
+		}
+
+		@Override
+		public void modifierOrdreLivraison(Controleur c, MainControlleur f) {
+			// TODO Auto-generated method stub
+			c.setEtatCourant(c.etatModifieOrdreLivraison);
+		}
+
 		private File selectFileXML() {
 			FileChooser fc = new FileChooser();
 			fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
@@ -95,22 +108,47 @@
 			c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 		}
 		
-		@Override
-		public void validerTournee(Controleur c, MainControlleur f) {
-			c.setEtatCourant(c.etatTourneeModifiee);
-
-		}
-
-		@Override
-		public void modifierOrdreLivraison(Controleur c, MainControlleur f) {
-			// TODO Auto-generated method stub
-			c.setEtatCourant(c.etatModifieOrdreLivraison);
-		}
-
+		
 		@Override
 	    public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
 			// Traitement
 			c.setEtatCourant(c.etatFeuilleDeRouteEditee);
+		}
+
+		@Override
+		public void calculerTournee(Controleur c, MainControlleur f) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void ajouterLivraison(Controleur controleur, MainControlleur fenetre) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void supprimerLivraison(Controleur controleur, MainControlleur fenetre) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 		

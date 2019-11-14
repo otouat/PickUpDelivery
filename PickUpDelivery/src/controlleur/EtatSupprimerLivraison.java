@@ -17,7 +17,7 @@ import vue.VueTroncon;
 import vue.VueUtils;
 
 
-public class EtatSupprimerLivraison extends EtatInit {
+public class EtatSupprimerLivraison implements Etat {
 	
 	@Override
 	public void supprimerLivraison(Controleur c, MainControlleur f) {
@@ -109,17 +109,49 @@ public class EtatSupprimerLivraison extends EtatInit {
 	
 	private void initialiseListView(Controleur c, MainControlleur f){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		
-		/*List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
-		}*/
-
-		
 		c.getFenetre().listview.setItems(observable);
 		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+	}
+
+	@Override
+	public void calculerTournee(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void ajouterLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierOrdreLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		
 	}
 }

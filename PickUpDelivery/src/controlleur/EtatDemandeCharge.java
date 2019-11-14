@@ -15,7 +15,7 @@ import vue.VueDemandeLivraison;
 import vue.VueTroncon;
 import vue.VueUtils;
 
-public class EtatDemandeCharge extends EtatInit {
+public class EtatDemandeCharge implements Etat {
 	@Override
 	public void chargerPlan(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
@@ -109,6 +109,54 @@ public class EtatDemandeCharge extends EtatInit {
 		File selectedFile = fc.showOpenDialog(null);
 		
 		return selectedFile;
+		
+	}
+
+	@Override
+	public void ajouterLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void supprimerLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierOrdreLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
 		
 	}
 	

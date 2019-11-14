@@ -12,8 +12,37 @@ import vue.MainControlleur;
 import vue.VueTroncon;
 import vue.VueUtils;
 
-public class EtatTourneeModifiee extends EtatInit {
+public class EtatTourneeModifiee implements Etat {
 	
+	@Override
+	public void ajouterLivraison(Controleur c, MainControlleur f) {
+		c.setEtatCourant(c.etatAjouter);
+	}
+
+	@Override
+	public void supprimerLivraison(Controleur c, MainControlleur f) {
+		c.setEtatCourant(c.etatSupprimer);
+	
+	}
+
+	@Override
+	public void modifierOrdreLivraison(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		c.setEtatCourant(c.etatModifieOrdreLivraison);
+	}
+
+	@Override
+	public void modifierNoeudLivraison(Controleur c, MainControlleur f) {
+		// TODO Auto-generated method stub
+		c.setEtatCourant(c.etatModifieNoeudLivraison);
+	}
+	
+	@Override
+    public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
+		// Traitement
+		c.setEtatCourant(c.etatFeuilleDeRouteEditee);
+	}
+
 	private File selectFileXML() {
 		FileChooser fc = new FileChooser();
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
@@ -80,16 +109,6 @@ public class EtatTourneeModifiee extends EtatInit {
 	
 	private void initialiseListView(Controleur c, MainControlleur f){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		
-		/*List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
-		}*/
-
-		
 		c.getFenetre().listview.setItems(observable);
 		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 	}
@@ -109,35 +128,22 @@ public class EtatTourneeModifiee extends EtatInit {
 		
 	}
 	
-	
-	
 	@Override
-	public void ajouterLivraison(Controleur c, MainControlleur f) {
-		c.setEtatCourant(c.etatAjouter);
-	}
-
-	@Override
-	public void supprimerLivraison(Controleur c, MainControlleur f) {
-		c.setEtatCourant(c.etatSupprimer);
-	
-	}
-
-	@Override
-	public void modifierOrdreLivraison(Controleur c, MainControlleur f) {
+	public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
 		// TODO Auto-generated method stub
-		c.setEtatCourant(c.etatModifieOrdreLivraison);
+		
 	}
 
 	@Override
-	public void modifierNoeudLivraison(Controleur c, MainControlleur f) {
+	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
 		// TODO Auto-generated method stub
-		c.setEtatCourant(c.etatModifieNoeudLivraison);
+		
 	}
-	
+
 	@Override
-    public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
-		// Traitement
-		c.setEtatCourant(c.etatFeuilleDeRouteEditee);
+	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
+		// TODO Auto-generated method stub
+		
 	}
 }
 	
