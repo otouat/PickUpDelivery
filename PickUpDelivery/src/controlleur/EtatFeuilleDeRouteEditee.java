@@ -18,13 +18,10 @@ public class EtatFeuilleDeRouteEditee implements Etat {
 	@Override
 	public void consulterTournee(Controleur c, MainControlleur f) {
 		
-		c.setEtatCourant(c.etatTourneeCalculee);
+		c.setEtatCourant(c.etatTourneeModifiee);
 		
 	}
 	
-	public void quitterApplication(Controleur c, MainControlleur f) {
-		c.setEtatCourant(c.etatInit); //
-	}
 	
 	private File selectFileXML() {
 		FileChooser fc = new FileChooser();

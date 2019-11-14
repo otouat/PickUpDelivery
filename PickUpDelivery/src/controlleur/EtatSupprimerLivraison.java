@@ -7,6 +7,8 @@ import java.util.List;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import modele.Livraison;
 import vue.LivraisonDisplay;
@@ -54,29 +56,46 @@ public class EtatSupprimerLivraison implements Etat {
 	@Override
 	public void chargerPlan(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
+		f.resetVue();
 		if (selectedFile != null) {
 			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerPlan(selectedFile.getAbsolutePath());
+				Boolean success = f.dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement du plan avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			c.setPlan(c.getDataContainer().GetPlan());
-			
-			c.getFenetre().paneMap.getChildren().clear();
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			
-			VueUtils.initalisationDonnees(c.getPlan(),c.getFenetre().paneMap);
+			f.plan = f.dataContainer.GetPlan();
 
-			VueTroncon.drawTroncons(c.getPlan(), c.getFenetre().paneMap);
-			//VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
-			c.getFenetre().console.setText("Charger une demande de livraison. ");
-			c.getFenetre().chargerDemandeButton.setDisable(false);
+			f.paneMap.getChildren().clear();
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			VueUtils.initalisationDonnees(f.plan, f.paneMap);
+
+			VueTroncon.drawTroncons(f.plan, f.paneMap);
+
+			f.console.setText("Charger une demande de livraison. ");
+			f.chargerDemandeButton.setDisable(false);
 			
-			c.setEtatCourant(c.etatPlanCharge);
+			f.undoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.undo();
+	            }
+	        });
+			
+			f.redoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.redo();
+	            }
+	        });
 		}
 	}
 

@@ -4,6 +4,8 @@ import java.io.File;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import modele.Tournee;
 import vue.LivraisonDisplay;
@@ -54,29 +56,46 @@ public class EtatTourneeModifiee implements Etat {
 	@Override
 	public void chargerPlan(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
+		f.resetVue();
 		if (selectedFile != null) {
 			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerPlan(selectedFile.getAbsolutePath());
+				Boolean success = f.dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement du plan avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			c.setPlan(c.getDataContainer().GetPlan());
-			
-			c.getFenetre().paneMap.getChildren().clear();
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			
-			VueUtils.initalisationDonnees(c.getPlan(),c.getFenetre().paneMap);
+			f.plan = f.dataContainer.GetPlan();
 
-			VueTroncon.drawTroncons(c.getPlan(), c.getFenetre().paneMap);
-			//VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
-			c.getFenetre().console.setText("Charger une demande de livraison. ");
-			c.getFenetre().chargerDemandeButton.setDisable(false);
+			f.paneMap.getChildren().clear();
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			VueUtils.initalisationDonnees(f.plan, f.paneMap);
+
+			VueTroncon.drawTroncons(f.plan, f.paneMap);
+
+			f.console.setText("Charger une demande de livraison. ");
+			f.chargerDemandeButton.setDisable(false);
 			
-			c.setEtatCourant(c.etatPlanCharge);
+			f.undoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.undo();
+	            }
+	        });
+			
+			f.redoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.redo();
+	            }
+	        });
 		}
 	}
 
@@ -121,10 +140,10 @@ public class EtatTourneeModifiee implements Etat {
 		c.getFenetre().tourneePane.getChildren().clear();
 		VueTroncon.drawTournee(c.getTournee().calculTournee(), c.getFenetre().tourneePane);
 		
-		c.getFenetre().console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
+		c.getFenetre().console.setText("Vous pouvez maintenant modifier la tournï¿½e ou gï¿½nï¿½rer une feuille de route. ");
 		c.getFenetre().genererFeuilleRouteButton.setDisable(false);
 		
-		c.setEtatCourant(c.etatTourneeCalculee);
+		c.setEtatCourant(c.etatTourneeModifiee);
 		
 	}
 	
@@ -134,11 +153,6 @@ public class EtatTourneeModifiee implements Etat {
 		
 	}
 
-	@Override
-	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {

@@ -4,10 +4,13 @@ import java.io.File;//
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.stage.FileChooser;
 import vue.LivraisonDisplay;
 import vue.LivraisonListViewCell;
 import vue.MainControlleur;
+import vue.VueDemandeLivraison;
 import vue.VueNoeud;
 import vue.VueTroncon;
 import vue.VueUtils;
@@ -25,64 +28,83 @@ public class EtatPlanCharge implements Etat {
 	@Override
 	public void chargerPlan(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
+		f.resetVue();
 		if (selectedFile != null) {
 			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerPlan(selectedFile.getAbsolutePath());
+				Boolean success = f.dataContainer.chargerPlan(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement du plan avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
-			c.setPlan(c.getDataContainer().GetPlan());
-			
-			c.getFenetre().paneMap.getChildren().clear();
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			
-			VueUtils.initalisationDonnees(c.getPlan(),c.getFenetre().paneMap);
+			f.plan = f.dataContainer.GetPlan();
 
-			VueTroncon.drawTroncons(c.getPlan(), c.getFenetre().paneMap);
-			//VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
-			c.getFenetre().console.setText("Charger une demande de livraison. ");
-			c.getFenetre().chargerDemandeButton.setDisable(false);
+			f.paneMap.getChildren().clear();
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			VueUtils.initalisationDonnees(f.plan, f.paneMap);
+
+			VueTroncon.drawTroncons(f.plan, f.paneMap);
+
+			f.console.setText("Charger une demande de livraison. ");
+			f.chargerDemandeButton.setDisable(false);
 			
-			c.setEtatCourant(c.etatPlanCharge);
+			f.undoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.undo();
+	            }
+	        });
+			
+			f.redoButton.setOnAction(new EventHandler<ActionEvent>() {
+	            @Override
+	            public void handle(ActionEvent event) {
+	            	f.listeDeCommandes.redo();
+	            }
+	        });
+		}
 		}
 		
-	}
+	
 	
 	
 	public void chargerDemandeLivraison(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
 		if (selectedFile != null) {
-			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerDemandeLivraison(selectedFile.getAbsolutePath());
-				
+				Boolean success = f.dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement des livraisons avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			c.setDemandeLivraison(c.getDataContainer().GetDemandeLivraison());
 			
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			//VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
+			f.demande = f.dataContainer.GetDemandeLivraison();
+
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			f.livraisonsVue.clear();
+			f.livraisons = VueDemandeLivraison.drawDemandeLivraison(f.plan, f.demande, f.livraisonPane, f.livraisonsVue);
 			
-			initialiseListView(c,f);
-			c.getFenetre().console.setText("Charger une tournee. ");
-			c.getFenetre().calculerTourneeButton.setDisable(false);
+			f.initialiseListView();
+			f.console.setText("Charger une tournee. ");
+			f.calculerTourneeButton.setDisable(false);	
 			
 			c.setEtatCourant(c.etatDemandeCharge);
 		}
 		
-	}
-	
-	private void initialiseListView(Controleur c, MainControlleur f){
-		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		c.getFenetre().listview.setItems(observable);
-		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+		
 	}
 	@Override
 	public void calculerTournee(Controleur c, MainControlleur f) {
@@ -130,6 +152,7 @@ public class EtatPlanCharge implements Etat {
 		
 	}
 	
+
 	
 	
 }

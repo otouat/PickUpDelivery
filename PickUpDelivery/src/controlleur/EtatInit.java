@@ -58,7 +58,7 @@ public class EtatInit implements Etat {
 	        });
 		}
 
-		
+		c.setEtatCourant(c.etatPlanCharge);
 		
 	}
 	
