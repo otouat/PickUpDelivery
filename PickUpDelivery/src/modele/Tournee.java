@@ -236,20 +236,33 @@ public class Tournee {
 		calculTournee();
 		return this.enchainementNoeud;	
 	}
-
+	
+	/**
+	 * Methode qui donne la nouvelle tournée après l'ajout d'une livraison
+	 * 
+	 * @param livraisonAAjouter: tableau de prï¿½cï¿½dence ayant comme noeud source le
+	 *                     noeudActuel
+	 * @param noeudPreEnlevement : noeud definie tel que le noeud d'enlèvement sera visité après ce noeud
+	 * @param noeudPreLivraison  : noeud definie tel que le noeud de livraison sera visité après ce noeud
+	 * @return une liste qui stocke les noeuds dï¿½crivant le chemin de noeudActuel
+	 *         vers noeudSuivant
+	 */
 	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
 			
-		  
+		  //On ajoute la livraison dans la liste des livraison de la classe
 		  this.livraisons.add(livraisonAAjouter); 
+		  //On redéfinie la map des noeuds à visiter
 		  setNoeudAVisiter();
 		  
 		  
 		  
-		  
+		  //On retrouve le rang de visite des noeuds de preenlevement et de prelivraison
 		  Integer rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement); 
 		  Integer rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison); 
 		  
+		  
+		  //On insere les noeuds de la livraison a ajouter dans l'enchainement des noeuds a visiter
 		  enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.get(livraisonAAjouter.getNoeudEnlevement()));
 		  
 		  if(rangPreLivraison>rangPreEnlevement) {
@@ -262,15 +275,27 @@ public class Tournee {
 		  }
 		  
 		  
-		  
+		//On calcule les plus courts chemin a partir des deux nouveux noeuds ajoute
 		  dijkstra(livraisonAAjouter.getNoeudEnlevement());
 		  dijkstra(livraisonAAjouter.getNoeudLivraison());
+		  //On recupere la tournee final
 		  recalculTournee(); 
 		  return this.enchainementNoeud;
 		  
 	
 	}
 	
+	/**
+	 * Methode qui donne le plus court chemin entre noeudActuel et noeudSuivant
+	 * 
+	 * @param courtChemin: tableau de prï¿½cï¿½dence ayant comme noeud source le
+	 *                     noeudActuel
+	 * @param noeudSuivant : noeud qui suit le noeud Actuel dans l'ordre donnï¿½e par
+	 *                     le tsp
+	 * @param noeudActuel  : noeud Actuel dans l'ordre donnï¿½e par le tsp
+	 * @return une liste qui stocke les noeuds dï¿½crivant le chemin de noeudActuel
+	 *         vers noeudSuivant
+	 */
 	public List<Noeud> recalculTourneeApresModificationOrdre(Noeud noeudAChanger,Noeud noeudAvant) {
 		Integer rangNoeudAChanger=noeudAVisiterAssocieRangVisite.get(noeudAChanger);
 		Integer rangNoeudAvant=noeudAVisiterAssocieRangVisite.get(noeudAvant);
@@ -477,12 +502,12 @@ public class Tournee {
 
 		}
 
-		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
+		courtChemin = plusCourtChemins.get(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
 		
 		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
 		
 		chemin = parcoursChemin(courtChemin, (Noeud) this.entrepot,
-				noeudAVisiter.get(noeudAVisiter.size() - 1).getFirst());
+				noeudAVisiter.get(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1)).getFirst());
 
 		enchainementNoeudBis.addAll(chemin);
 
