@@ -3,5 +3,7 @@
 /.gitignore
 /.project
 /controlleur/
+/fxml/
 /modele/
+/test/
 /vue/
