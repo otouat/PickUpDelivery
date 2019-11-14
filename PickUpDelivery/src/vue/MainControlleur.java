@@ -420,8 +420,9 @@ public class MainControlleur {
 				Circle s = new Circle(((Circle) n).getCenterX(),((Circle) n).getCenterY(),((Circle) n).getRadius(), ((Circle) n).getFill());
 				livraisons.getChildren().add(s);
 				} else if (n  instanceof Rectangle ) {
-					/*Rectangle s = new Rectangle();	
-					nouveauGroupLivraison.getChildren().add(s);*/
+					Rectangle s = new Rectangle(((Rectangle) n).getX(),((Rectangle) n).getY(),((Rectangle) n).getWidth(),((Rectangle) n).getHeight());	
+					s.setFill(((Rectangle) n).getFill());
+					livraisons.getChildren().add(s);
 					
 				}else {
 					Polygon s = new Polygon();

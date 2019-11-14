@@ -58,7 +58,11 @@ public class CommandeSuppressionLivraison implements Commande {
 		for(Noeud n : tournee.calculTournee()) {
 			ancienneTournee.add(n);
 		}
-		nouvelleTournee = tournee.recalculTourneeApresSupressionLivraison(livraison);
+		nouvelleTournee =new ArrayList<Noeud>();
+		for (Noeud n :tournee.recalculTourneeApresSupressionLivraison(livraison) )
+		{		nouvelleTournee.add(n);
+		
+		}
 		
 		ancienneLivraisonsVue = new ArrayList<LivraisonDisplay>();
 		nouvelleLivraisonsVue = new ArrayList<LivraisonDisplay>();
@@ -82,8 +86,9 @@ public class CommandeSuppressionLivraison implements Commande {
 			Circle s = new Circle(((Circle) n).getCenterX(),((Circle) n).getCenterY(),((Circle) n).getRadius(), ((Circle) n).getFill());
 			nouveauGroupLivraison.getChildren().add(s);
 			} else if (n  instanceof Rectangle ) {
-				/*Rectangle s = new Rectangle();	
-				nouveauGroupLivraison.getChildren().add(s);*/
+				Rectangle s = new Rectangle(((Rectangle) n).getX(),((Rectangle) n).getY(),((Rectangle) n).getWidth(),((Rectangle) n).getHeight());	
+				s.setFill(((Rectangle) n).getFill());
+				nouveauGroupLivraison.getChildren().add(s);
 				
 			}else {
 				Polygon s = new Polygon();
@@ -122,8 +127,8 @@ public class CommandeSuppressionLivraison implements Commande {
 		fenetre.reInitialiseListView(liste);
 		
 		//affichage graphique
-		VueDemandeLivraison.ajouterLivraison(ancienneLivraisonsVue,livraison,ancienGroupLivraison,false);
-		fenetre.setGroupLivraison(ancienGroupLivraison);
+		VueDemandeLivraison.ajouterLivraison(ancienneLivraisonsVue,livraison,nouveauGroupLivraison,false);
+		fenetre.setGroupLivraison(nouveauGroupLivraison);
 		//affichage tournee
 		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
 
