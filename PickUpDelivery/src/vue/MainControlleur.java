@@ -116,7 +116,7 @@ public class MainControlleur {
 	public Tournee tournee;
 	public Group livraisons;
 	public List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
-	//ppublic ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+	
 	
 	public Controleur controlleur = new Controleur(new DataContainer(),this);
 	
@@ -207,13 +207,14 @@ public class MainControlleur {
 
 			livraisonPane.getChildren().clear();
 			tourneePane.getChildren().clear();
+			
 			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 			
 			initialiseListView();
 			console.setText("Charger une tournee. ");
 			calculerTourneeButton.setDisable(false);	
 			
-		} */
+		} */            
 		controlleur.chargerDemandeLivraison();
 	}
 	
@@ -410,8 +411,8 @@ public class MainControlleur {
 				break;
 			}
 		}
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
-		listeDeCommandes.ajoute(cde);
+		/*CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
+		listeDeCommandes.ajoute(cde);*/
 		
 		}else {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");

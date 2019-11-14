@@ -94,6 +94,7 @@ public class EtatPlanCharge extends EtatInit {
 
 			f.livraisonPane.getChildren().clear();
 			f.tourneePane.getChildren().clear();
+			f.livraisonsVue.clear();
 			f.livraisons = VueDemandeLivraison.drawDemandeLivraison(f.plan, f.demande, f.livraisonPane, f.livraisonsVue);
 			
 			f.initialiseListView();
