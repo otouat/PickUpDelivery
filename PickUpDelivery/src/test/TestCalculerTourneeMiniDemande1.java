@@ -38,11 +38,15 @@ public class TestCalculerTourneeMiniDemande1 {
 			System.out.println(feuilleDeRoute.toString());
 			assertEquals(listTournee.get(0).GetIdNoeud(), "1");
 			assertEquals(listTournee.get(1).GetIdNoeud(), "3");
-			assertEquals(listTournee.get(2).GetIdNoeud(), "4");
-			assertEquals(listTournee.get(3).GetIdNoeud(), "5");
-			assertEquals(listTournee.get(4).GetIdNoeud(), "6");
-			assertEquals(listTournee.get(5).GetIdNoeud(), "2");
-			assertEquals(listTournee.get(6).GetIdNoeud(), "1");
+			assertEquals(listTournee.get(2).GetIdNoeud(), "3");
+			assertEquals(listTournee.get(3).GetIdNoeud(), "4");
+			assertEquals(listTournee.get(4).GetIdNoeud(), "5");
+			assertEquals(listTournee.get(5).GetIdNoeud(), "5");
+			assertEquals(listTournee.get(6).GetIdNoeud(), "6");
+			assertEquals(listTournee.get(7).GetIdNoeud(), "6");
+			assertEquals(listTournee.get(8).GetIdNoeud(), "2");
+			assertEquals(listTournee.get(8).GetIdNoeud(), "2");
+			assertEquals(listTournee.get(9).GetIdNoeud(), "1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
