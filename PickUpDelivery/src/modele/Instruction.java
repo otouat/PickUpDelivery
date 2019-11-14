@@ -113,7 +113,7 @@ public class Instruction {
 	public String toString() {
 		if (toDo == null) {
 			return "Suivre " + this.nomRueCourant + ", marcher " + (int)this.longueur + " metres, " + "puis "
-					+ this.direction + " et atteindre " + this.nomRueSuivant + "\n";
+					+ this.direction + " et atteindre " + this.nomRueSuivant + "\n"; //
 		} else {
 			if (toDo.contentEquals("termine")) {
 				return "Suivre " + this.nomRueCourant + ", marcher " + (int)this.longueur + " metres, " + "puis "
