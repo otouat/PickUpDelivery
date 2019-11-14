@@ -132,4 +132,55 @@ public class VueNoeud {
 		
 	}
 	
+	
+	public static void drawClikableNoeudForModificationEmplacementNoeud(Plan plan, AnchorPane paneMap, MainControlleur mainControlleur) {
+		Map<String,Noeud> mapNoeud = plan.getNoeuds();
+		
+		Set cles = mapNoeud.keySet();
+		Iterator it = cles.iterator();
+		while (it.hasNext()){
+			   Object cle = it.next();
+			   Noeud noeudMap = mapNoeud.get(cle);
+			   
+			   Circle circle = new Circle();
+				circle.setCenterX(VueUtils.getNewX(noeudMap.GetLongitude()));
+				circle.setCenterY(VueUtils.getNewY(noeudMap.GetLatitude()));
+				circle.setId(noeudMap.GetIdNoeud());
+				circle.setRadius(1.5f);
+				
+				circle.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+					
+						MainControlleur.newNoeudEmplacement = noeudMap;
+						
+						mainControlleur.console.setText("Le nouvel emplacement du noeud à bien été pris en compte");
+						
+						mainControlleur.modifierEmplacementNoeud();
+						
+						
+						VueNoeud.drawClikableNoeudOfTournee(mainControlleur.tournee, mainControlleur.livraisonPane, mainControlleur);
+						mainControlleur.livraisonPane.getChildren().clear();
+						mainControlleur.livraisonPane.getChildren().add(mainControlleur.livraisons);
+						//VueDemandeLivraison.drawDemandeLivraison(plan, mainControlleur.demande, mainControlleur.livraisonPane,mainControlleur.livraisonsVue);
+
+		        });
+				
+				circle.addEventHandler(MouseEvent.MOUSE_ENTERED, f -> {
+		            System.out.println("noeud over");
+		            paneMap.getScene().setCursor(Cursor.CROSSHAIR);
+		            
+		        });
+				
+				circle.addEventHandler(MouseEvent.MOUSE_EXITED, f -> {
+		            System.out.println("noeud exited");
+		            paneMap.getScene().setCursor(Cursor.DEFAULT);
+		            
+		        });
+				
+				
+				paneMap.getChildren().add(circle); 
+			}
+		
+
+	}
+	
 }
