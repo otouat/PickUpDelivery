@@ -187,7 +187,8 @@ public class MainControlleur {
 	}
 
 	public void chargerDemandeLivraison(ActionEvent event) {
-		File selectedFile = selectFileXML();
+		
+		/*File selectedFile = selectFileXML();
 		if (selectedFile != null) {
 			System.out.println(selectedFile.getName());
 
@@ -212,8 +213,8 @@ public class MainControlleur {
 			console.setText("Charger une tournee. ");
 			calculerTourneeButton.setDisable(false);	
 			
-		}
-
+		} */
+		controlleur.chargerDemandeLivraison();
 	}
 	
 	
