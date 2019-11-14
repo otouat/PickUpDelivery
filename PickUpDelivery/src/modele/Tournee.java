@@ -268,11 +268,7 @@ public class Tournee {
 		  recalculTournee(); 
 		  return this.enchainementNoeud;
 		  
-		  
-		  
-		  
-
-		
+	
 	}
 	
 	public List<Noeud> recalculTourneeApresModificationOrdre(Noeud noeudAChanger,Noeud noeudAvant) {

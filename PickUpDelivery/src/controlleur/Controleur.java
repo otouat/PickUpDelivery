@@ -34,8 +34,9 @@ public class Controleur {
 	 * @param datacontainer le datacontainer avec le plan,demande de livraison
 	 * @param echelle l'echelle de la vue graphique de p
 	 */
-	public Controleur(DataContainer dataContainer) {
+	public Controleur(DataContainer dataContainer,MainControlleur fenetre) {
 		this.dataContainer=dataContainer;
+		this.fenetre = fenetre;
 		//plan=dataContainer.GetPlan();
 		//demandeLivraison= dataContainer.GetDemandeLivraison();
 		//listeDeCommandes = new ListeDeCommandes();
