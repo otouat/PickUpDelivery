@@ -412,7 +412,14 @@ public class MainControlleur {
 		}
 		return livraisonsVue;
 	}
-	
+	public Group setGroupLivraison(Group temp) {
+		livraisons.getChildren().clear();
+		for(Node n: temp.getChildren()) {
+			livraisons.getChildren().add(n);
+		}
+		return livraisons;
+		
+	}
 	public void remplirObservable(List<LivraisonDisplay> livraisonsVue, ObservableList<LivraisonDisplay> observable) {
 		for(LivraisonDisplay l : livraisonsVue) {
 			observable.add(l);

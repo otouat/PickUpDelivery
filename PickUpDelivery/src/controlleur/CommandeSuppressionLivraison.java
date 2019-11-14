@@ -10,6 +10,10 @@ import vue.VueTroncon;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.sun.javafx.geom.Shape;
+
+import javafx.scene.Group;
+import javafx.scene.Node;
 import modele.Livraison;
 import modele.Noeud;
 
@@ -20,8 +24,14 @@ public class CommandeSuppressionLivraison implements Commande {
 	private LivraisonDisplay l;
 	private MainControlleur fenetre;
 	private List< Triplet<Noeud, Livraison, Boolean>> liste;
-	private List<LivraisonDisplay> ancienLivraisonsVue;
+	
+	private List<LivraisonDisplay> nouvelleLivraisonsVue;
+	private List<Noeud> nouvelleTournee;
+ 	private Group nouveauGroupLivraison ;
+	
+	private List<LivraisonDisplay> ancienneLivraisonsVue;
 	private List<Noeud> ancienneTournee;
+	private Group ancienGroupLivraison ; 
 	
 
 	/**
@@ -41,42 +51,63 @@ public class CommandeSuppressionLivraison implements Commande {
 			this.liste.add(t);
 			System.out.println("CEST ICI ----"+t.getFirst().GetIdNoeud());
 		}
+		
 		ancienneTournee =new ArrayList<Noeud>();
 		for(Noeud n : tournee.calculTournee()) {
 			ancienneTournee.add(n);
 		}
-		ancienLivraisonsVue = new ArrayList<LivraisonDisplay>();
+		nouvelleTournee = tournee.recalculTourneeApresSupressionLivraison(livraison);
 		
+		ancienneLivraisonsVue = new ArrayList<LivraisonDisplay>();
+		nouvelleLivraisonsVue = new ArrayList<LivraisonDisplay>();
+		for ( LivraisonDisplay lD : fenetre.livraisonsVue) {
+			ancienneLivraisonsVue.add(lD);
+		}
+		
+		ancienGroupLivraison = fenetre.livraisons;
+		nouveauGroupLivraison = new Group();
 	}
 
 	@Override
 	public void doCommande() {
 		
-		
-		for ( LivraisonDisplay l : fenetre.livraisonsVue) {
-			ancienLivraisonsVue.add(l);
+		nouvelleLivraisonsVue.clear();
+		nouveauGroupLivraison.getChildren().clear();
+		//remettre a jour nouvelleLivraisonsVue
+		for ( LivraisonDisplay lD : ancienneLivraisonsVue) {
+			nouvelleLivraisonsVue.add(lD);
 		}
+		for (Node n : ancienGroupLivraison.getChildren()) {
+			nouveauGroupLivraison.getChildren().add(n);
+		}
+		
 		//affichage textuel
-		VueDemandeLivraison.removeLivraisonTextuellement(l,fenetre.livraisonsVue);
+		VueDemandeLivraison.removeLivraisonTextuellement(l,nouvelleLivraisonsVue);
+		fenetre.setLivraisonsVue(nouvelleLivraisonsVue);
 		fenetre.initialiseListView();
+		
 		//affichage graphique
-		VueDemandeLivraison.removeLivraisonGraphiquement(fenetre.livraisons, l.getColor());
+		VueDemandeLivraison.removeLivraisonGraphiquement(nouveauGroupLivraison, l.getColor());
+		fenetre.setGroupLivraison(nouveauGroupLivraison);
 	
+		
 		// recalcul avec algo
-		VueTroncon.drawTournee(tournee.recalculTourneeApresSupressionLivraison(livraison),fenetre.tourneePane);
+		VueTroncon.drawTournee(nouvelleTournee,fenetre.tourneePane);
+	
 	}
 
 	@Override
 	public void undoCommande() {
+		
 		//affichage textuel
-		fenetre.setLivraisonsVue(ancienLivraisonsVue);
+		fenetre.setLivraisonsVue(ancienneLivraisonsVue);
 		fenetre.reInitialiseListView(liste);
 		
 		//affichage graphique
-		VueDemandeLivraison.ajouterLivraison(fenetre.livraisonsVue,livraison,fenetre.livraisons,false);
+		VueDemandeLivraison.ajouterLivraison(ancienneLivraisonsVue,livraison,ancienGroupLivraison,false);
 		//affichage tournee
 		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
-		//TODO : modif graphique
+
 	}
 
 }
