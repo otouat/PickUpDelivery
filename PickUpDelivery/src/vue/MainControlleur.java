@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import controlleur.CommandeSuppressionLivraison;
+import controlleur.Controleur;
 import controlleur.CommandeAjoutLivraison;
 import controlleur.CommandeModifierNoeudLivraison;
 import controlleur.ListeDeCommandes;
@@ -105,7 +106,7 @@ public class MainControlleur {
 	public Button undoButton;
 	@FXML
 	public Button redoButton;
-	private ListeDeCommandes listeDeCommandes = new ListeDeCommandes();
+	public ListeDeCommandes listeDeCommandes = new ListeDeCommandes();
 	
 	
 	
@@ -116,6 +117,8 @@ public class MainControlleur {
 	public Group livraisons;
 	public List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
 	//ppublic ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+	
+	public Controleur controlleur = new Controleur(new DataContainer(),this);
 	
 	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
@@ -131,7 +134,7 @@ public class MainControlleur {
 	}
 	
 	public void chargerPlanAction(ActionEvent event) {
-		File selectedFile = selectFileXML();
+	/*	File selectedFile = selectFileXML();
 		resetVue();
 		if (selectedFile != null) {
 			System.out.println(selectedFile.getName());
@@ -172,8 +175,9 @@ public class MainControlleur {
 	            }
 	        });
 			
-		}
+		} */
 
+		controlleur.chargerPlan();
 	}
 
 	// Cache le pane pour ajouter un boutton
@@ -197,6 +201,7 @@ public class MainControlleur {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
 			demande = dataContainer.GetDemandeLivraison();
 
 			livraisonPane.getChildren().clear();
@@ -284,10 +289,10 @@ public class MainControlleur {
 	        		livraisonPane.getChildren().add(livraisons);
 	                ajoutBouttonAnchorPane.setVisible(true);
 	                console.setText("Vous entrez en mode ajout de livraison : "
-	                		+ "\n- Commencez par renseigner la durï¿½e de l'enlevement et de la livraison"
-	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le lieu du pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le noeud avant le pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le noeud avant le delivery ");
+	                		+ "\n- Commencez par renseigner la durée de l'enlevement et de la livraison"
+	                		+ "\n- Cliquer sur un noeud pour spécifier le lieu du pick-up "
+	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le pick-up "
+	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le delivery ");
 	            }
 	        });
 		annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -338,6 +343,8 @@ public class MainControlleur {
 	private void reset() {
 		isPickUpAdded=false;
     	isNoeudBeforePickUpAdded = false;
+    	noeudBeforeDelivery = null;
+    	noeudBeforePickUp = null;
     	livraisonPane.getChildren().clear();
 		//VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 		livraisonPane.getChildren().add(livraisons);
@@ -412,7 +419,11 @@ public class MainControlleur {
 	}
 	
 	public void modifierEmplacementNoeudEvent(ActionEvent event) {
-		//S'il reste plus d'une livraison
+		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		if(l==null) {
+			console.setText("Commencez par sélectionner un pick-up ou un delivery dans la liste de droite. ");
+			return;
+		}
 		if(livraisonsVue.size()>2) {
 			VueNoeud.drawClikableNoeudForModificationEmplacementNoeud(plan, livraisonPane, this);
 			
