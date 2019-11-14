@@ -248,8 +248,8 @@ public class MainControlleur {
 				break;
 			}
 		}
-		/*CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
-		listeDeCommandes.ajoute(cde);*/
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
+		listeDeCommandes.ajoute(cde);
 		
 		}else {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
