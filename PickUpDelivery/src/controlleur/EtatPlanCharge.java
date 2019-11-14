@@ -118,8 +118,8 @@ public class EtatPlanCharge extends EtatInit {
 		}*/
 
 		
-		c.getFenetre().listview.setItems(observable);
-		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+		f.listview.setItems(observable);
+		f.listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 	}
 	
 	
