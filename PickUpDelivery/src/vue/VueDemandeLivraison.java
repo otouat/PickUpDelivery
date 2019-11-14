@@ -122,7 +122,7 @@ public class VueDemandeLivraison {
 				}
 			}
 		}else{
-			c= couleurs.get(livraisonsVue.size()-1);
+			c= couleurs.get(livraisonsVue.size()/2);
 			pickUpAAjouter = new LivraisonDisplay(l.getNoeudEnlevement(),true,c);
 			deliveryAAjouter = new LivraisonDisplay(l.getNoeudLivraison(),false,c);
 		}

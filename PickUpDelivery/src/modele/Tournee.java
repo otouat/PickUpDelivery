@@ -11,7 +11,7 @@ public class Tournee {
 	private List<Livraison> livraisons;
 	private HashMap<Integer, Triplet<Noeud, Livraison, Boolean>> noeudAVisiter;
 	// Associe les indices des noeuds a visiter avec les noeuds a visiter
-	private HashMap<Triplet<Noeud, Livraison, Boolean>,Integer> noeudAVisiterAssocieIndice;
+	private HashMap<Noeud,Integer> noeudAVisiterAssocieIndice;
 	private HashMap<Noeud, Integer> mapNoeuds;
 	// Associe les noeuds du plan a un indice unique
 	private Plan plan;
@@ -27,7 +27,7 @@ public class Tournee {
 	private List<Integer> enchainementNoeudAVisiter;
 	// une liste stockant les indices des noeuds a visiter ranges dans l'ordre de
 	// visite
-	private HashMap<Triplet<Noeud, Livraison, Boolean>,Integer> noeudAVisiterAssocieRangVisite;
+	private HashMap<Noeud,Integer> noeudAVisiterAssocieRangVisite;
 	List<Noeud> enchainementNoeud;
 	// une liste stockant tous les noeuds du plan sur lesquels on passe pour
 	// effectuer la tournee
@@ -48,8 +48,8 @@ public class Tournee {
 		this.enchainementNoeudAVisiterAvecInfos = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
 		this.enchainementNoeudAVisiter = new ArrayList<Integer>();
 		this.mapDureeVisite = new HashMap<Integer, Integer>();
-		this.noeudAVisiterAssocieRangVisite=new HashMap<Triplet<Noeud, Livraison, Boolean>,Integer>();
-		this.noeudAVisiterAssocieIndice=new HashMap<Triplet<Noeud, Livraison, Boolean>,Integer>();
+		this.noeudAVisiterAssocieRangVisite=new HashMap<Noeud,Integer>();
+		this.noeudAVisiterAssocieIndice=new HashMap<Noeud,Integer>();
 		setNoeudAVisiter();
 		setNoeudPlan();
 		calculPrecedence();
@@ -139,7 +139,7 @@ public class Tournee {
 			//Ajoute le noeud actuel aux listes enchainementNoeudAVisiter et enchainementNoeudAVisiterAvecInfos
 			this.enchainementNoeudAVisiter.add(indiceNoeud);
 			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
-			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud),i);
+			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud).getFirst(),i);
 			
 			
 			//Recupere le chemin entre noeudActuel et noeud Suivant
@@ -237,49 +237,41 @@ public class Tournee {
 		return this.enchainementNoeud;	
 	}
 
-	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Triplet<Noeud, Livraison, Boolean> noeudPreEnlevement,Triplet<Noeud, Livraison, Boolean> noeudPreLivraison) {
+	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
 			
-		/*
-		 * Triplet<Noeud,Livraison,Boolean> tripletNoeudEnlevementAAjouter=new
-		 * Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudEnlevement(),
-		 * livraisonAAjouter,true); Triplet<Noeud,Livraison,Boolean>
-		 * tripletNoeudLivraisonAAjouter=new
-		 * Triplet<Noeud,Livraison,Boolean>(livraisonAAjouter.getNoeudLivraison(),
-		 * livraisonAAjouter,false); this.livraisons.add(livraisonAAjouter);
-		 * setNoeudAVisiter();
-		 * 
-		 * Integer
-		 * rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement);
-		 * Integer
-		 * rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison);
-		 * 
-		 * 
-		 * enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.
-		 * get(tripletNoeudEnlevementAAjouter));
-		 * enchainementNoeudAVisiter.add(rangPreLivraison,noeudAVisiterAssocieIndice.get
-		 * (tripletNoeudLivraisonAAjouter));
-		 * 
-		 * 
-		 * plusCourtChemins.clear();
-		 * 
-		 * for (Integer i = 0; i <noeudAVisiter.size(); i++) {
-		 * dijkstra(noeudAVisiter.get(i).getFirst()); } recalculTournee(); return
-		 * this.enchainementNoeud;
-		 */
-		  //
 		  
-		  
-		  this.livraisons.add(livraisonAAjouter);
+		  this.livraisons.add(livraisonAAjouter); 
 		  setNoeudAVisiter();
-		  calculPrecedence();		
-		  calculTournee();
-		  return this.enchainementNoeud;
+		  
+		  
+		  
+		  
+		  Integer rangPreEnlevement=noeudAVisiterAssocieRangVisite.get(noeudPreEnlevement); 
+		  Integer rangPreLivraison=noeudAVisiterAssocieRangVisite.get(noeudPreLivraison); 
+		  
+		  enchainementNoeudAVisiter.add(rangPreEnlevement+1,noeudAVisiterAssocieIndice.get(livraisonAAjouter.getNoeudEnlevement()));
+		  
+		  if(rangPreLivraison>rangPreEnlevement) {
+			  enchainementNoeudAVisiter.add(rangPreLivraison+2,noeudAVisiterAssocieIndice.get(livraisonAAjouter.getNoeudLivraison()));
 
-		
+		  }
+		  else {
+			  enchainementNoeudAVisiter.add(rangPreLivraison+1,noeudAVisiterAssocieIndice.get(livraisonAAjouter.getNoeudLivraison()));
+
+		  }
+		  
+		  
+		  
+		  dijkstra(livraisonAAjouter.getNoeudEnlevement());
+		  dijkstra(livraisonAAjouter.getNoeudLivraison());
+		  recalculTournee(); 
+		  return this.enchainementNoeud;
+		  
+	
 	}
 	
-	public List<Noeud> recalculTourneeApresModificationOrdre(Triplet<Noeud, Livraison, Boolean> noeudAChanger,Triplet<Noeud, Livraison, Boolean> noeudAvant) {
+	public List<Noeud> recalculTourneeApresModificationOrdre(Noeud noeudAChanger,Noeud noeudAvant) {
 		Integer rangNoeudAChanger=noeudAVisiterAssocieRangVisite.get(noeudAChanger);
 		Integer rangNoeudAvant=noeudAVisiterAssocieRangVisite.get(noeudAvant);
 		if(rangNoeudAChanger>rangNoeudAvant) {
@@ -411,8 +403,8 @@ public class Tournee {
 					it.getNoeudLivraison(), it, false);
 			noeudAVisiter.put(indiceBis++, noeudEnlevement);
 			noeudAVisiter.put(indiceBis++, noeudLivraison);
-			noeudAVisiterAssocieIndice.put(noeudEnlevement,indiceBisI++);
-			noeudAVisiterAssocieIndice.put(noeudLivraison,indiceBisI++);
+			noeudAVisiterAssocieIndice.put(it.getNoeudEnlevement(),indiceBisI++);
+			noeudAVisiterAssocieIndice.put(it.getNoeudLivraison(),indiceBisI++);
 			mapDureeVisite.put(indice++, it.getDureeEnlevement());
 			mapDureeVisite.put(indice++, it.getDureeLivraison());
 		}
@@ -477,7 +469,7 @@ public class Tournee {
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
 			enchainementNoeudAVisiterBis.add(indiceNoeud);
 			this.enchainementNoeudAVisiterAvecInfos.add(noeudAVisiter.get(indiceNoeud));
-			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud),i);
+			noeudAVisiterAssocieRangVisite.put(noeudAVisiter.get(indiceNoeud).getFirst(),i);
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
