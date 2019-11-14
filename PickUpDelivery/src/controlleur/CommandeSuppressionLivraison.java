@@ -10,8 +10,10 @@ import vue.VueTroncon;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sun.javafx.geom.Shape;
-
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import modele.Livraison;
@@ -41,7 +43,7 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee,List< Triplet<Noeud, Livraison, Boolean>> liste ) {
+	public CommandeSuppressionLivraison( MainControlleur fenetre, Group livraisons,Livraison livraison, LivraisonDisplay l,Tournee tournee,List< Triplet<Noeud, Livraison, Boolean>> liste ) {
 		this.fenetre=fenetre;
 		this.livraison = livraison;
 		this.l = l;
@@ -64,7 +66,8 @@ public class CommandeSuppressionLivraison implements Commande {
 			ancienneLivraisonsVue.add(lD);
 		}
 		
-		ancienGroupLivraison = fenetre.livraisons;
+		ancienGroupLivraison= new Group();
+		ancienGroupLivraison.getChildren().addAll(livraisons.getChildren());
 		nouveauGroupLivraison = new Group();
 	}
 
@@ -73,13 +76,28 @@ public class CommandeSuppressionLivraison implements Commande {
 		
 		nouvelleLivraisonsVue.clear();
 		nouveauGroupLivraison.getChildren().clear();
+		for(Node n : ancienGroupLivraison.getChildren()) {
+			
+			if(n instanceof Circle) {
+			Circle s = new Circle(((Circle) n).getCenterX(),((Circle) n).getCenterY(),((Circle) n).getRadius(), ((Circle) n).getFill());
+			nouveauGroupLivraison.getChildren().add(s);
+			} else if (n  instanceof Rectangle ) {
+				/*Rectangle s = new Rectangle();	
+				nouveauGroupLivraison.getChildren().add(s);*/
+				
+			}else {
+				Polygon s = new Polygon();
+				s.getPoints().addAll(((Polygon)n).getPoints());
+				nouveauGroupLivraison.getChildren().add(s);
+
+			}
+		}
+		//nouveauGroupLivraison.getChildren().addAll(ancienGroupLivraison.getChildren());
 		//remettre a jour nouvelleLivraisonsVue
 		for ( LivraisonDisplay lD : ancienneLivraisonsVue) {
 			nouvelleLivraisonsVue.add(lD);
 		}
-		for (Node n : ancienGroupLivraison.getChildren()) {
-			nouveauGroupLivraison.getChildren().add(n);
-		}
+		
 		
 		//affichage textuel
 		VueDemandeLivraison.removeLivraisonTextuellement(l,nouvelleLivraisonsVue);
@@ -105,6 +123,7 @@ public class CommandeSuppressionLivraison implements Commande {
 		
 		//affichage graphique
 		VueDemandeLivraison.ajouterLivraison(ancienneLivraisonsVue,livraison,ancienGroupLivraison,false);
+		fenetre.setGroupLivraison(ancienGroupLivraison);
 		//affichage tournee
 		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
 

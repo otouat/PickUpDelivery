@@ -396,7 +396,7 @@ public class MainControlleur {
 			}
 		}
 		List< Triplet<Noeud, Livraison, Boolean>> liste= tournee.getenchainementNoeudAVisiterAvecInfos();
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee, liste) ;
+		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, livraisons,liv, l,tournee, liste) ;
 		listeDeCommandes.ajoute(cde);
 		
 		}else {
@@ -414,8 +414,21 @@ public class MainControlleur {
 	}
 	public Group setGroupLivraison(Group temp) {
 		livraisons.getChildren().clear();
-		for(Node n: temp.getChildren()) {
-			livraisons.getChildren().add(n);
+
+		for (Node n : temp.getChildren()) {
+			if(n instanceof Circle) {
+				Circle s = new Circle(((Circle) n).getCenterX(),((Circle) n).getCenterY(),((Circle) n).getRadius(), ((Circle) n).getFill());
+				livraisons.getChildren().add(s);
+				} else if (n  instanceof Rectangle ) {
+					/*Rectangle s = new Rectangle();	
+					nouveauGroupLivraison.getChildren().add(s);*/
+					
+				}else {
+					Polygon s = new Polygon();
+					s.getPoints().addAll(((Polygon)n).getPoints());
+					livraisons.getChildren().add(s);
+
+				}
 		}
 		return livraisons;
 		
