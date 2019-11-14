@@ -19,7 +19,7 @@ public class EtatAjouterLivraison implements Etat {
 
 	@Override
 	public void ajouterLivraison(Controleur c, MainControlleur f) {
-		//Traitement plus recalcul //
+		
 		c.setEtatCourant(c.etatAjouter);
 	}
 	

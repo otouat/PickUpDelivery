@@ -137,10 +137,10 @@ public class EtatDemandeCharge  extends EtatInit{
 	        		f.livraisonPane.getChildren().add(f.livraisons);
 	                f.ajoutBouttonAnchorPane.setVisible(true);
 	                f.console.setText("Vous entrez en mode ajout de livraison : "
-	                		+ "\n- Commencez par renseigner la dur�e de l'enlevement et de la livraison"
-	                		+ "\n- Cliquer sur un noeud pour sp�cifier le lieu du pick-up "
-	                		+ "\n- Cliquer sur un noeud pour sp�cifier le noeud avant le pick-up "
-	                		+ "\n- Cliquer sur un noeud pour sp�cifier le noeud avant le delivery ");
+	                		+ "\n- Commencez par renseigner la dureee de l'enlevement et de la livraison"
+	                		+ "\n- Cliquer sur un noeud pour specifier le lieu du pick-up "
+	                		+ "\n- Cliquer sur un noeud pour specifier le noeud avant le pick-up "
+	                		+ "\n- Cliquer sur un noeud pour specifier le noeud avant le delivery ");
 	            }
 	        });
 		f.annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -154,7 +154,7 @@ public class EtatDemandeCharge  extends EtatInit{
 	            @Override
 	            public void handle(ActionEvent event) {
 	            	if(!((f.estUnEntier(f.dureeEnlevementTextField.getText()))&& (f.estUnEntier(f.dureeLivraisonTextField.getText())))){
-	            		f.console.setText("La dur�e de l'enlevement et de livraison doivent �tre des entiers");
+	            		f.console.setText("La dur�e de l'enlevement et de livraison doivent etre des entiers");
 	            		return;
 	            	} else if(f.noeudPickUp == null){
 	            		f.console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
