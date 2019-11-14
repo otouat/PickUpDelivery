@@ -166,15 +166,12 @@ public class Tournee {
 	 * 
 	 * @param noeudChange:      le nouveau noeud remplacant de l'ancien
 	 * @param rangNoeudAChanger : rang du noeud ï¿½ changer
-	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
+	 * @return une liste stockant tous les noeuds du plan sur lesquels on passe pour
+	 *         effectuer la tournee
 	 */
 	public List<Noeud> recalculTourneeApresChangementNoeud(Noeud noeudChange, Integer rangNoeudAChanger) {
 
-		Integer indiceNoeud;
-		Integer indiceNoeudSuivant;
-		HashMap<Noeud, Noeud> courtChemin;
-		Noeud noeudActuel;
-		Noeud noeudSuivant;
+
 		List<Noeud> enchainementNoeudBis = new ArrayList<Noeud>();
 		List<Integer> enchainementNoeudAVisiterBis = new ArrayList<Integer>();
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>();
@@ -184,38 +181,56 @@ public class Tournee {
 		tripletAChanger.setFirst(noeudChange);
 		noeudAVisiter.put(indiceNoeudAChanger, tripletAChanger);
 		dijkstra(noeudChange);
-		courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
+		
+		 
+		HashMap<Noeud, Noeud> courtChemin = plusCourtChemins.get(plusCourtChemins.size() - 1);
 		plusCourtChemins.set(indiceNoeudAChanger,courtChemin);
 		plusCourtChemins.remove(plusCourtChemins.size() - 1);
 		
+		Integer indiceNoeud;
+		Integer indiceNoeudSuivant;
+	
+		Noeud noeudActuel;
+		Noeud noeudSuivant;
+		
+		//Etablit l'enchainement de noeuds final a renvoyer de l'entrepot vers le dernier noeud a visiter
 		for (Integer i = 0; i < noeudAVisiter.size() - 1; i++) {
-
+			
+			//Recupere les indices des noeuds a visiter depuis le resultat du tsp ( les indices dans noeudAVisiter)
 			indiceNoeud = this.enchainementNoeudAVisiter.get(i);
 			indiceNoeudSuivant = this.enchainementNoeudAVisiter.get(i + 1);
+			
+			//Recupere les noeuds a visiter ( actuel et suivant) 
 			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
-			enchainementNoeudAVisiterBis.add(indiceNoeud);
 			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
-
+			
+			
+			//Recupere le tableau de precedence depuis le noeud Actuel
 			courtChemin = plusCourtChemins.get(indiceNoeud);
 
 			chemin = parcoursChemin(courtChemin, noeudSuivant, noeudActuel);
-
+			//Ajoute le noeud actuel aux listes 
+			enchainementNoeudAVisiterBis.add(indiceNoeud);
+			//Ajoute le chemin
 			enchainementNoeudBis.addAll(chemin);
 
 		}
 
-
-		courtChemin = plusCourtChemins.get(noeudAVisiter.size() - 1);
+		
+		this.enchainementNoeud.clear();
+		
+		this.enchainementNoeud.addAll(enchainementNoeudBis);
+		courtChemin = plusCourtChemins.get(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
 
 		enchainementNoeudAVisiterBis.add(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1));
 		chemin = parcoursChemin(courtChemin, (Noeud) this.entrepot,
-				noeudAVisiter.get(noeudAVisiter.size() - 1).getFirst());
+				noeudAVisiter.get(this.enchainementNoeudAVisiter.get(noeudAVisiter.size() - 1)).getFirst());
 
 		enchainementNoeudBis.addAll(chemin);
 
-		this.enchainementNoeud.clear();
 		this.enchainementNoeudAVisiter.clear();
-		this.enchainementNoeud.addAll(enchainementNoeudBis);
+		
+		
 		this.enchainementNoeudAVisiter.addAll(enchainementNoeudAVisiterBis);
 
 		return enchainementNoeudBis;
@@ -226,7 +241,8 @@ public class Tournee {
 	 * Methode qui recalcule la tournï¿½e aprï¿½s suppression d'une livraison de la tournï¿½e
 	 * 
 	 * @param livraisonASupprimer: l'objet de classe livraison a supprimer
-	 * @return un iterateur permettant d'iterer sur tous les sommets de nonVus
+	 * @return une liste stockant tous les noeuds du plan sur lesquels on passe pour
+	 *         effectuer la tournee
 	 */
 	public List<Noeud> recalculTourneeApresSupressionLivraison(Livraison livraisonASupprimer) {
 		
@@ -244,8 +260,8 @@ public class Tournee {
 	 *                     noeudActuel
 	 * @param noeudPreEnlevement : noeud definie tel que le noeud d'enlèvement sera visité après ce noeud
 	 * @param noeudPreLivraison  : noeud definie tel que le noeud de livraison sera visité après ce noeud
-	 * @return une liste qui stocke les noeuds dï¿½crivant le chemin de noeudActuel
-	 *         vers noeudSuivant
+	 * @return une liste stockant tous les noeuds du plan sur lesquels on passe pour
+	 *         effectuer la tournee
 	 */
 	public List<Noeud> recalculTourneeApresAjoutLivraison(Livraison livraisonAAjouter,Noeud noeudPreEnlevement,Noeud noeudPreLivraison) {
 		
@@ -286,15 +302,12 @@ public class Tournee {
 	}
 	
 	/**
-	 * Methode qui donne le plus court chemin entre noeudActuel et noeudSuivant
+	 * Methode qui donne le chemin actualise après modification de l'ordre de visite d'un noeud
 	 * 
-	 * @param courtChemin: tableau de prï¿½cï¿½dence ayant comme noeud source le
-	 *                     noeudActuel
-	 * @param noeudSuivant : noeud qui suit le noeud Actuel dans l'ordre donnï¿½e par
-	 *                     le tsp
-	 * @param noeudActuel  : noeud Actuel dans l'ordre donnï¿½e par le tsp
-	 * @return une liste qui stocke les noeuds dï¿½crivant le chemin de noeudActuel
-	 *         vers noeudSuivant
+	 * @param noeudAChanger: Noeud dont on doit changer l'ordre de visite
+	 * @param noeudAvant :  Noeud défini tel que noeudAChanger se retrouvera après ce dernier
+	 * @return une liste stockant tous les noeuds du plan sur lesquels on passe pour
+	 *         effectuer la tournee
 	 */
 	public List<Noeud> recalculTourneeApresModificationOrdre(Noeud noeudAChanger,Noeud noeudAvant) {
 		Integer rangNoeudAChanger=noeudAVisiterAssocieRangVisite.get(noeudAChanger);
@@ -317,24 +330,6 @@ public class Tournee {
 	}
 
 
-
-	public List<Noeud> FausseTourneePetitIHM() {
-		List<Noeud> enchainementNoeud = new ArrayList<Noeud>();
-		Noeud n = new Noeud("342873658", 45.76038, 4.8775625);
-		enchainementNoeud.add(n);
-		Noeud n1 = new Noeud("342872879", 45.760693, 4.8777256);
-		enchainementNoeud.add(n1);
-		Noeud n2 = new Noeud("2456932713", 45.760902, 4.877833);
-		enchainementNoeud.add(n2);
-		enchainementNoeud.add(n2);
-		Noeud n3 = new Noeud("342867241", 45.76051, 4.879188);
-		enchainementNoeud.add(n3);
-		Noeud n4 = new Noeud("342869317", 45.759945, 4.87886);
-		enchainementNoeud.add(n4);
-
-		return enchainementNoeud;
-
-	}
 
 	/**
 	 * Methode qui donne le plus court chemin entre noeudActuel et noeudSuivant
