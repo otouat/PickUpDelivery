@@ -206,6 +206,7 @@ public class MainControlleur {
 
 			livraisonPane.getChildren().clear();
 			tourneePane.getChildren().clear();
+			livraisonsVue.clear();
 			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
 			
 			initialiseListView();

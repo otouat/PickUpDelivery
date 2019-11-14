@@ -53,9 +53,7 @@ public class VueTroncon {
 		pathT.setCycleCount(Timeline.INDEFINITE);
 		pathT.play();
 
-		tourneePane.getChildren().add(circuit);
-
-		
+		tourneePane.getChildren().add(circuit);		
 	}
 	
 	
