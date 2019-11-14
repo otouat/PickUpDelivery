@@ -51,7 +51,6 @@ public class CommandeSuppressionLivraison implements Commande {
 		this.liste = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
 		for(Triplet<Noeud, Livraison, Boolean> t : tournee.getenchainementNoeudAVisiterAvecInfos()) {
 			this.liste.add(t);
-			System.out.println("CEST ICI ----"+t.getFirst().GetIdNoeud());
 		}
 		
 		ancienneTournee =new ArrayList<Noeud>();
