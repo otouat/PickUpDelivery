@@ -124,7 +124,7 @@ public class EtatTourneeModifiee extends EtatInit {
 		c.getFenetre().console.setText("Vous pouvez maintenant modifier la tournée ou générer une feuille de route. ");
 		c.getFenetre().genererFeuilleRouteButton.setDisable(false);
 		
-		c.setEtatCourant(c.etatTourneeCalculee);
+		c.setEtatCourant(c.etatTourneeModifiee);
 		
 	}
 	
@@ -141,11 +141,6 @@ public class EtatTourneeModifiee extends EtatInit {
 	
 	}
 
-	@Override
-	public void modifierOrdreLivraison(Controleur c, MainControlleur f) {
-		// TODO Auto-generated method stub
-		c.setEtatCourant(c.etatModifieOrdreLivraison);
-	}
 
 	@Override
 	public void modifierNoeudLivraison(Controleur c, MainControlleur f) {
