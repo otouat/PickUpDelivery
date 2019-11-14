@@ -38,13 +38,13 @@ public class TestGenererFeuilleDeRoute {
 				listeToDo[i] = feuilleDeRoute.getInstructions().get(i).getToDo();
 			}
 
-			assertEquals(listeDirection[0], "tourner à gauche");
-			assertEquals(listeDirection[1], "tourner à droite");
-			assertEquals(listeDirection[2], "tourner à droite");
-			assertEquals(listeDirection[3], "tourner à droite");
-			assertEquals(listeDirection[4], "tourner à droite");
-			assertEquals(listeDirection[5], "tourner à gauche");
-			assertEquals(listeDirection[6], "tourner à gauche");
+			assertEquals(listeDirection[0].contains("gauche"), true);
+			assertEquals(listeDirection[1].contains("droite"), true);
+			assertEquals(listeDirection[2].contains("droite"), true);
+			assertEquals(listeDirection[3].contains("droite"), true);
+			assertEquals(listeDirection[4].contains("droite"), true);
+			assertEquals(listeDirection[5].contains("gauche"), true);
+			assertEquals(listeDirection[6].contains("gauche"), true);
 			assertEquals(listeDirection[7], "retourner");
 			assertEquals(listeDirection[8], "");
 
