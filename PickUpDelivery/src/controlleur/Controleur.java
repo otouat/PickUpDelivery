@@ -20,11 +20,9 @@ public class Controleur {
 	public final EtatInit etatInit = new EtatInit();
 	public final EtatPlanCharge etatPlanCharge = new EtatPlanCharge();
 	public final EtatDemandeCharge etatDemandeCharge = new EtatDemandeCharge();
-	public final EtatTourneeCalculee etatTourneeCalculee = new EtatTourneeCalculee();
 	public final EtatTourneeModifiee etatTourneeModifiee = new EtatTourneeModifiee();
 	public final EtatAjouterLivraison etatAjouter = new EtatAjouterLivraison();
 	public final EtatSupprimerLivraison etatSupprimer = new EtatSupprimerLivraison();
-	public final EtatModifierOrdreLivraison etatModifieOrdreLivraison = new EtatModifierOrdreLivraison();
 	public final EtatModifierNoeudLivraison etatModifieNoeudLivraison = new EtatModifierNoeudLivraison();
 	public final EtatFeuilleDeRouteEditee etatFeuilleDeRouteEditee = new EtatFeuilleDeRouteEditee();
 	

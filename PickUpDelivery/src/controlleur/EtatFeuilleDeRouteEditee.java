@@ -18,13 +18,10 @@ public class EtatFeuilleDeRouteEditee extends EtatInit {
 	@Override
 	public void consulterTournee(Controleur c, MainControlleur f) {
 		
-		c.setEtatCourant(c.etatTourneeCalculee);
+		c.setEtatCourant(c.etatTourneeModifiee);
 		
 	}
 	
-	public void quitterApplication(Controleur c, MainControlleur f) {
-		c.setEtatCourant(c.etatInit); //
-	}
 	
 	private File selectFileXML() {
 		FileChooser fc = new FileChooser();

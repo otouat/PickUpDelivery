@@ -187,7 +187,7 @@ public class EtatDemandeCharge  extends EtatInit{
 	            }
 	        });
 		
-		c.setEtatCourant(c.etatTourneeCalculee);
+		c.setEtatCourant(c.etatTourneeModifiee);
 		
 	}
 
