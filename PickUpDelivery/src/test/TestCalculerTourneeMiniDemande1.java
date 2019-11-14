@@ -1,6 +1,10 @@
 package test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
+
+import org.junit.Test;
 
 import modele.DataContainer;
 import modele.FeuilleDeRoute;
@@ -8,8 +12,8 @@ import modele.Noeud;
 import modele.Tournee;
 
 public class TestCalculerTourneeMiniDemande1 {
-
-	public static void main(String[] args) {
+	@Test
+	public void testCalculerTournee() {
 		DataContainer dataContainer = new DataContainer();
 		try {
 			dataContainer.chargerPlan("./src/test/miniPlan.xml");
@@ -27,28 +31,18 @@ public class TestCalculerTourneeMiniDemande1 {
 				System.out.println(listTournee.get(i).toString());
 			}
 
-			/*
-			 * Noeud noeud1 = dataContainer.GetPlan().getNoeuds().get("1"); Noeud noeud2 =
-			 * dataContainer.GetPlan().getNoeuds().get("2"); Noeud noeud3 =
-			 * dataContainer.GetPlan().getNoeuds().get("3"); Noeud noeud4 =
-			 * dataContainer.GetPlan().getNoeuds().get("4"); Noeud noeud5 =
-			 * dataContainer.GetPlan().getNoeuds().get("5"); Noeud noeud6 =
-			 * dataContainer.GetPlan().getNoeuds().get("6"); double angle126 =
-			 * Angle2(noeud2, noeud1, noeud6); double angle135 = Angle2(noeud3, noeud1,
-			 * noeud5); for (int i = 0; i < listTournee.size() - 2; i++) { String direction
-			 * = calculerDirection(listTournee.get(i + 1), listTournee.get(i),
-			 * listTournee.get(i + 2)); System.out.println(listTournee.get(i).GetIdNoeud() +
-			 * listTournee.get(i + 1).GetIdNoeud() + listTournee.get(i + 2).GetIdNoeud() +
-			 * direction);
-			 * 
-			 * }
-			 */
 			System.out.println(tournee.getEnchainementNoeudAVisiter());
 			System.out.println(tournee.getNoeudAVisiter());
 
 			FeuilleDeRoute feuilleDeRoute = new FeuilleDeRoute(listTournee, dataContainer.GetPlan(), tournee);
 			System.out.println(feuilleDeRoute.toString());
-
+			assertEquals(listTournee.get(0).GetIdNoeud(), "1");
+			assertEquals(listTournee.get(1).GetIdNoeud(), "3");
+			assertEquals(listTournee.get(2).GetIdNoeud(), "4");
+			assertEquals(listTournee.get(3).GetIdNoeud(), "5");
+			assertEquals(listTournee.get(4).GetIdNoeud(), "6");
+			assertEquals(listTournee.get(5).GetIdNoeud(), "2");
+			assertEquals(listTournee.get(6).GetIdNoeud(), "1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
