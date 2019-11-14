@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane fx:id="listview_item" prefHeight="605.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vue.MainControlleur">
+<AnchorPane fx:id="listview_item" prefHeight="605.0" prefWidth="1015.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vue.MainControlleur">
    <children>
       <Button fx:id="chargerPlanBoutton" layoutX="22.0" layoutY="30.0" mnemonicParsing="false" onAction="#chargerPlanAction" prefHeight="27.0" prefWidth="211.0" text="Charger un plan" />
       <Button fx:id="chargerDemandeButton" disable="true" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#chargerDemandeLivraison" prefHeight="35.0" prefWidth="211.0" text="Charger une demande de livraison" />
@@ -37,6 +37,7 @@
       <Button fx:id="ajoutLivraisonBoutton" layoutX="19.0" layoutY="269.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="211.0" text="Ajouter une livraison" visible="false" />
       <Button fx:id="undoButton" layoutX="469.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="undo" visible="false" />
       <Button fx:id="redoButton" layoutX="562.0" layoutY="1.0" mnemonicParsing="false" text="redo" visible="false" />
-      <Button fx:id="supprimerBoutton" layoutX="21.0" layoutY="230.0" mnemonicParsing="false" onAction="#supprimerLivraison" prefHeight="27.0" prefWidth="211.0" text="Supprimer une livraison" visible="false" />
+      <Button fx:id="supprimerBoutton" layoutX="653.0" layoutY="1.0" mnemonicParsing="false" onAction="#supprimerLivraison" prefHeight="27.0" prefWidth="148.0" text="Supprimer une livraison" visible="false" />
+      <Button fx:id="modifierEmplacementNoeud" layoutX="826.0" layoutY="2.0" mnemonicParsing="false" onAction="#modifierEmplacementNoeudEvent" prefHeight="27.0" prefWidth="197.0" text="Modifier l'emplacement du noeud" visible="false" />
    </children>
 </AnchorPane>

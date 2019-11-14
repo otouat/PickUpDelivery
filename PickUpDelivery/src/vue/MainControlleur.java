@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import controlleur.CommandeSuppressionLivraison;
 import controlleur.CommandeAjoutLivraison;
+import controlleur.CommandeModifierNoeudLivraison;
 import controlleur.ListeDeCommandes;
 import javafx.animation.FadeTransition;
 import javafx.collections.FXCollections;
@@ -60,7 +61,8 @@ public class MainControlleur {
 	public Button annulerAjoutBoutton;
 	@FXML
 	public Button supprimerBoutton;
-	
+	@FXML
+	public Button modifierEmplacementNoeud;
 	
 
 	@FXML
@@ -90,6 +92,9 @@ public class MainControlleur {
 	public static Noeud noeudBeforePickUp;
 	public static Noeud noeudDelivery;
 	public static Noeud noeudBeforeDelivery;
+	
+	//utiliser pour modif emplacement noeud
+	public static Noeud newNoeudEmplacement;
 
 
 	public static FeuilleDeRoute feuilleDeRoute;
@@ -268,6 +273,7 @@ public class MainControlleur {
 		
 		ajoutLivraisonBoutton.setVisible(true);
 		supprimerBoutton.setVisible(true);
+		modifierEmplacementNoeud.setVisible(true);
 		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
 	            @Override
 	            public void handle(ActionEvent event) {
@@ -403,6 +409,24 @@ public class MainControlleur {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
 		}
 	
+	}
+	
+	public void modifierEmplacementNoeudEvent(ActionEvent event) {
+		//S'il reste plus d'une livraison
+		if(livraisonsVue.size()>2) {
+			VueNoeud.drawClikableNoeudForModificationEmplacementNoeud(plan, livraisonPane, this);
+			
+		}
+	
+	}
+	
+	public void modifierEmplacementNoeud() {
+		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
+		Noeud ancienNoeud = l.getNoeud();
+		Integer ordre = livraisonsVue.size();
+		
+		CommandeModifierNoeudLivraison cde = new CommandeModifierNoeudLivraison(tournee,newNoeudEmplacement,ancienNoeud,ordre,this) ;
+		listeDeCommandes.ajoute(cde);
 	}
 	
 	public List<LivraisonDisplay> setLivraisonsVue(List<LivraisonDisplay> temp){
