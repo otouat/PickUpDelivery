@@ -11,6 +11,7 @@ import modele.Tournee;
 import vue.LivraisonDisplay;
 import vue.LivraisonListViewCell;
 import vue.MainControlleur;
+import vue.VueDemandeLivraison;
 import vue.VueTroncon;
 import vue.VueUtils;
 
@@ -69,35 +70,43 @@ public class EtatTourneeCalculee extends EtatInit {
 	            }
 	        });
 		}
-	}
-
-	@Override
+		}
+		
+	
+	
+	
 	public void chargerDemandeLivraison(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
 		if (selectedFile != null) {
-			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerDemandeLivraison(selectedFile.getAbsolutePath());
-				
+				Boolean success = f.dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement des livraisons avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			c.setDemandeLivraison(c.getDataContainer().GetDemandeLivraison());
 			
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			//VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
+			f.demande = f.dataContainer.GetDemandeLivraison();
+
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			f.livraisons = VueDemandeLivraison.drawDemandeLivraison(f.plan, f.demande, f.livraisonPane, f.livraisonsVue);
 			
-			initialiseListView(c,f);
-			c.getFenetre().console.setText("Charger une tournee. ");
-			c.getFenetre().calculerTourneeButton.setDisable(false);
+			f.initialiseListView();
+			f.console.setText("Charger une tournee. ");
+			f.calculerTourneeButton.setDisable(false);	
 			
 			c.setEtatCourant(c.etatDemandeCharge);
 		}
 		
+		
 	}
-	
+
 	private void initialiseListView(Controleur c, MainControlleur f){
 		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
 		
@@ -110,20 +119,21 @@ public class EtatTourneeCalculee extends EtatInit {
 		}*/
 
 		
-		c.getFenetre().listview.setItems(observable);
-		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
+		f.listview.setItems(observable);
+		f.listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
 	}
+	
+	
 	
 	@Override
     public void modifierTournee(Controleur c, MainControlleur f) {
-		// Traitement
 		c.setEtatCourant(c.etatTourneeModifiee);
 	}
 	
 	
 	@Override
     public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
-		// Traitement
+		
 		c.setEtatCourant(c.etatFeuilleDeRouteEditee);
 	}
 	

@@ -147,7 +147,6 @@ public class MainControlleur {
 		controlleur.chargerDemandeLivraison();
 	}
 	
-	
 	public void initialiseListView(){
 		
 		if (!listview.getItems().isEmpty()){
@@ -176,102 +175,11 @@ public class MainControlleur {
 	}
 	
 	public void chargerTournee(ActionEvent event){
-		undoButton.setVisible(true);
-		redoButton.setVisible(true);
-		tournee = new Tournee(demande.getEntrepotLivraison(),demande.getLivraisons(),plan);
-		tourneePane.getChildren().clear();
-		List<Noeud> listeTournee=tournee.calculTournee();
-		VueTroncon.drawTournee(listeTournee, tourneePane);
 		
-		console.setText("Vous pouvez maintenant modifier la tournee ou generer une feuille de route. ");
-		genererFeuilleRouteButton.setDisable(false);
-		genererFeuilleRouteButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					feuilleDeRoute = new FeuilleDeRoute(listeTournee, plan, tournee);
-					// MainControlleur.feuilleDeRoute =
-					//System.out.println(feuille.toString());
-					FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/feuilleDeRoute.fxml"));
-					Parent root = (Parent) fxmlLoader.load();
-					Stage stage = new Stage();
-					stage.setScene(new Scene(root));
-					stage.show();
-				} catch (Exception e) {
-
-				}
-
-			}
-
-		});
-
-		reInitialiseListView(tournee.getenchainementNoeudAVisiterAvecInfos());
-		
-		ajoutLivraisonBoutton.setVisible(true);
-		supprimerBoutton.setVisible(true);
-		modifierEmplacementNoeud.setVisible(true);
-		ajoutLivraisonBoutton.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	livraisonPane.getChildren().clear();
-	        		VueNoeud.drawClikableNoeud(plan, livraisonPane,MainControlleur.this);
-	            	//VueNoeud.drawClikableNoeudOfTournee(tournee, livraisonPane, MainControlleur.this);
-	        		//VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane,livraisonsVue);
-	        		livraisonPane.getChildren().add(livraisons);
-	                ajoutBouttonAnchorPane.setVisible(true);
-	                console.setText("Vous entrez en mode ajout de livraison : "
-	                		+ "\n- Commencez par renseigner la durée de l'enlevement et de la livraison"
-	                		+ "\n- Cliquer sur un noeud pour spécifier le lieu du pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le delivery ");
-	            }
-	        });
-		annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	reset();
-	            }
-	        });
-		
-		saveButtonAjoutLivraison.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	if(!((estUnEntier(dureeEnlevementTextField.getText()))&& (estUnEntier(dureeLivraisonTextField.getText())))){
-	            		console.setText("La durï¿½e de l'enlevement et de livraison doivent ï¿½tre des entiers");
-	            		return;
-	            	} else if(noeudPickUp == null){
-	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du pick-up");
-	            		return;
-	            	} else if(noeudBeforePickUp == null){
-	            		console.setText("Veuillez cliquer sur le noeud avant le pick-up");
-	            		return;
-	            	} else if(noeudDelivery == null){
-	            		console.setText("Veuillez cliquer sur le noeud representant le lieu du delivery");
-	            		return;
-	            	} else if(noeudBeforeDelivery == null){
-	            		console.setText("Veuillez cliquer sur le noeud avant le delivery");
-	            		return;
-	            	}
-	            	
-	            	Livraison new_livraison = new Livraison(noeudPickUp,noeudDelivery,Integer.valueOf(dureeEnlevementTextField.getText()),Integer.valueOf(dureeLivraisonTextField.getText()));
-	            	//demande.AjouterLivraison(new_livraison);
-	            	
-	            	System.out.println(noeudBeforeDelivery);
-	            	System.out.println(noeudBeforePickUp);
-	            	System.out.println(noeudPickUp);
-	            	System.out.println(noeudDelivery);
-	            	
-	            	// TODO : RECALCUL TOURNEE
-	            	CommandeAjoutLivraison commande = new CommandeAjoutLivraison(MainControlleur.this,noeudBeforePickUp,noeudBeforeDelivery,new_livraison,tournee);
-	            	listeDeCommandes.ajoute(commande);
-	            	
-	            	
-	            	reset();
-	            }
-	        });
+		controlleur.calculerTournee();
 	}
 
-	private void reset() {
+	public void reset() {
 		isPickUpAdded=false;
     	isNoeudBeforePickUpAdded = false;
     	noeudBeforeDelivery = null;
@@ -282,7 +190,7 @@ public class MainControlleur {
         ajoutBouttonAnchorPane.setVisible(false);
         console.setText("Vous pouvez maintenant modifier la tournï¿½e ou generer une feuille de route. ");
 	}
-	private boolean estUnEntier(String chaine) {
+	public boolean estUnEntier(String chaine) {
 		try {
 			Integer.parseInt(chaine);
 		} catch (NumberFormatException e) {
@@ -352,7 +260,7 @@ public class MainControlleur {
 	public void modifierEmplacementNoeudEvent(ActionEvent event) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
 		if(l==null) {
-			console.setText("Commencez par sélectionner un pick-up ou un delivery dans la liste de droite. ");
+			console.setText("Commencez par sï¿½lectionner un pick-up ou un delivery dans la liste de droite. ");
 			return;
 		}
 		if(livraisonsVue.size()>2) {
