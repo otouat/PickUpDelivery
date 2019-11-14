@@ -116,7 +116,7 @@ public class MainControlleur {
 	public Tournee tournee;
 	public Group livraisons;
 	public List<LivraisonDisplay> livraisonsVue = new ArrayList<LivraisonDisplay>();
-	//ppublic ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
+	
 	
 	public Controleur controlleur = new Controleur(new DataContainer(),this);
 	
@@ -187,35 +187,8 @@ public class MainControlleur {
 	}
 
 	public void chargerDemandeLivraison(ActionEvent event) {
-		
-		File selectedFile = selectFileXML();
-		if (selectedFile != null) {
-			System.out.println(selectedFile.getName());
-
-			try {
-				Boolean success = dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
-				if (!success) {
-					console.setText("Echec du chargement des livraisons avec ce fichier ");
-					return;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			demande = dataContainer.GetDemandeLivraison();
-
-			livraisonPane.getChildren().clear();
-			tourneePane.getChildren().clear();
-			livraisons = VueDemandeLivraison.drawDemandeLivraison(plan, demande, livraisonPane, livraisonsVue);
-			
-			initialiseListView();
-			console.setText("Charger une tournee. ");
-			calculerTourneeButton.setDisable(false);	
-			
-		
-		//controlleur.chargerDemandeLivraison();
-		}
+	             
+		controlleur.chargerDemandeLivraison();
 	}
 	
 	public void initialiseListView(){
@@ -319,8 +292,8 @@ public class MainControlleur {
 				break;
 			}
 		}
-		CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
-		listeDeCommandes.ajoute(cde);
+		/*CommandeSuppressionLivraison cde = new CommandeSuppressionLivraison(this, liv, l,tournee) ;
+		listeDeCommandes.ajoute(cde);*/
 		
 		}else {
 			console.setText("Vous ne pouvez pas supprimer toutes les livraisons. ");
@@ -331,7 +304,7 @@ public class MainControlleur {
 	public void modifierEmplacementNoeudEvent(ActionEvent event) {
 		LivraisonDisplay l = (LivraisonDisplay) listview.getSelectionModel().getSelectedItem();
 		if(l==null) {
-			console.setText("Commencez par sélectionner un pick-up ou un delivery dans la liste de droite. ");
+			console.setText("Commencez par sï¿½lectionner un pick-up ou un delivery dans la liste de droite. ");
 			return;
 		}
 		if(livraisonsVue.size()>2) {

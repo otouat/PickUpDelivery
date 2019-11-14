@@ -94,6 +94,7 @@ public class EtatPlanCharge extends EtatInit {
 
 			f.livraisonPane.getChildren().clear();
 			f.tourneePane.getChildren().clear();
+			f.livraisonsVue.clear();
 			f.livraisons = VueDemandeLivraison.drawDemandeLivraison(f.plan, f.demande, f.livraisonPane, f.livraisonsVue);
 			
 			f.initialiseListView();
@@ -106,22 +107,7 @@ public class EtatPlanCharge extends EtatInit {
 		
 	}
 	
-	private void initialiseListView(Controleur c, MainControlleur f){
-		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		
-		/*List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
-		}*/
 
-		
-		f.listview.setItems(observable);
-		f.listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
-	}
-	
 	
 	
 }

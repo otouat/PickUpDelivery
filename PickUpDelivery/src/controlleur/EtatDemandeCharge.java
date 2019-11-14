@@ -10,6 +10,10 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import modele.FeuilleDeRoute;
@@ -24,7 +28,8 @@ import vue.VueNoeud;
 import vue.VueTroncon;
 import vue.VueUtils;
 
-public class EtatDemandeCharge extends EtatInit {
+public class EtatDemandeCharge  extends EtatInit{
+	
 	@Override
 	public void chargerPlan(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
@@ -58,44 +63,35 @@ public class EtatDemandeCharge extends EtatInit {
 	public void chargerDemandeLivraison(Controleur c, MainControlleur f) {
 		File selectedFile = selectFileXML();
 		if (selectedFile != null) {
-			
+			System.out.println(selectedFile.getName());
+
 			try {
-				c.getDataContainer().chargerDemandeLivraison(selectedFile.getAbsolutePath());
-				
+				Boolean success = f.dataContainer.chargerDemandeLivraison(selectedFile.getAbsolutePath());
+				if (!success) {
+					f.console.setText("Echec du chargement des livraisons avec ce fichier ");
+					return;
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			c.setDemandeLivraison(c.getDataContainer().GetDemandeLivraison());
 			
-			c.getFenetre().livraisonPane.getChildren().clear();
-			c.getFenetre().tourneePane.getChildren().clear();
-			//VueDemandeLivraison.drawDemandeLivraison(c.getPlan(), c.getDemandeLivraison(), c.getFenetre().livraisonPane);
+			f.demande = f.dataContainer.GetDemandeLivraison();
+
+			f.livraisonPane.getChildren().clear();
+			f.tourneePane.getChildren().clear();
+			f.livraisonsVue.clear();
+			f.livraisons = VueDemandeLivraison.drawDemandeLivraison(f.plan, f.demande, f.livraisonPane, f.livraisonsVue);
 			
-			initialiseListView(c,f);
-			c.getFenetre().console.setText("Charger une tournee. ");
-			c.getFenetre().calculerTourneeButton.setDisable(false);
+			f.initialiseListView();
+			f.console.setText("Charger une tournee. ");
+			f.calculerTourneeButton.setDisable(false);	
 			
 			c.setEtatCourant(c.etatDemandeCharge);
+	
 		}
-		
 	}
 	
-	private void initialiseListView(Controleur c, MainControlleur f){
-		ObservableList<LivraisonDisplay> observable = FXCollections.observableArrayList();
-		
-		/*List<Livraison> livraisonList = c.getDemandeLivraison().getLivraisons();
-		for(int i=0;i<livraisonList.size();i++) {
-			LivraisonDisplay livraisonDisplay1 = new LivraisonDisplay(livraisonList.get(i), true, VueDemandeLivraison.couleurs.get(i));
-			LivraisonDisplay livraisonDisplay2 = new LivraisonDisplay(livraisonList.get(i), false, VueDemandeLivraison.couleurs.get(i));
-			observable.add(livraisonDisplay1);
-			observable.add(livraisonDisplay2);
-		}*/
-
-		
-		c.getFenetre().listview.setItems(observable);
-		c.getFenetre().listview.setCellFactory(livraisonListView -> new LivraisonListViewCell());
-	}
 	
 	@Override
 	public void calculerTournee(Controleur c, MainControlleur f) {
@@ -144,10 +140,10 @@ public class EtatDemandeCharge extends EtatInit {
 	        		f.livraisonPane.getChildren().add(f.livraisons);
 	                f.ajoutBouttonAnchorPane.setVisible(true);
 	                f.console.setText("Vous entrez en mode ajout de livraison : "
-	                		+ "\n- Commencez par renseigner la durée de l'enlevement et de la livraison"
-	                		+ "\n- Cliquer sur un noeud pour spécifier le lieu du pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le pick-up "
-	                		+ "\n- Cliquer sur un noeud pour spécifier le noeud avant le delivery ");
+	                		+ "\n- Commencez par renseigner la durï¿½e de l'enlevement et de la livraison"
+	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le lieu du pick-up "
+	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le noeud avant le pick-up "
+	                		+ "\n- Cliquer sur un noeud pour spï¿½cifier le noeud avant le delivery ");
 	            }
 	        });
 		f.annulerAjoutBoutton.setOnAction(new EventHandler<ActionEvent>() {
@@ -197,14 +193,22 @@ public class EtatDemandeCharge extends EtatInit {
 		c.setEtatCourant(c.etatTourneeCalculee);
 		
 	}
+
+	public void remplirObservable(List<LivraisonDisplay> livraisonsVue, ObservableList<LivraisonDisplay> observable) {
+		for(LivraisonDisplay l : livraisonsVue) {
+			observable.add(l);
+		}
+	}
 	
-	private File selectFileXML() {
+	
+	public File selectFileXML() {
 		FileChooser fc = new FileChooser();
 		fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("XML", "*.xml"));
 		File selectedFile = fc.showOpenDialog(null);
-		
+
 		return selectedFile;
-		
+
 	}
+	
 	
 }
