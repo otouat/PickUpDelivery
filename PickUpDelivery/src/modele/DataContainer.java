@@ -1,6 +1,13 @@
+/**
+ * DataContainer est une structure des données qui contient un plan et une demande de livraisons,
+ * cette classe est responsable pour charger les fichiers xml plan et demande livraisons
+ * @author Tianming 
+ * @author Joel
+ */
 package modele;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -28,11 +35,18 @@ public class DataContainer {
 		return demandeLivraison;
 	}
 
+	/**
+	 * Charger un plan à partir d'un fichier xml
+	 * 
+	 * @param String XMLPath : chemin du fichier xml
+	 * @return résultat de charger ce plan
+	 * @exception FileNotFoundException si chemin incorrect
+	 */
 	public boolean chargerPlan(String XMLPath) throws Exception {
 		try {
 			Plan planTemp = new Plan();
 			this.xmlFile = new File(XMLPath);
-			if (!xmlFile.isFile()){
+			if (!xmlFile.isFile()) {
 				System.out.println("Le Ficher XML n'existe pas");
 				return false;
 			}
@@ -109,6 +123,13 @@ public class DataContainer {
 		}
 	}
 
+	/**
+	 * Charger une demande de livraison à partir d'un fichier xml
+	 * 
+	 * @param String XMLPath : chemin du fichier xml
+	 * @return résultat de charger ce plan
+	 * @exception FileNotFoundException si chemin incorrect
+	 */
 	public boolean chargerDemandeLivraison(String XMLPath) throws Exception {
 		try {
 			if (plan.getNoeuds().isEmpty()) {
@@ -118,7 +139,7 @@ public class DataContainer {
 
 			DemandeLivraison demandeLivraisonTemp = new DemandeLivraison();
 			this.xmlFile = new File(XMLPath);
-			if (!xmlFile.isFile()){
+			if (!xmlFile.isFile()) {
 				System.out.println("Le Ficher XML n'existe pas");
 				return false;
 			}

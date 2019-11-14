@@ -1,3 +1,7 @@
+/**
+ * Un plan contient un map de noeuds rangé selon son id et une liste de troncons.
+ */
+
 package modele;
 
 import java.util.ArrayList;
@@ -61,6 +65,11 @@ public class Plan {
 		return infoPlan;
 	}
 
+	/**
+	 * Cette méthode calcule la latitude minimume de ce plan
+	 * 
+	 * @return latitude minimum
+	 */
 	public double CalculMinLatitude() {
 		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
 		double min = 50;
@@ -73,6 +82,11 @@ public class Plan {
 		return min;
 	}
 
+	/**
+	 * Cette méthode calcule la latitude maximum de ce plan
+	 * 
+	 * @return latitude maximum
+	 */
 	public double CalculMaxLatitude() {
 		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
 		double max = 0;
@@ -85,6 +99,11 @@ public class Plan {
 		return max;
 	}
 
+	/**
+	 * Cette méthode calcule la longitude minimum de ce plan
+	 * 
+	 * @return longitude minimum
+	 */
 	public double CalculMinLongitude() {
 		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
 		double min = 50;
@@ -97,6 +116,11 @@ public class Plan {
 		return min;
 	}
 
+	/**
+	 * Cette méthode calcule la longitude maximum de ce plan
+	 * 
+	 * @return longitude maximum
+	 */
 	public double CalculMaxLongitude() {
 		Iterator<Map.Entry<String, Noeud>> iterator = noeuds.entrySet().iterator();
 		double max = 0;
@@ -121,6 +145,12 @@ public class Plan {
 		return ecart;
 	}
 
+	/**
+	 * Cette méthode calcule le nombre de troncon depuis d'un noeud du plan
+	 * 
+	 * @param idNoeud : un id du noeud
+	 * @return nombre de troncon depuis ce noeud
+	 */
 	public int CalculerNombreDeTronconDepuisNoeud(String idNoeud) {
 		int nombreTroncon = 0;
 		for (int i = 0; i < troncons.size(); i++) {
@@ -131,6 +161,14 @@ public class Plan {
 		return nombreTroncon;
 	}
 
+	/**
+	 * Cette méthode permet de chercher un tronçon ayant noeudOrigine comme origine
+	 * et noeudDest comme destination
+	 * 
+	 * @param idOrigine     : id du noeudOrigine
+	 * @param idDestination : id du noeudDest
+	 * @return le tronçon trouvé,null si ce troncon n'existe pas
+	 */
 	public Troncon ChercherTronconDepuisDeuxNoeuds(String idOrigine, String idDestination) {
 		Troncon troncon = null;
 		for (int i = 0; i < troncons.size(); i++) {

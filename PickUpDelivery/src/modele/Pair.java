@@ -1,3 +1,10 @@
+/**
+ * La classe de Pair d'un Integer et un Noeud.
+ * Cette classe est comparable selon la valeur d'Integer.
+ * @author Ousmane
+ * @author Tianming
+ */
+
 package modele;
 
 public class Pair<Integer extends Comparable<Integer>, Noeud> implements Comparable<Pair<Integer, Noeud>> {

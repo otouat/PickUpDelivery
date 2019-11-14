@@ -1,3 +1,10 @@
+/**
+ * Une instruction contient le nom de rue ainsi que la longueur à suivre à partir d'un noeud,
+ * puis une direction à suivre quand il arrive au noeud prochain. Elle contient la chose à faire
+ * (récupérer ou livrer un colis) si nécessaire.
+ *  @author Tianming
+ */
+
 package modele;
 
 public class Instruction {
@@ -9,6 +16,17 @@ public class Instruction {
 	private Noeud noeudCourant;
 	private Noeud noeudSuivant;
 
+	/**
+	 * Constructeur d'une instruction sans contenant une chose à faire. Il calcule
+	 * le nom de rue ainsi que la longueur à suivre à partir d'un noeud, puis une
+	 * direction à suivre quand il arrive au noeud prochain.
+	 * 
+	 * @param noeudCourant : noeud de départ de cette instruction
+	 * @param noeudSuivant : noeud d'arrivée de cette instruction
+	 * @param noeudApres   : le noeud suivant de noeudSuivant dans la tournée
+	 *                     calculée
+	 * @param plan         : plan chargé
+	 */
 	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Noeud noeudApres, Plan plan) {
 		Troncon tronconCourant = plan.ChercherTronconDepuisDeuxNoeuds(noeudCourant.GetIdNoeud(),
 				noeudSuivant.GetIdNoeud());
@@ -24,6 +42,17 @@ public class Instruction {
 
 	}
 
+	/**
+	 * Constructeur d'une instruction qui contenant une chose (récupérer ou livrer
+	 * un colis) à faire. Il calcule le nom de rue ainsi que la longueur à suivre à
+	 * partir d'un noeud, puis la chose à faire et la direction à suivre
+	 * 
+	 * @param noeudCourant : noeud de départ de cette instruction
+	 * @param noeudSuivant : noeud d'arrivée de cette instruction
+	 * @param plan         : plan chargé
+	 * @param toDo         : la chose à faire quand on arrive au noeudSuivant
+	 * @param direction    : la direction à suivre après noeudSuivant
+	 */
 	public Instruction(Noeud noeudCourant, Noeud noeudSuivant, Plan plan, String toDO, String direction) {
 		Troncon tronconCourant = plan.ChercherTronconDepuisDeuxNoeuds(noeudCourant.GetIdNoeud(),
 				noeudSuivant.GetIdNoeud());
@@ -82,6 +111,16 @@ public class Instruction {
 		this.direction = direction;
 	}
 
+	/**
+	 * Cette méthode calcule la direction d'un troncon à l'autre. Elle calcule
+	 * d'abord l'angle entre ces deux troncons puis calcule la direction à partir de
+	 * l'angle calculée
+	 * 
+	 * @param cen    : le noeud commune de deux troncons
+	 * @param noeud1 : le noeud de départ
+	 * @param noeud2 : le noeud d'arrivée
+	 * @return : la direction calculée
+	 */
 	public String calculerDirection(Noeud cen, Noeud noeud1, Noeud noeud2) {
 		if (this.nomRueCourant.contentEquals(this.nomRueSuivant)) {
 			return "aller tout droit";
@@ -104,25 +143,25 @@ public class Instruction {
 		} else if (angle == 0) {
 			return "retourner";
 		} else if (angle > 0) {
-			return "tourner a� gauche";
+			return "tourner a� gauche";
 		} else {
-			return "tourner a� droite";
+			return "tourner a� droite";
 		}
 	}
 
 	public String toString() {
 		if (toDo == null) {
-			return "Suivre " + this.nomRueCourant + ", marcher " + (int)this.longueur + " metres, " + "puis "
+			return "Suivre " + this.nomRueCourant + ", marcher " + (int) this.longueur + " metres, " + "puis "
 					+ this.direction + " et atteindre " + this.nomRueSuivant + "\n"; //
 		} else {
 			if (toDo.contentEquals("termine")) {
-				return "Suivre " + this.nomRueCourant + ", marcher " + (int)this.longueur + " metres, " + "puis "
+				return "Suivre " + this.nomRueCourant + ", marcher " + (int) this.longueur + " metres, " + "puis "
 						+ "atteindre noeud" + noeudSuivant.GetIdNoeud()
-						+ " et arriver a� l'entrepot.\n Tournee est terminee";
+						+ " et arriver a� l'entrepot.\n Tournee est terminee";
 			} else {
-				return "Suivre " + this.nomRueCourant + ", marcher " + (int)this.longueur + " metres, " + "puis "
+				return "Suivre " + this.nomRueCourant + ", marcher " + (int) this.longueur + " metres, " + "puis "
 						+ "atteindre noeud" + noeudSuivant.GetIdNoeud() + " et " + this.toDo + ", puis "
-						+ this.direction+ "\n" ;
+						+ this.direction + "\n";
 			}
 		}
 	}
