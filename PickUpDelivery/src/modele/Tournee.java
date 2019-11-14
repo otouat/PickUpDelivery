@@ -95,7 +95,7 @@ public class Tournee {
 		int[][] cout = new int[noeudAVisiter.size()][noeudAVisiter.size()]; //Tableau de couts de tous les chemins du plan
 		int[] distanceDijkstra = new int[plan.getNoeuds().size()]; //Initialise le tableau de cout a partir d'un noeud
 		int[] dureeVisite = new int[noeudAVisiter.size()]; //Initialise le tableau de cout a partir d'un noeud
-		TSP2 voyageurCommerce = new TSP2();//Initialise la classe de calcul du tsp
+		TSP1 voyageurCommerce = new TSP1();//Initialise la classe de calcul du tsp
 		ArrayList<Noeud> chemin = new ArrayList<Noeud>(); //liste de noeud qui represente le chemin qui reliera deux noeuds a visiter
 		this.plusCourtChemins.clear();
 		this.enchainementNoeudAVisiter.clear();
@@ -117,7 +117,7 @@ public class Tournee {
 		}
 		
 		//Execute la m�thode de calcul de la tournee
-		voyageurCommerce.chercheSolution(300000, noeudAVisiter.size(), cout, dureeVisite, precedence);
+		voyageurCommerce.chercheSolution(30000, noeudAVisiter.size(), cout, dureeVisite, precedence);
 
 		for (Integer i = 0; i < noeudAVisiter.size(); i++) {
 			System.out.println("-------- "+noeudAVisiter.get(voyageurCommerce.getMeilleureSolution(i)).getFirst());
@@ -130,8 +130,8 @@ public class Tournee {
 			indiceNoeudSuivant = voyageurCommerce.getMeilleureSolution(i + 1);
 			
 			//Recupere les noeuds a visiter ( actuel et suivant) 
-			noeudActuel = (Noeud) noeudAVisiter.get(indiceNoeud).getFirst();
-			noeudSuivant = (Noeud) noeudAVisiter.get(indiceNoeudSuivant).getFirst();
+			noeudActuel = noeudAVisiter.get(indiceNoeud).getFirst();
+			noeudSuivant = noeudAVisiter.get(indiceNoeudSuivant).getFirst();
 			
 			//Recupere le tableau de precedence depuis le noeud Actuel
 			courtChemin = plusCourtChemins.get(indiceNoeud);
