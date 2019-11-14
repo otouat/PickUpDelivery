@@ -104,6 +104,7 @@ public class VueDemandeLivraison {
 		//suppression vue textuelle
 		livraisonsVue.remove(PickASupprimer);
 		livraisonsVue.remove(DeliveryASupprimer);
+		System.out.println(livraisonsVue.size());
 	}
 	
 	public static Pair<LivraisonDisplay,LivraisonDisplay> ajouterLivraison(List<LivraisonDisplay> livraisonsVue, Livraison l, Group livraisons, Boolean isNew) {
