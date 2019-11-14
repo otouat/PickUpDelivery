@@ -134,49 +134,6 @@ public class MainControlleur {
 	}
 	
 	public void chargerPlanAction(ActionEvent event) {
-	/*	File selectedFile = selectFileXML();
-		resetVue();
-		if (selectedFile != null) {
-			System.out.println(selectedFile.getName());
-
-			try {
-				Boolean success = dataContainer.chargerPlan(selectedFile.getAbsolutePath());
-				if (!success) {
-					console.setText("Echec du chargement du plan avec ce fichier ");
-					return;
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			plan = dataContainer.GetPlan();
-
-			paneMap.getChildren().clear();
-			livraisonPane.getChildren().clear();
-			tourneePane.getChildren().clear();
-			VueUtils.initalisationDonnees(plan, paneMap);
-
-			VueTroncon.drawTroncons(plan, paneMap);
-
-			console.setText("Charger une demande de livraison. ");
-			chargerDemandeButton.setDisable(false);
-			
-			undoButton.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	listeDeCommandes.undo();
-	            }
-	        });
-			
-			redoButton.setOnAction(new EventHandler<ActionEvent>() {
-	            @Override
-	            public void handle(ActionEvent event) {
-	            	listeDeCommandes.redo();
-	            }
-	        });
-			
-		} */
-
 		controlleur.chargerPlan();
 	}
 
@@ -187,7 +144,6 @@ public class MainControlleur {
 	}
 
 	public void chargerDemandeLivraison(ActionEvent event) {
-	             
 		controlleur.chargerDemandeLivraison();
 	}
 	

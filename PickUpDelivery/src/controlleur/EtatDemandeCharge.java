@@ -51,7 +51,6 @@ public class EtatDemandeCharge  extends EtatInit{
 			VueUtils.initalisationDonnees(c.getPlan(),c.getFenetre().paneMap);
 
 			VueTroncon.drawTroncons(c.getPlan(), c.getFenetre().paneMap);
-			//VueNoeud.drawClikableNoeud(c.getPlan(), c.getFenetre().paneMap);
 			c.getFenetre().console.setText("Charger une demande de livraison. ");
 			c.getFenetre().chargerDemandeButton.setDisable(false);
 			
@@ -88,10 +87,8 @@ public class EtatDemandeCharge  extends EtatInit{
 			f.calculerTourneeButton.setDisable(false);	
 			
 			c.setEtatCourant(c.etatDemandeCharge);
-	
 		}
 	}
-	
 	
 	@Override
 	public void calculerTournee(Controleur c, MainControlleur f) {
