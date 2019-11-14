@@ -45,8 +45,8 @@ public class TestCalculerTourneeMiniDemande1 {
 			assertEquals(listTournee.get(6).GetIdNoeud(), "6");
 			assertEquals(listTournee.get(7).GetIdNoeud(), "6");
 			assertEquals(listTournee.get(8).GetIdNoeud(), "2");
-			assertEquals(listTournee.get(8).GetIdNoeud(), "2");
-			assertEquals(listTournee.get(9).GetIdNoeud(), "1");
+			assertEquals(listTournee.get(9).GetIdNoeud(), "2");
+			assertEquals(listTournee.get(10).GetIdNoeud(), "1");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
