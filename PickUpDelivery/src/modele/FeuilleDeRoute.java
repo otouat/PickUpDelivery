@@ -52,7 +52,7 @@ public class FeuilleDeRoute {
 		}
 		int taille = listeTournee.size();
 		Instruction instruction = new Instruction(listeTournee.get(taille - 2), listeTournee.get(taille - 1), plan,
-				"termine", "");
+				"termine", ""); //
 		instructions.add(instruction);
 	}
 
