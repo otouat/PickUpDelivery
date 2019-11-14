@@ -1,28 +1,22 @@
+/**
+ * La classe CommandeAjoutLivraison permet de modifier une livraison dans
+ * la liste de demande 
+ */
+
 package controlleur;
 
-import modele.Tournee;
-import modele.Triplet;
-import vue.LivraisonDisplay;
-import vue.MainControlleur;
-import vue.VueDemandeLivraison;
-import vue.VueTroncon;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import modele.Livraison;
-import modele.Noeud;
+import modele.Tournee;
+import vue.MainControlleur;
 
 public class CommandeSuppressionLivraison implements Commande {
 
 	private Livraison livraison;
 	private Tournee tournee;
-	private LivraisonDisplay l;
+	private int positionAjout;
+	private int rangPreEnlevement;
+	private int rangPreLivraison;
 	private MainControlleur fenetre;
-	private List< Triplet<Noeud, Livraison, Boolean>> liste;
-	private List<LivraisonDisplay> ancienLivraisonsVue;
-	private List<Noeud> ancienneTournee;
-	
 
 	/**
 	 * Cree la commande qui ajoute a la position position la livraison livraison
@@ -31,51 +25,28 @@ public class CommandeSuppressionLivraison implements Commande {
 	 * @param livraison
 	 * @param calculateurTournee
 	 */
-	public CommandeSuppressionLivraison( MainControlleur fenetre, Livraison livraison, LivraisonDisplay l,Tournee tournee) {
-		this.fenetre=fenetre;
+	public CommandeSuppressionLivraison(MainControlleur fenetre, Livraison livraison, Tournee tournee) {
+		this.fenetre = fenetre;
 		this.livraison = livraison;
-		this.l = l;
 		this.tournee = tournee;
-		this.liste = new ArrayList<Triplet<Noeud, Livraison, Boolean>>();
-		for(Triplet<Noeud, Livraison, Boolean> t : tournee.getenchainementNoeudAVisiterAvecInfos()) {
-			this.liste.add(t);
-		}
-		ancienneTournee =new ArrayList<Noeud>();
-		for(Noeud n : tournee.calculTournee()) {
-			ancienneTournee.add(n);
-		}
-		ancienLivraisonsVue = new ArrayList<LivraisonDisplay>();
-		
 	}
 
 	@Override
 	public void doCommande() {
-		
-		
-		for ( LivraisonDisplay l : fenetre.livraisonsVue) {
-			ancienLivraisonsVue.add(l);
-		}
-		//affichage textuel
-		VueDemandeLivraison.removeLivraisonTextuellement(l,fenetre.livraisonsVue);
-		fenetre.initialiseListView();
-		//affichage graphique
-		VueDemandeLivraison.removeLivraisonGraphiquement(fenetre.livraisons, l.getColor());
-	
+
+		// demandeLivraison.supprimerLivraison(livraison);
+
 		// recalcul avec algo
-		VueTroncon.drawTournee(tournee.recalculTourneeApresSupressionLivraison(livraison),fenetre.tourneePane);
+		tournee.recalculTourneeApresSupressionLivraison(livraison);
+		// TODO : modif graphique
 	}
 
 	@Override
 	public void undoCommande() {
-		//affichage textuel
-		fenetre.setLivraisonsVue(ancienLivraisonsVue);
-		fenetre.reInitialiseListView(liste);
-		
-		//affichage graphique
-		VueDemandeLivraison.ajouterLivraison(fenetre.livraisonsVue,livraison,fenetre.livraisons,false);
-		//affichage tournee
-		VueTroncon.drawTournee(ancienneTournee, fenetre.tourneePane);
-		//TODO : modif graphique
+
+		// tournee.recalculTourneeApresAjoutLivraison(
+		// livraison,rangPreEnlevement,rangPreLivraison);
+		// TODO : modif graphique
 	}
 
 }

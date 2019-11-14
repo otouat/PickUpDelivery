@@ -1,3 +1,10 @@
+/**
+ * Une feuille de route est l'itinéraire détaillé indiquant au livreur l’ordre des lieux à visiter.
+ * La classe FeuilleDeRoute permet de générer la feuille de route depuis une tournée calculée.
+ * @author Tianming
+ * @see Tournee
+ */
+
 package modele;
 
 import java.util.ArrayList;
@@ -11,15 +18,28 @@ public class FeuilleDeRoute {
 	private List<Noeud> listeTournee;
 	private Plan plan;
 
+	/**
+	 * Constructeur de FeuilleDeRoute, qui calcule et remplit la liste d'instruction
+	 * 
+	 * @param listeTournee : la liste de noeud qui représente le chemin optimisée
+	 *                     calculé par une tournée de type Tournee
+	 * @param plan         : plan chargé
+	 * @param tournee      : la tournée qui génère la listeTournee
+	 */
 	public FeuilleDeRoute(List<Noeud> listeTournee, Plan plan, Tournee tournee) {
 		this.tournee = tournee;
 		this.plan = plan;
 		this.instructions = new ArrayList<Instruction>();
 		this.listeTournee = listeTournee;
 		calculerListeInstruction();
-
 	}
 
+	/**
+	 * Cette méthode permet de calculer et remplir la liste d'instructions. Elle
+	 * parcour la liste de noeuds du chemin puis génère une instruction depuis
+	 * chaque trois noeuds, si elle trouve un noeud spécial (noeud d'enlèvement ou
+	 * noeud de livraison), elle va générer une instruction spéciale
+	 */
 	private void calculerListeInstruction() {
 		int n = 1;
 		for (int i = 0; i < listeTournee.size() - 2; i++) {

@@ -8,8 +8,6 @@ import modele.DataContainer;
 import modele.Livraison;
 import modele.Plan;
 import vue.MainControlleur;
-import vue.VueTroncon;
-import vue.VueUtils;
 
 public class EtatInit implements Etat {
 
@@ -96,41 +94,10 @@ public class EtatInit implements Etat {
 	}
 
 	@Override
-	public void modifierOrdreLivraison(Controleur controleur, MainControlleur fenetre) {
+	public void echangerLivraisons(Controleur controleur, MainControlleur fenetre) {
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void modifierNoeudLivraison(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void modifierTournee(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void validerTournee(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void consulterTournee(Controleur controleur, MainControlleur fenetre) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void genererFeuilleDeRoute(Controleur c, MainControlleur f) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 
 

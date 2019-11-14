@@ -1,3 +1,10 @@
+/**
+ * Une entrepôt est l'adresse de départ de toutes tournées de livraison
+ * La classe Entrepôt hérite la classe Noeud, elle contient une horaire de départ en plus
+ * @author Joel
+ * @see Noeud
+ */
+
 package modele;
 
 public class Entrepot extends Noeud {

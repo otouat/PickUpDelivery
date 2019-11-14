@@ -14,6 +14,7 @@
       <Button fx:id="chargerDemandeButton" disable="true" layoutX="23.0" layoutY="71.0" mnemonicParsing="false" onAction="#chargerDemandeLivraison" prefHeight="35.0" prefWidth="211.0" text="Charger une demande de livraison" />
       <Button fx:id="calculerTourneeButton" disable="true" layoutX="22.0" layoutY="117.0" mnemonicParsing="false" onAction="#chargerTournee" prefHeight="27.0" prefWidth="211.0" text="Calculer une tournée" />
       <Button fx:id="genererFeuilleRouteButton" disable="true" layoutX="22.0" layoutY="156.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Générer une feuille de route" />
+      <Button disable="true" layoutX="22.0" layoutY="194.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="211.0" text="Modifier une feuille de route" />
       <TextArea fx:id="console" editable="false" layoutX="19.0" layoutY="488.0" prefHeight="79.0" prefWidth="962.0" text="Bienvenue dans l'application Pick up &amp; Delivery ! Charger un plan" />
       <BorderPane fx:id="paneMap" layoutX="263.0" layoutY="33.0" prefHeight="450.0" prefWidth="450.0" style="-fx-border-color: black; -fx-background-color: white;" AnchorPane.leftAnchor="263.0" AnchorPane.topAnchor="30.0" />
       <AnchorPane fx:id="tourneePane" layoutX="263.0" layoutY="30.0" prefHeight="450.0" prefWidth="450.0" />
@@ -37,7 +38,5 @@
       <Button fx:id="ajoutLivraisonBoutton" layoutX="19.0" layoutY="269.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="211.0" text="Ajouter une livraison" visible="false" />
       <Button fx:id="undoButton" layoutX="469.0" layoutY="1.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="52.0" text="undo" visible="false" />
       <Button fx:id="redoButton" layoutX="562.0" layoutY="1.0" mnemonicParsing="false" text="redo" visible="false" />
-      <Button fx:id="supprimerBoutton" layoutX="653.0" layoutY="1.0" mnemonicParsing="false" onAction="#supprimerLivraison" prefHeight="27.0" prefWidth="148.0" text="Supprimer une livraison" visible="false" />
-      <Button fx:id="modifierEmplacementNoeud" layoutX="826.0" layoutY="2.0" mnemonicParsing="false" onAction="#modifierEmplacementNoeudEvent" prefHeight="27.0" prefWidth="197.0" text="Modifier l'emplacement du noeud" visible="false" />
    </children>
 </AnchorPane>
